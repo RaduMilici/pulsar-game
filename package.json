@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "concurrently \"lite-server\" \"npm run build-watch\"",
+    "format": "prettier --single-quote --trailing-comma es5 --write $(git ls-files \"*.ts\")",
+    "build": "webpack --config webpack.config.js",
+    "build-watch": "webpack --config webpack.config.js --watch"
   },
   "repository": {
     "type": "git",
@@ -18,11 +21,13 @@
   },
   "homepage": "https://github.com/RaduMilici/pulsar-game#readme",
   "dependencies": {
-    "lite-server": "^2.4.0",
-    "prettier": "^1.14.2",
+    "@types/three": "^0.92.17",
     "three": "^0.95.0"
   },
   "devDependencies": {
+    "concurrently": "^3.6.1",
+    "lite-server": "^2.4.0",
+    "prettier": "^1.14.2",
     "ts-loader": "^4.5.0",
     "typescript": "^3.0.1",
     "webpack": "^4.16.5",
