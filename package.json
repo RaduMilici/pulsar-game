@@ -1,0 +1,31 @@
+{
+  "name": "pulsar-game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RaduMilici/pulsar-game.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RaduMilici/pulsar-game/issues"
+  },
+  "homepage": "https://github.com/RaduMilici/pulsar-game#readme",
+  "dependencies": {
+    "lite-server": "^2.4.0",
+    "prettier": "^1.14.2",
+    "three": "^0.95.0"
+  },
+  "devDependencies": {
+    "ts-loader": "^4.5.0",
+    "typescript": "^3.0.1",
+    "webpack": "^4.16.5",
+    "webpack-cli": "^3.1.0"
+  }
+}
