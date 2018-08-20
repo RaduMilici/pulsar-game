@@ -28,6 +28,7 @@
     "concurrently": "^3.6.1",
     "lite-server": "^2.4.0",
     "prettier": "^1.14.2",
+    "three-orbitcontrols-ts": "^0.1.2",
     "ts-loader": "^4.5.0",
     "typescript": "^3.0.1",
     "webpack": "^4.16.5",
