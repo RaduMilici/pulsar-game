@@ -5,6 +5,6 @@ export default class GameObject extends Object3D implements Entity {
   updater: Updater = null;
   readonly components: Component[] = [];
 
-  start(): void {};
-  stop(): void {};
+  start(): void {}
+  stop(): void {}
 }

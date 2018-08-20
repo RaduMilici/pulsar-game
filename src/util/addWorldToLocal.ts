@@ -1,4 +1,4 @@
-import { Matrix4, Object3D } from "three";
+import { Matrix4, Object3D } from 'three';
 
 const addWorldToLocal = (parent: Object3D, child: Object3D) => {
   parent.updateMatrixWorld(true);

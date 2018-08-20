@@ -1,4 +1,9 @@
-import { Vector, BoundingBox, immutableObjectSort, randomInt } from 'pulsar-pathfinding';
+import {
+  Vector,
+  BoundingBox,
+  immutableObjectSort,
+  randomInt,
+} from 'pulsar-pathfinding';
 
 const uniqueVectorArray = (box: BoundingBox, count: number): Vector[] => {
   const { topLeft, topRight, bottomLeft, bottomRight } = box;

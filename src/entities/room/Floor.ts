@@ -1,10 +1,15 @@
 import GameObject from '../GameObject';
-import { QuadTree, Vector } from 'pulsar-pathfinding'
-import { LineBasicMaterial, Geometry, Vector3, Line, Mesh, PlaneGeometry } from "three";
+import { QuadTree, Vector } from 'pulsar-pathfinding';
+import {
+  LineBasicMaterial,
+  Geometry,
+  Vector3,
+  Line,
+  Mesh,
+  PlaneGeometry,
+} from 'three';
 
 export default class Floor extends GameObject {
-
-
   constructor(private readonly quadTree: QuadTree) {
     super();
     const outline: Line = Floor.makeOutline(quadTree.shape.points);
