@@ -1,9 +1,10 @@
-import { WebGLRenderer, Scene, PerspectiveCamera } from 'three';
+import { WebGLRenderer, Scene, PerspectiveCamera, Object3D } from 'three';
 import { Updater, Component } from 'pulsar-pathfinding';
 import { GameObject } from '../entities';
 import { GameComponent } from '../components';
 import { app3DSettings } from '../types';
 import Render from './Render';
+import Dispose from './Dispose';
 
 export default class App3D {
   readonly camera: PerspectiveCamera;
@@ -27,6 +28,14 @@ export default class App3D {
 
   stop(): boolean {
     return this.updater.stop();
+  }
+
+  clear(): void {
+    this.updater.clear();
+    new Dispose(this.scene);
+    this.scene.children.forEach((obj: Object3D) => {
+      this.scene.remove(obj);
+    });
   }
 
   add(object: GameObject | GameComponent | Component): void {

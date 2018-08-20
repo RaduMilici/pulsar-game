@@ -1,9 +1,11 @@
 import GameObject from './GameObject';
 import { Shape, QuadTree, Vector, BoundingBox } from 'pulsar-pathfinding';
 import Room from './room/Room';
+import Corridors from './corridors/Corridors';
 
 export default class Level extends GameObject {
   readonly rooms: Room[] = [];
+  readonly corridors: Corridors;
 
   private readonly shape: Shape;
   private readonly quadTree: QuadTree;
@@ -11,17 +13,21 @@ export default class Level extends GameObject {
 
   constructor(readonly points: Vector[]) {
     super();
+
     this.boundingBox = new BoundingBox(points);
     this.boundingBox.grow(1);
+
     this.shape = this.makeShape();
     this.quadTree = new QuadTree(this.shape, points);
-    points.forEach(this.addRoom.bind(this));
+
+    this.rooms = this.makeRooms(points);
+    this.corridors = new Corridors(this.rooms);
+
+    this.add(...this.rooms, this.corridors);
   }
 
-  private addRoom(point: Vector): void {
-    const room = new Room(point);
-    this.rooms.push(room);
-    this.add(room);
+  private makeRooms(points: Vector[]): Room[] {
+    return points.map((point: Vector) => new Room(point));
   }
 
   private makeShape(): Shape {
