@@ -3,7 +3,7 @@ import { Updater, Component } from 'pulsar-pathfinding';
 import { GameObject } from '../entities';
 import { GameComponent } from '../components';
 import { app3DSettings } from '../types';
-import Render from './Render.component';
+import Render from './Render';
 
 export default class App3D {
   readonly camera: PerspectiveCamera;
