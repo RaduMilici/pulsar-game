@@ -1,34 +1,28 @@
 import GameObject from '../GameObject';
 import { QuadTree, Vector } from 'pulsar-pathfinding';
-import {
-  LineBasicMaterial,
-  Geometry,
-  Vector3,
-  Line,
-  Mesh,
-  PlaneGeometry,
-} from 'three';
+import { makePlane, toVec3 } from '../../util';
+import { LineBasicMaterial, Geometry, Vector3, Line, Mesh } from 'three';
 
 export default class Floor extends GameObject {
   constructor(private readonly quadTree: QuadTree) {
     super();
-    const outline: Line = Floor.makeOutline(quadTree.shape.points);
+
+    // const outline: Line = Floor.makeOutline(quadTree.shape.points);
     const plane: Mesh = Floor.makePlane(quadTree);
     Floor.placePlane(plane, quadTree);
-    this.add(plane, outline);
+
+    this.add(plane);
   }
 
   private static makePlane(quadTree: QuadTree): Mesh {
     const { width, height } = quadTree.shape.boundingBox;
-    const geometry: PlaneGeometry = new PlaneGeometry(width, height);
-    const mesh: Mesh = new Mesh(geometry);
+    const mesh: Mesh = makePlane(width, height);
     mesh.rotation.x -= Math.PI / 2;
     return mesh;
   }
 
   private static placePlane(plane: Mesh, quadTree: QuadTree): void {
-    const { x, y }: Vector = quadTree.shape.centroid;
-    const centroid3D: Vector3 = new Vector3(x, 0, y);
+    const centroid3D: Vector3 = toVec3(quadTree.shape.centroid);
     plane.position.copy(centroid3D);
   }
 
