@@ -1,33 +1,19 @@
 import GameObject from '../GameObject';
+import Wall from './Wall';
 import { QuadTree, Line } from 'pulsar-pathfinding';
-import { Mesh, Object3D, Vector3 } from 'three';
-import { makePlane, toVec3 } from '../../util';
 
 export default class Walls extends GameObject {
-  private static height: number = 1;
+  static height: number = 1;
+  static doorWidth: number = 1;
+  readonly walls: Wall[] = [];
 
-  constructor(private readonly quadTree: QuadTree) {
+  constructor({ shape }: QuadTree, private readonly mstLines: Line[]) {
     super();
 
-    const walls: Object3D = Walls.makeWalls(quadTree);
+    this.walls = shape.lines.map(
+      (line: Line) => new Wall(line, mstLines, shape.centroid)
+    );
 
-    this.add(walls);
-  }
-
-  private static makeWalls(quadTree: QuadTree): Object3D {
-    const parent: Object3D = new Object3D();
-    const centroidV3: Vector3 = toVec3(quadTree.shape.centroid);
-
-    quadTree.shape.lines.forEach((line: Line) => {
-      const plane: Mesh = makePlane(line.length, Walls.height);
-      const midpointV3: Vector3 = toVec3(line.midpoint);
-
-      plane.position.copy(midpointV3);
-      plane.lookAt(centroidV3);
-      plane.position.setY(Walls.height / 2);
-      parent.add(plane);
-    });
-
-    return parent;
+    this.add(...this.walls);
   }
 }

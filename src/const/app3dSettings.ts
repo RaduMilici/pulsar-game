@@ -5,7 +5,7 @@ const settings: app3DSettings = {
   camera: {
     fov: 70,
     near: 0.1,
-    far: 100,
+    far: 150,
   },
   renderer: {
     width: 800,

@@ -1,0 +1,65 @@
+import { Vector, Triangulation, Line as LinePulsar } from 'pulsar-pathfinding';
+import GameObject from '../GameObject';
+import Room from '../room/Room';
+import Level from '../Level';
+import { toVec3 } from '../../util';
+import { Geometry, Line, LineBasicMaterial, Vector3 } from 'three';
+
+export default class MST extends GameObject {
+  readonly lines: LinePulsar[];
+  private readonly points: Vector[] = [];
+  private readonly triangulation: Triangulation;
+
+  constructor(private readonly level: Level) {
+    super();
+
+    this.points = level.rooms.map((room: Room) => room.centroid);
+    this.triangulation = new Triangulation(this.points);
+    this.triangulation.start();
+    this.triangulation.MST.start();
+    //this.lines = this.makeBrokenLines(this.triangulation.MST.lines);
+    this.lines = this.triangulation.MST.lines;
+
+    const debugLines: Line[] = this.makeDebugLines();
+    this.add(...debugLines);
+  }
+
+  getLinesContainingPoint(point: Vector): LinePulsar[] {
+    return this.lines.filter((line: LinePulsar) => {
+      return line.a.equals(point) || line.b.equals(point);
+    });
+  }
+
+  private makeBrokenLines(lines: LinePulsar[]): LinePulsar[] {
+    const broken: LinePulsar[] = [];
+
+    lines.forEach((line: LinePulsar) => {
+      broken.push(...MST.breakLine(line));
+    });
+
+    return broken;
+  }
+
+  private static breakLine(line: LinePulsar): LinePulsar[] {
+    const offscreenX = new Vector({ x: -Number.MAX_SAFE_INTEGER, y: line.a.y });
+    const offscreenY = new Vector({ x: line.b.x, y: -Number.MAX_SAFE_INTEGER });
+
+    const intersectLine1: LinePulsar = new LinePulsar(offscreenX, line.a);
+    const intersectLine2: LinePulsar = new LinePulsar(offscreenY, line.b);
+
+    const intersect: Vector = intersectLine1.intersectionPoint(intersectLine2);
+
+    const line1: LinePulsar = new LinePulsar(line.a, intersect);
+    const line2: LinePulsar = new LinePulsar(line.b, intersect);
+
+    return [line1, line2];
+  }
+
+  private makeDebugLines(): Line[] {
+    return this.lines.map(({ a, b }: LinePulsar) => {
+      const geometry: Geometry = new Geometry();
+      geometry.vertices.push(toVec3(a), toVec3(b));
+      return new Line(geometry, new LineBasicMaterial());
+    });
+  }
+}

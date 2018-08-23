@@ -1,11 +1,12 @@
 import GameObject from './GameObject';
-import { Shape, QuadTree, Vector, BoundingBox } from 'pulsar-pathfinding';
+import { Shape, QuadTree, Vector, BoundingBox, Line } from 'pulsar-pathfinding';
 import Room from './room/Room';
-import Corridors from './corridors/Corridors';
+import Wall from './room/Wall';
+import MST from './corridors/MST';
 
 export default class Level extends GameObject {
   readonly rooms: Room[] = [];
-  readonly corridors: Corridors;
+  readonly mst: MST;
 
   private readonly shape: Shape;
   private readonly quadTree: QuadTree;
@@ -13,21 +14,32 @@ export default class Level extends GameObject {
 
   constructor(readonly points: Vector[]) {
     super();
-
     this.boundingBox = new BoundingBox(points);
     this.boundingBox.grow(1);
-
     this.shape = this.makeShape();
     this.quadTree = new QuadTree(this.shape, points);
-
-    this.rooms = this.makeRooms(points);
-    this.corridors = new Corridors(this.rooms);
-
-    this.add(...this.rooms, this.corridors);
+    this.rooms = points.map((point: Vector) => new Room(point));
+    this.mst = new MST(this);
+    this.add(...this.rooms, this.mst);
+    this.makeWalls();
   }
 
-  private makeRooms(points: Vector[]): Room[] {
-    return points.map((point: Vector) => new Room(point));
+  makeWalls(): void {
+    this.rooms.forEach((room: Room) => {
+      const mstLines: Line[] = this.mst.getLinesContainingPoint(room.centroid);
+      room.makeWalls(mstLines);
+    });
+    /*this.mst.lines.forEach((mstLine: Line) => {
+      const roomA: Room = this.getRoomByCentroid(mstLine.a);
+      const roomB: Room = this.getRoomByCentroid(mstLine.b);
+
+      roomA.makeWalls(mstLine);
+      roomB.makeWalls(mstLine);
+    });*/
+  }
+
+  getRoomByCentroid(centroid: Vector): Room {
+    return this.rooms.find((room: Room) => room.centroid.equals(centroid));
   }
 
   private makeShape(): Shape {
