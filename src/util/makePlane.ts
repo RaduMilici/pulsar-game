@@ -1,4 +1,4 @@
-import { randomColor } from 'pulsar-pathfinding';
+import { randomColor, size } from 'pulsar-pathfinding';
 import {
   Mesh,
   PlaneGeometry,
@@ -7,7 +7,7 @@ import {
   DoubleSide,
 } from 'three';
 
-const makePlane = (width: number, height: number): Mesh => {
+const makePlane = ({ width, height }: size): Mesh => {
   const material: MeshBasicMaterial = new MeshBasicMaterial({
     side: FrontSide,
     color: randomColor(),

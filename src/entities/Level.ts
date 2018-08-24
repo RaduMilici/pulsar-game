@@ -20,26 +20,20 @@ export default class Level extends GameObject {
     this.quadTree = new QuadTree(this.shape, points);
     this.rooms = points.map((point: Vector) => new Room(point));
     this.mst = new MST(this);
+    this.rooms.forEach((room: Room) => room.makeWalls(this.mst.lines));
     this.add(...this.rooms, this.mst);
-    this.makeWalls();
-  }
-
-  makeWalls(): void {
-    this.rooms.forEach((room: Room) => {
-      const mstLines: Line[] = this.mst.getLinesContainingPoint(room.centroid);
-      room.makeWalls(mstLines);
-    });
-    /*this.mst.lines.forEach((mstLine: Line) => {
-      const roomA: Room = this.getRoomByCentroid(mstLine.a);
-      const roomB: Room = this.getRoomByCentroid(mstLine.b);
-
-      roomA.makeWalls(mstLine);
-      roomB.makeWalls(mstLine);
-    });*/
   }
 
   getRoomByCentroid(centroid: Vector): Room {
     return this.rooms.find((room: Room) => room.centroid.equals(centroid));
+  }
+
+  private addExtraRooms(): void {
+    this.mst.lines.forEach(({ midpoint }: Line) => {
+      midpoint.quadTree = this.quadTree.findChildThatContains(midpoint);
+      const room: Room = new Room(midpoint);
+      this.rooms.push(room);
+    });
   }
 
   private makeShape(): Shape {

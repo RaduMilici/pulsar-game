@@ -1,4 +1,4 @@
-import { Vector, Triangulation, Line as LinePulsar } from 'pulsar-pathfinding';
+import { Vector, Triangulation, Line as LinePulsar, Hull } from 'pulsar-pathfinding';
 import GameObject from '../GameObject';
 import Room from '../room/Room';
 import Level from '../Level';
@@ -9,6 +9,7 @@ export default class MST extends GameObject {
   readonly lines: LinePulsar[];
   private readonly points: Vector[] = [];
   private readonly triangulation: Triangulation;
+  private readonly hull: Hull;
 
   constructor(private readonly level: Level) {
     super();
@@ -17,8 +18,12 @@ export default class MST extends GameObject {
     this.triangulation = new Triangulation(this.points);
     this.triangulation.start();
     this.triangulation.MST.start();
+    this.hull = new Hull(this.triangulation);
+    this.hull.start();
     //this.lines = this.makeBrokenLines(this.triangulation.MST.lines);
     this.lines = this.triangulation.MST.lines;
+    //this.lines = this.duplicateLines(this.triangulation.MST.lines);
+    //this.lines = this.hull.lines;
 
     const debugLines: Line[] = this.makeDebugLines();
     this.add(...debugLines);
@@ -28,6 +33,22 @@ export default class MST extends GameObject {
     return this.lines.filter((line: LinePulsar) => {
       return line.a.equals(point) || line.b.equals(point);
     });
+  }
+
+  private duplicateLines(lines: LinePulsar[]): LinePulsar[] {
+    return lines.reduce((accumulator: LinePulsar[], line: LinePulsar) => {
+
+      const perpendicularA: { left: Vector, right: Vector } = line.a.perpendicular();
+      const perpendicularB: { left: Vector, right: Vector } = line.b.perpendicular();
+
+      const leftA: Vector = line.a.add(perpendicularA.left.normalize());
+      const leftB: Vector = line.b.add(perpendicularB.left.normalize());
+
+      const leftLine: LinePulsar = new LinePulsar(leftA, leftB);
+
+      accumulator.push(leftLine, line);
+      return accumulator;
+    }, []);
   }
 
   private makeBrokenLines(lines: LinePulsar[]): LinePulsar[] {
