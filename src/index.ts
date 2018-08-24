@@ -6,17 +6,17 @@ import { uniqueVectorArray } from './util';
 import { Vector } from 'pulsar-pathfinding';
 
 const app3D: App3D = new App3D(app3DSettings);
-app3D.camera.position.set(10, 10, 10);
+app3D.camera.position.set(0, 25, 0);
 
 const generate = () => {
   console.time('level');
   app3D.clear();
-  //const points: Vector[] = uniqueVectorArray(debugBoundingBox, 10);
-  const points: Vector[] = [
+  const points: Vector[] = uniqueVectorArray(debugBoundingBox, 10);
+  /*const points: Vector[] = [
     new Vector({ x: -12, y: 5 }),
     new Vector({ x: -2, y: -3 }),
-    new Vector({ x: 12, y: 15 })
-  ];
+    new Vector({ x: 12, y: 15 }),
+  ];*/
   const level: Level = new Level(points);
   app3D.add(level);
   app3D.start();

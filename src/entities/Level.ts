@@ -18,13 +18,21 @@ export default class Level extends GameObject {
     this.boundingBox.grow(1);
     this.shape = this.makeShape();
     this.quadTree = new QuadTree(this.shape, points);
-    this.rooms = points.map((point: Vector) => new Room(point));
+    this.rooms = this.makeRooms();
     this.mst = new MST(this);
-    this.rooms.forEach((room: Room) => room.makeWalls(this.mst.lines));
+    this.makeWalls();
     this.add(...this.rooms, this.mst);
   }
 
-  getRoomByCentroid(centroid: Vector): Room {
+  private makeRooms(): Room[] {
+    return this.points.map((point: Vector) => new Room(point));
+  }
+
+  private makeWalls(): void {
+    this.rooms.forEach((room: Room) => room.makeWalls(this.mst.lines));
+  }
+
+  private getRoomByCentroid(centroid: Vector): Room {
     return this.rooms.find((room: Room) => room.centroid.equals(centroid));
   }
 

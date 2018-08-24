@@ -1,4 +1,9 @@
-import { Vector, Triangulation, Line as LinePulsar, Hull } from 'pulsar-pathfinding';
+import {
+  Vector,
+  Triangulation,
+  Line as LinePulsar,
+  Hull,
+} from 'pulsar-pathfinding';
 import GameObject from '../GameObject';
 import Room from '../room/Room';
 import Level from '../Level';
@@ -29,17 +34,16 @@ export default class MST extends GameObject {
     this.add(...debugLines);
   }
 
-  getLinesContainingPoint(point: Vector): LinePulsar[] {
-    return this.lines.filter((line: LinePulsar) => {
-      return line.a.equals(point) || line.b.equals(point);
-    });
-  }
-
   private duplicateLines(lines: LinePulsar[]): LinePulsar[] {
     return lines.reduce((accumulator: LinePulsar[], line: LinePulsar) => {
-
-      const perpendicularA: { left: Vector, right: Vector } = line.a.perpendicular();
-      const perpendicularB: { left: Vector, right: Vector } = line.b.perpendicular();
+      const perpendicularA: {
+        left: Vector;
+        right: Vector;
+      } = line.a.perpendicular();
+      const perpendicularB: {
+        left: Vector;
+        right: Vector;
+      } = line.b.perpendicular();
 
       const leftA: Vector = line.a.add(perpendicularA.left.normalize());
       const leftB: Vector = line.b.add(perpendicularB.left.normalize());

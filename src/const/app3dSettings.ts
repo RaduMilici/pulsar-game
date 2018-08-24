@@ -8,8 +8,8 @@ const settings: app3DSettings = {
     far: 150,
   },
   renderer: {
-    width: 800,
-    height: 700,
+    width: window.innerWidth - 25,
+    height: window.innerHeight - 50,
     antialias: false,
   },
 };

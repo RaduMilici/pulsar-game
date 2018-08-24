@@ -9,7 +9,7 @@ import {
 
 const makePlane = ({ width, height }: size): Mesh => {
   const material: MeshBasicMaterial = new MeshBasicMaterial({
-    side: FrontSide,
+    side: DoubleSide,
     color: randomColor(),
   });
   const geometry: PlaneGeometry = new PlaneGeometry(width, height);
