@@ -5,8 +5,9 @@ import Walls from './Walls';
 
 export default class Room extends GameObject {
   readonly area: number;
-  private walls: Walls;
   readonly quadTree: QuadTree;
+
+  private walls: Walls;
   private readonly floor: Floor;
 
   constructor({ quadTree }: Vector, isContained: boolean = false) {
@@ -26,6 +27,7 @@ export default class Room extends GameObject {
 
   makeWalls(mstLines: Line[]): void {
     this.walls = new Walls(this.quadTree, mstLines);
+    this.walls.makeHoles();
     this.add(this.walls);
   }
 }

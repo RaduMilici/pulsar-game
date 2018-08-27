@@ -11,14 +11,20 @@ app3D.camera.position.set(0, 25, 0);
 const generate = () => {
   console.time('level');
   app3D.clear();
-  const points: Vector[] = uniqueVectorArray(debugBoundingBox, 50);
+  //const points: Vector[] = uniqueVectorArray(debugBoundingBox, 3);
+  const points: Vector[] = [
+    new Vector({ x: -2, y: 1 }),
+    new Vector({ x: -12, y: -6 }),
+    new Vector({ x: 14, y: -15 }),
+  ];
+
   const level: Level = new Level(points);
   app3D.add(level);
   app3D.start();
   console.timeEnd('level');
 };
 
-//setInterval(generate, 30);
+// setInterval(generate, 150);
 
 generate();
 

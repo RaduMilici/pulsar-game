@@ -1,7 +1,7 @@
 import GameObject from '../GameObject';
 import { QuadTree } from 'pulsar-pathfinding';
 import { makePlane, toVec3 } from '../../util';
-import { Vector3, Mesh, MeshBasicMaterial, FrontSide } from 'three';
+import { Vector3, Mesh, MeshBasicMaterial, DoubleSide } from 'three';
 import { floorColor } from '../../const/colors';
 
 export default class Floor extends GameObject {
@@ -18,7 +18,7 @@ export default class Floor extends GameObject {
     const { width, height } = quadTree.shape.boundingBox;
     const mesh: Mesh = makePlane({ width, height });
     mesh.material = new MeshBasicMaterial({
-      side: FrontSide,
+      side: DoubleSide,
       color: floorColor,
     });
     mesh.rotation.x -= Math.PI / 2;

@@ -1,4 +1,4 @@
-import { Line, Shape as ShapePulsar, size } from 'pulsar-pathfinding';
+import { Line, Shape as ShapePulsar, size, Vector } from 'pulsar-pathfinding';
 import { toVec3, makePlane } from '../../util';
 import GameObject from '../GameObject';
 import Walls from './Walls';
@@ -48,6 +48,17 @@ export default class Wall extends GameObject {
     this.create();
   }
 
+  addHole(uv: Vector2) {
+    this.map.drawRect(uv, this.frameSize);
+    this.map.erase(uv, this.holeSize);
+  }
+
+  intersect(line: Line): Vector {
+    return line.intersects(this.line)
+      ? line.intersectionPoint(this.line)
+      : null;
+  }
+
   private create(): void {
     this.debugMaterial = new MeshBasicMaterial({
       side: DoubleSide,
@@ -58,11 +69,6 @@ export default class Wall extends GameObject {
     this.mesh = this.makeSolidWall();
     this.add(this.mesh);
     this.updateMatrixWorld(true);
-  }
-
-  addHole(uv: Vector2) {
-    this.map.drawRect(uv, this.frameSize);
-    this.map.erase(uv, this.holeSize);
   }
 
   private makeSolidWall(): Mesh {
