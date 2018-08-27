@@ -40,16 +40,20 @@ export default class Level extends GameObject {
   private static growRooms(rooms: Room[]): Room[] {
     return rooms.reduce((acc: Room[], room: Room) => {
       if (room.area < Level.minRoomArea) {
-        const point: Vector = new Vector();
-        point.quadTree = room.quadTree;
-        const smallRoom: Room = new Room(point, true);
-        acc.push(smallRoom);
+        const containedRoom: Room = Level.makeContainedRoom(room);
+        acc.push(containedRoom);
         acc.push(Level.growRoom(room));
       } else {
         acc.push(room);
       }
       return acc;
     }, []);
+  }
+
+  private static makeContainedRoom(room: Room): Room {
+    const point: Vector = new Vector();
+    point.quadTree = room.quadTree;
+    return new Room(point, true);
   }
 
   private static growRoom(room: Room): Room {
