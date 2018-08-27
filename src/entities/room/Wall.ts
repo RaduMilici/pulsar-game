@@ -1,4 +1,8 @@
-import { Line, Shape as ShapePulsar } from 'pulsar-pathfinding';
+import { Line, Shape as ShapePulsar, size } from 'pulsar-pathfinding';
+import { toVec3, makePlane } from '../../util';
+import GameObject from '../GameObject';
+import Walls from './Walls';
+import CanvasTexture from './CanvasTexture';
 import {
   Mesh,
   Vector2,
@@ -7,16 +11,13 @@ import {
   MeshBasicMaterial,
   DoubleSide,
 } from 'three';
-import { toVec3, makePlane } from '../../util';
-import GameObject from '../GameObject';
-import Walls from './Walls';
-import CanvasTexture from './CanvasTexture';
 
 export default class Wall extends GameObject {
-  debugColor: string = '';
   private debugMaterial: MeshBasicMaterial;
   private mesh: Mesh;
   private readonly map: CanvasTexture;
+  private readonly holeSize: size;
+  private readonly frameSize: size;
 
   constructor(
     private readonly line: Line,
@@ -24,13 +25,30 @@ export default class Wall extends GameObject {
     private readonly shape: ShapePulsar
   ) {
     super();
+
+    this.holeSize = {
+      width: CanvasTexture.getPixelMultiplier(Walls.doorWidth),
+      height: CanvasTexture.getPixelMultiplier(Walls.height),
+    };
+
+    this.frameSize = {
+      width:
+        this.holeSize.width +
+        CanvasTexture.getPixelMultiplier(Walls.doorFrameWidth),
+      height:
+        this.holeSize.height +
+        CanvasTexture.getPixelMultiplier(Walls.doorFrameWidth),
+    };
+
     this.map = new CanvasTexture({
       width: this.line.length,
       height: Walls.height,
     });
+
+    this.create();
   }
 
-  create(): void {
+  private create(): void {
     this.debugMaterial = new MeshBasicMaterial({
       side: DoubleSide,
       map: this.map,
@@ -43,7 +61,8 @@ export default class Wall extends GameObject {
   }
 
   addHole(uv: Vector2) {
-    this.map.erase(uv);
+    this.map.drawRect(uv, this.frameSize);
+    this.map.erase(uv, this.holeSize);
   }
 
   private makeSolidWall(): Mesh {

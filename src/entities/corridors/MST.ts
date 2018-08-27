@@ -25,8 +25,8 @@ export default class MST extends GameObject {
     this.triangulation.MST.start();
     this.hull = new Hull(this.triangulation);
     this.hull.start();
-    this.lines = this.makeBrokenLines(this.triangulation.MST.lines);
-    //this.lines = this.triangulation.MST.lines;
+    //this.lines = this.makeBrokenLines(this.triangulation.MST.lines);
+    this.lines = this.triangulation.MST.lines;
     //this.lines = this.duplicateLines(this.triangulation.MST.lines);
     //this.lines = this.hull.lines;
 
