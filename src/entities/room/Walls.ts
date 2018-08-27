@@ -1,7 +1,7 @@
 import GameObject from '../GameObject';
 import Wall from './Wall';
 import { QuadTree, Line, randomColor, Shape } from 'pulsar-pathfinding';
-import { ArrowHelper, Intersection, Raycaster, Vector3, Mesh } from 'three';
+import { Intersection, Raycaster, Vector3 } from 'three';
 import toVec3 from '../../util/toVec3';
 
 export default class Walls extends GameObject {
@@ -42,14 +42,8 @@ export default class Walls extends GameObject {
       const raycaster: Raycaster = new Raycaster(aV3, direction, 0, length);
 
       this.walls.forEach((wall: Wall) => {
-        const intersections: Intersection[] = raycaster.intersectObject(
-          wall,
-          true
-        );
-
-        intersections.forEach(({ uv }: any) => {
-          wall.addHole(uv);
-        });
+        const i: Intersection[] = raycaster.intersectObject(wall, true);
+        i.forEach(({ uv }: any) => wall.addHole(uv));
       });
     });
   }
