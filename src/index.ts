@@ -11,7 +11,7 @@ app3D.camera.position.set(0, 25, 0);
 const generate = () => {
   console.time('level');
   app3D.clear();
-  const points: Vector[] = uniqueVectorArray(debugBoundingBox, 20);
+  const points: Vector[] = uniqueVectorArray(debugBoundingBox, 50);
   const level: Level = new Level(points);
   app3D.add(level);
   app3D.start();

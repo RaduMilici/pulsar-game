@@ -1,12 +1,12 @@
 import GameObject from './GameObject';
-import { Shape, QuadTree, Vector, BoundingBox, Line } from 'pulsar-pathfinding';
+import { Shape, QuadTree, Vector, BoundingBox } from 'pulsar-pathfinding';
 import Room from './room/Room';
-import Wall from './room/Wall';
 import MST from './corridors/MST';
 
 export default class Level extends GameObject {
   readonly rooms: Room[] = [];
   readonly mst: MST;
+  private static minRoomArea: number = 10;
 
   private readonly shape: Shape;
   private readonly quadTree: QuadTree;
@@ -25,7 +25,8 @@ export default class Level extends GameObject {
   }
 
   private makeRooms(): Room[] {
-    return this.points.map((point: Vector) => new Room(point));
+    const rooms: Room[] = this.points.map((point: Vector) => new Room(point));
+    return Level.growRooms(rooms);
   }
 
   private makeWalls(): void {
@@ -36,12 +37,32 @@ export default class Level extends GameObject {
     return this.rooms.find((room: Room) => room.centroid.equals(centroid));
   }
 
-  private addExtraRooms(): void {
-    this.mst.lines.forEach(({ midpoint }: Line) => {
-      midpoint.quadTree = this.quadTree.findChildThatContains(midpoint);
-      const room: Room = new Room(midpoint);
-      this.rooms.push(room);
-    });
+  private static growRooms(rooms: Room[]): Room[] {
+    return rooms.reduce((acc: Room[], room: Room) => {
+      if (room.area < Level.minRoomArea) {
+        const point: Vector = new Vector();
+        point.quadTree = room.quadTree;
+        const smallRoom: Room = new Room(point, true);
+        acc.push(smallRoom);
+        acc.push(Level.growRoom(room));
+      } else {
+        acc.push(room);
+      }
+      return acc;
+    }, []);
+  }
+
+  private static growRoom(room: Room): Room {
+    let biggerRoom: Room = room;
+
+    while (biggerRoom.area < Level.minRoomArea) {
+      const biggerQuadTree: QuadTree = biggerRoom.quadTree.parent;
+      const point: Vector = new Vector(biggerQuadTree.shape.centroid);
+      point.quadTree = biggerQuadTree;
+      biggerRoom = new Room(point);
+    }
+
+    return biggerRoom;
   }
 
   private makeShape(): Shape {
