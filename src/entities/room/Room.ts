@@ -4,17 +4,20 @@ import Floor from './Floor';
 import Walls from './Walls';
 
 export default class Room extends GameObject {
+  readonly area: number;
   private walls: Walls;
-  private readonly quadTree: QuadTree;
+  readonly quadTree: QuadTree;
   private readonly floor: Floor;
 
-  constructor({ quadTree }: Vector) {
+  constructor({ quadTree }: Vector, isContained: boolean = false) {
     super();
 
     this.quadTree = quadTree;
+    this.area = quadTree.shape.boundingBox.area;
     this.floor = new Floor(quadTree);
-
-    this.add(this.floor);
+    if (!isContained) {
+      this.add(this.floor);
+    }
   }
 
   get centroid(): Vector {
