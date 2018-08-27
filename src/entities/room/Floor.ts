@@ -16,7 +16,7 @@ export default class Floor extends GameObject {
 
   private static makePlane(quadTree: QuadTree): Mesh {
     const { width, height } = quadTree.shape.boundingBox;
-    const mesh: Mesh = makePlane(width, height);
+    const mesh: Mesh = makePlane({ width, height });
     mesh.rotation.x -= Math.PI / 2;
     return mesh;
   }

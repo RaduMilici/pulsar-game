@@ -1,9 +1,12 @@
 import GameObject from './GameObject';
-import { Shape, QuadTree, Vector, BoundingBox } from 'pulsar-pathfinding';
+import { Shape, QuadTree, Vector, BoundingBox, Line } from 'pulsar-pathfinding';
 import Room from './room/Room';
+import Wall from './room/Wall';
+import MST from './corridors/MST';
 
 export default class Level extends GameObject {
   readonly rooms: Room[] = [];
+  readonly mst: MST;
 
   private readonly shape: Shape;
   private readonly quadTree: QuadTree;
@@ -15,13 +18,30 @@ export default class Level extends GameObject {
     this.boundingBox.grow(1);
     this.shape = this.makeShape();
     this.quadTree = new QuadTree(this.shape, points);
-    points.forEach(this.addRoom.bind(this));
+    this.rooms = this.makeRooms();
+    this.mst = new MST(this);
+    this.makeWalls();
+    this.add(...this.rooms, this.mst);
   }
 
-  private addRoom(point: Vector): void {
-    const room = new Room(point);
-    this.rooms.push(room);
-    this.add(room);
+  private makeRooms(): Room[] {
+    return this.points.map((point: Vector) => new Room(point));
+  }
+
+  private makeWalls(): void {
+    this.rooms.forEach((room: Room) => room.makeWalls(this.mst.lines));
+  }
+
+  private getRoomByCentroid(centroid: Vector): Room {
+    return this.rooms.find((room: Room) => room.centroid.equals(centroid));
+  }
+
+  private addExtraRooms(): void {
+    this.mst.lines.forEach(({ midpoint }: Line) => {
+      midpoint.quadTree = this.quadTree.findChildThatContains(midpoint);
+      const room: Room = new Room(midpoint);
+      this.rooms.push(room);
+    });
   }
 
   private makeShape(): Shape {

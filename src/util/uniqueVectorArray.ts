@@ -66,6 +66,7 @@ const uniqueVectorArray = (box: BoundingBox, count: number): Vector[] => {
   }
 
   return unique;
-};*/
+};
+*/
 
 export default uniqueVectorArray;

@@ -1,33 +1,50 @@
 import GameObject from '../GameObject';
-import { QuadTree, Line } from 'pulsar-pathfinding';
-import { Mesh, Object3D, Vector3 } from 'three';
-import { makePlane, toVec3 } from '../../util';
+import Wall from './Wall';
+import { QuadTree, Line, randomColor, Shape } from 'pulsar-pathfinding';
+import { Intersection, Raycaster, Vector3 } from 'three';
+import toVec3 from '../../util/toVec3';
 
 export default class Walls extends GameObject {
-  private static height: number = 1;
+  static height: number = 1;
+  static extraWidth: number = 0.1;
+  static doorWidth: number = 1;
+  readonly walls: Wall[] = [];
+  private readonly shape: Shape;
 
-  constructor(private readonly quadTree: QuadTree) {
+  constructor({ shape }: QuadTree, private readonly mstLines: Line[]) {
     super();
-
-    const walls: Object3D = Walls.makeWalls(quadTree);
-
-    this.add(walls);
+    this.shape = shape;
+    this.walls = this.makeWalls();
+    this.makeHoles();
+    this.add(...this.walls);
   }
 
-  private static makeWalls(quadTree: QuadTree): Object3D {
-    const parent: Object3D = new Object3D();
-    const centroidV3: Vector3 = toVec3(quadTree.shape.centroid);
+  private makeWalls(): Wall[] {
+    const color: string = randomColor();
 
-    quadTree.shape.lines.forEach((line: Line) => {
-      const plane: Mesh = makePlane(line.length, Walls.height);
-      const midpointV3: Vector3 = toVec3(line.midpoint);
-
-      plane.position.copy(midpointV3);
-      plane.lookAt(centroidV3);
-      plane.position.setY(Walls.height / 2);
-      parent.add(plane);
+    return this.shape.lines.map((line: Line) => {
+      const wall: Wall = new Wall(line, this.mstLines, this.shape);
+      wall.debugColor = color;
+      wall.create();
+      return wall;
     });
+  }
 
-    return parent;
+  private makeHoles(): void {
+    this.mstLines.forEach(({ a, b, length }: Line) => {
+      const aV3: Vector3 = toVec3(a, Walls.height / 2);
+      const bV3: Vector3 = toVec3(b, Walls.height / 2);
+
+      const direction: Vector3 = bV3
+        .clone()
+        .sub(aV3)
+        .normalize();
+      const raycaster: Raycaster = new Raycaster(aV3, direction, 0, length);
+
+      this.walls.forEach((wall: Wall) => {
+        const i: Intersection[] = raycaster.intersectObject(wall, true);
+        i.forEach(({ uv }: any) => wall.addHole(uv));
+      });
+    });
   }
 }

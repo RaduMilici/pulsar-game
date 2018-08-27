@@ -6,11 +6,22 @@ import { uniqueVectorArray } from './util';
 import { Vector } from 'pulsar-pathfinding';
 
 const app3D: App3D = new App3D(app3DSettings);
-const points: Vector[] = uniqueVectorArray(debugBoundingBox, 5);
-const level: Level = new Level(points);
+app3D.camera.position.set(0, 25, 0);
 
-app3D.add(level);
-app3D.camera.position.set(0, 20, 0);
-app3D.start();
+const generate = () => {
+  console.time('level');
+  app3D.clear();
+  const points: Vector[] = uniqueVectorArray(debugBoundingBox, 20);
+  const level: Level = new Level(points);
+  app3D.add(level);
+  app3D.start();
+  console.timeEnd('level');
+};
+
+//setInterval(generate, 30);
+
+generate();
+
+document.getElementById('generate').addEventListener('click', generate);
 
 new OrbitControls(app3D.camera, app3D.renderer.domElement);

@@ -5,11 +5,11 @@ const settings: app3DSettings = {
   camera: {
     fov: 70,
     near: 0.1,
-    far: 100,
+    far: 150,
   },
   renderer: {
-    width: 800,
-    height: 700,
+    width: window.innerWidth - 25,
+    height: window.innerHeight - 50,
     antialias: false,
   },
 };
