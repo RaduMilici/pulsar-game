@@ -1,18 +1,20 @@
-import Walls from './Walls';
 import { Vector2, CanvasTexture as CanvasTextureThree } from 'three';
-import { size } from 'pulsar-pathfinding';
+import { size, point } from 'pulsar-pathfinding';
 import { nearestPowerOf2 } from '../../util';
 
 export default class CanvasTexture extends CanvasTextureThree {
-  private static pixelMultiplier: number = 200;
+  private static pixelMultiplier: number = 20;
   private readonly canvas: HTMLCanvasElement;
   private readonly context: CanvasRenderingContext2D;
-  private readonly holeSize: size;
 
   constructor({ width, height }: size) {
     const canvas: HTMLCanvasElement = document.createElement('canvas');
-    canvas.width = nearestPowerOf2(width * CanvasTexture.pixelMultiplier);
-    canvas.height = nearestPowerOf2(height * CanvasTexture.pixelMultiplier);
+
+    const multipliedWidth: number = CanvasTexture.getPixelMultiplier(width);
+    const multipliedHeight: number = CanvasTexture.getPixelMultiplier(height);
+
+    canvas.width = nearestPowerOf2(multipliedWidth);
+    canvas.height = nearestPowerOf2(multipliedHeight);
 
     super(canvas);
 
@@ -20,27 +22,40 @@ export default class CanvasTexture extends CanvasTextureThree {
     this.context = canvas.getContext('2d');
     this.context.fillStyle = 'green';
     this.context.fillRect(0, 0, canvas.width, canvas.height);
-
-    this.holeSize = {
-      width: Walls.doorWidth * CanvasTexture.pixelMultiplier,
-      height: Walls.height * CanvasTexture.pixelMultiplier,
-    };
   }
 
-  erase(uv: Vector2): void {
+  static getPixelMultiplier(size: number): number {
+    return size * CanvasTexture.pixelMultiplier;
+  }
+
+  erase(uv: Vector2, size: size): void {
+    const { x, y }: point = this.getCoords(uv);
+    const offsetX: number = x - size.width / 2;
+    const offsetY: number = y - size.height / 2;
+    this.clearRect({ x: offsetX, y: offsetY }, size);
+  }
+
+  drawRect(uv: Vector2, size: size): void {
+    const { x, y }: point = this.getCoords(uv);
+    this.context.fillStyle = 'black';
+    const offsetX: number = x - size.width / 2;
+    const offsetY: number = y - size.height / 2;
+    this.fillRect({ x: offsetX, y: offsetY }, size);
+  }
+
+  private getCoords(uv: Vector2): point {
     const x: number = uv.x * this.canvas.width;
     const y: number = uv.y * this.canvas.height;
+    return { x, y };
+  }
 
-    this.context.fillStyle = 'black';
-    const offsetX: number = x - this.holeSize.width / 2;
-    const offsetY: number = y - this.holeSize.height / 2;
+  private fillRect({ x, y }: point, { width, height }: size): void {
+    this.context.fillRect(x, y, width, height);
+    this.needsUpdate = true;
+  }
 
-    this.context.clearRect(
-      offsetX,
-      offsetY,
-      this.holeSize.width,
-      this.holeSize.height
-    );
+  private clearRect({ x, y }: point, { width, height }: size): void {
+    this.context.clearRect(x, y, width, height);
     this.needsUpdate = true;
   }
 }

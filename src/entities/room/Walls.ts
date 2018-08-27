@@ -7,7 +7,8 @@ import toVec3 from '../../util/toVec3';
 export default class Walls extends GameObject {
   static height: number = 1;
   static extraWidth: number = 0.1;
-  static doorWidth: number = 1;
+  static doorWidth: number = 0.5;
+  static doorFrameWidth: number = 0.2;
   readonly walls: Wall[] = [];
   private readonly shape: Shape;
 
@@ -20,14 +21,9 @@ export default class Walls extends GameObject {
   }
 
   private makeWalls(): Wall[] {
-    const color: string = randomColor();
-
-    return this.shape.lines.map((line: Line) => {
-      const wall: Wall = new Wall(line, this.mstLines, this.shape);
-      wall.debugColor = color;
-      wall.create();
-      return wall;
-    });
+    return this.shape.lines.map(
+      (line: Line) => new Wall(line, this.mstLines, this.shape)
+    );
   }
 
   private makeHoles(): void {
