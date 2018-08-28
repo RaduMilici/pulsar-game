@@ -1,7 +1,8 @@
-import { Vector, QuadTree, Line } from 'pulsar-pathfinding';
+import { Vector, QuadTree, Line, Shape } from 'pulsar-pathfinding';
 import GameObject from '../GameObject';
 import Floor from './Floor';
 import Walls from './Walls';
+import CorridorLine from '../corridors/CorridorLine';
 
 export default class Room extends GameObject {
   readonly area: number;
@@ -25,9 +26,13 @@ export default class Room extends GameObject {
     return this.quadTree.shape.centroid;
   }
 
+  intersect(line: CorridorLine): Vector[] {
+    const intersections: Vector[] = this.walls.intersect(line);
+    return intersections.filter((i: Vector) => i !== null);
+  }
+
   makeWalls(mstLines: Line[]): void {
     this.walls = new Walls(this.quadTree, mstLines);
-    this.walls.makeHoles();
     this.add(this.walls);
   }
 }

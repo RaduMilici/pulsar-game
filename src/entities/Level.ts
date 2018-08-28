@@ -5,7 +5,6 @@ import { toVec3 } from '../util';
 import Rooms from './room/Rooms';
 import MST from './corridors/MST';
 import Corridors from './corridors/Corridors';
-import CorridorLine from './corridors/CorridorLine';
 
 export default class Level extends GameObject {
   readonly rooms: Rooms;
@@ -25,7 +24,7 @@ export default class Level extends GameObject {
     this.rooms = new Rooms(points);
     this.mst = new MST(this);
     this.rooms.makeWalls(this.mst);
-    //this.corridors = new Corridors(this.mst, this.rooms);
+    this.corridors = new Corridors(this.mst, this.rooms);
     this.add(this.rooms, this.mst);
   }
 
