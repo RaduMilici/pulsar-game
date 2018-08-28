@@ -13,10 +13,12 @@ export default class Rooms extends GameObject {
   constructor(private readonly points: Vector[]) {
     super();
 
-    this.rooms = this.points.map(
-      (point: Vector) => new Room(point.quadTree.shape)
-    );
-    //this.rooms = Rooms.growRooms(all);
+    this.rooms = this.points.map((point: Vector) => {
+      const room: Room = new Room(point.quadTree.shape);
+      room.quadTree = point.quadTree;
+      return room;
+    });
+    this.rooms = Rooms.growRooms(this.rooms);
     this.add(...this.rooms);
   }
 

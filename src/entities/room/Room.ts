@@ -5,8 +5,8 @@ import Walls from './Walls';
 import CorridorLine from '../corridors/CorridorLine';
 
 export default class Room extends GameObject {
+  quadTree: QuadTree;
   readonly area: number;
-  readonly quadTree: QuadTree;
 
   private walls: Walls;
   private readonly floor: Floor;

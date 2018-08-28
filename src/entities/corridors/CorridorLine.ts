@@ -1,7 +1,7 @@
 import { Line, Vector, contains } from 'pulsar-pathfinding';
 
 export default class CorridorLine extends Line {
-  private readonly intersections: Vector[] = [];
+  readonly intersections: Vector[] = [];
 
   get hasIntersections(): boolean {
     return this.intersections.length !== 0;

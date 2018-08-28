@@ -8,7 +8,7 @@ import Walls from '../room/Walls';
 
 export default class Corridors extends GameObject {
   readonly mstLines: Line[];
-  private lines: CorridorLine[] = [];
+  private readonly lines: CorridorLine[] = [];
   private static width: number = Walls.doorWidth / 4;
 
   constructor({ lines }: MST, private readonly rooms: Rooms) {
@@ -20,15 +20,19 @@ export default class Corridors extends GameObject {
 
   private makeCorridors(): void {
     this.lines.forEach((line: CorridorLine) => {
-      const left: Line = line.getParallel(Corridors.width, -1);
-      const right: Line = line.getParallel(Corridors.width, 1);
+      if (line.intersections.length !== 2) return;
 
-      const points: Vector[] = [left.a, left.b, right.a, right.b];
-      const ccw: Vector[] = Vector.ArrangePointsCCW(points);
+      const a: Vector = line.intersections[0];
+      const b: Vector = line.intersections[1];
+      const corridorLine = new CorridorLine(a, b);
 
-      const shape: Shape = new Shape(ccw);
+      const left: Line = corridorLine.getParallel(Corridors.width, -1);
+      const right: Line = corridorLine.getParallel(Corridors.width, 1);
+
+      const shape: Shape = new Shape([left.a, left.b, right.a, right.b]);
       const room: Room = new Room(shape);
-      //room.makeWalls(this.lines);
+
+      room.makeWalls(this.lines);
       this.add(room);
     });
   }

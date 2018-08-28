@@ -8,7 +8,7 @@ import CorridorLine from '../corridors/CorridorLine';
 export default class Walls extends GameObject {
   static height: number = 0.5;
   static extraWidth: number = 0.1;
-  static doorWidth: number = 0.5;
+  static doorWidth: number = 1;
   static doorFrameWidth: number = 0.2;
   private static raycasterHeight: number = Walls.height / 2;
 

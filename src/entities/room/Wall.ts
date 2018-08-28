@@ -49,7 +49,7 @@ export default class Wall extends GameObject {
   }
 
   addHole(uv: Vector2) {
-    this.map.drawRect(uv, this.frameSize);
+    //this.map.drawRect(uv, this.frameSize);
     this.map.erase(uv, this.holeSize);
   }
 
