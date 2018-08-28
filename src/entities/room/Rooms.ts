@@ -13,7 +13,9 @@ export default class Rooms extends GameObject {
   constructor(private readonly points: Vector[]) {
     super();
 
-    this.rooms = this.points.map((point: Vector) => new Room(point));
+    this.rooms = this.points.map(
+      (point: Vector) => new Room(point.quadTree.shape)
+    );
     //this.rooms = Rooms.growRooms(all);
     this.add(...this.rooms);
   }
@@ -71,7 +73,7 @@ export default class Rooms extends GameObject {
       const point: Vector = new Vector(biggerQuadTree.shape.centroid);
       point.quadTree = biggerQuadTree;
       biggerQuadTree.containedPoints.push(point);
-      biggerRoom = new Room(point);
+      biggerRoom = new Room(point.quadTree.shape);
     }
 
     return biggerRoom;
@@ -80,7 +82,7 @@ export default class Rooms extends GameObject {
   private static makeContainedRoom(room: Room): Room {
     const point: Vector = new Vector();
     point.quadTree = room.quadTree;
-    return new Room(point, true);
+    return new Room(point.quadTree.shape, true);
   }
 
   private getRoomByCentroid(centroid: Vector): Room {

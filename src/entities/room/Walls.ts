@@ -1,6 +1,6 @@
 import GameObject from '../GameObject';
 import Wall from './Wall';
-import { QuadTree, Line, Shape, Vector } from 'pulsar-pathfinding';
+import { Line, Shape, Vector } from 'pulsar-pathfinding';
 import { Intersection, Raycaster, Vector3 } from 'three';
 import toVec3 from '../../util/toVec3';
 import CorridorLine from '../corridors/CorridorLine';
@@ -15,11 +15,12 @@ export default class Walls extends GameObject {
   readonly intersections: Vector[] = [];
 
   readonly walls: Wall[] = [];
-  private readonly shape: Shape;
 
-  constructor({ shape }: QuadTree, private readonly mstLines: Line[]) {
+  constructor(
+    private readonly shape: Shape,
+    private readonly mstLines: Line[]
+  ) {
     super();
-    this.shape = shape;
     this.walls = this.makeWalls();
     this.makeHoles();
     this.add(...this.walls);
