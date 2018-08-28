@@ -25,7 +25,7 @@ export default class Level extends GameObject {
     this.mst = new MST(this);
     this.rooms.makeWalls(this.mst);
     this.corridors = new Corridors(this.mst, this.rooms);
-    this.add(this.rooms, this.mst);
+    this.add(this.rooms, this.mst, this.corridors);
   }
 
   private makeShape(): Shape {

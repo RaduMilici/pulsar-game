@@ -37,8 +37,8 @@ export default class Rooms extends GameObject {
       const intersectionsA: Vector[] = roomA.intersect(corridor);
       const intersectionsB: Vector[] = roomB.intersect(corridor);
 
-      corridor.addIntersection(intersectionsA);
-      corridor.addIntersection(intersectionsB);
+      corridor.addIntersections(intersectionsA);
+      corridor.addIntersections(intersectionsB);
 
       acc.push(corridor);
       return acc;

@@ -7,15 +7,22 @@ export default class CorridorLine extends Line {
     return this.intersections.length !== 0;
   }
 
-  addIntersection(point: Vector): void;
-  addIntersection(point: Vector[]): void;
+  getParallel(distance: number, side: number): Line {
+    let dx: number = this.a.x - this.b.x;
+    let dy: number = this.a.y - this.b.y;
+    const dist: number = Math.sqrt(dx * dx + dy * dy) / 2;
 
-  addIntersection(point: Vector | Vector[]): void {
-    if (Array.isArray(point)) {
-      point.forEach((p: Vector) => this.add(p));
-    } else {
-      this.add(point);
-    }
+    dx *= (side * distance) / dist;
+    dy *= (side * distance) / dist;
+
+    const pA = new Vector({ x: this.a.x + dy, y: this.a.y - dx });
+    const pB = new Vector({ x: this.b.x + dy, y: this.b.y - dx });
+
+    return new Line(pA, pB);
+  }
+
+  addIntersections(points: Vector[]): void {
+    points.forEach((p: Vector) => this.add(p));
   }
 
   private add(point: Vector): void {

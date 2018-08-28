@@ -1,32 +1,45 @@
 import GameObject from '../GameObject';
-import { Shape } from 'pulsar-pathfinding';
-import { makePlane, toVec3 } from '../../util';
-import { Vector3, Mesh, MeshBasicMaterial, DoubleSide } from 'three';
+import { Shape as ShapePulsar, Vector } from 'pulsar-pathfinding';
+import { toVec3 } from '../../util';
+import {
+  Vector3,
+  Mesh,
+  MeshBasicMaterial,
+  DoubleSide,
+  Shape,
+  ShapeGeometry,
+  Matrix4,
+} from 'three';
 import { floorColor } from '../../const/colors';
 
 export default class Floor extends GameObject {
-  constructor(private readonly shape: Shape) {
+  private static material: MeshBasicMaterial = new MeshBasicMaterial({
+    side: DoubleSide,
+    color: floorColor,
+  });
+
+  constructor(private readonly shape: ShapePulsar) {
     super();
 
-    const plane: Mesh = Floor.makePlane(shape);
-    Floor.placePlane(plane, shape);
+    const plane: Mesh = Floor.create(shape);
 
     this.add(plane);
   }
 
-  private static makePlane(shape: Shape): Mesh {
-    const { width, height } = shape.boundingBox;
-    const mesh: Mesh = makePlane({ width, height });
-    mesh.material = new MeshBasicMaterial({
-      side: DoubleSide,
-      color: floorColor,
-    });
-    mesh.rotation.x -= Math.PI / 2;
-    return mesh;
-  }
+  private static create(shape: ShapePulsar): Mesh {
+    const floorShape: Shape = new Shape();
+    const ccw: Vector[] = Vector.ArrangePointsCCW(shape.points);
 
-  private static placePlane(plane: Mesh, shape: Shape): void {
-    const centroid3D: Vector3 = toVec3(shape.centroid);
-    plane.position.copy(centroid3D);
+    floorShape.moveTo(ccw[0].x, ccw[0].y);
+
+    for (let i = 1; i < 4; i++) {
+      floorShape.lineTo(ccw[i].x, ccw[i].y);
+    }
+
+    const geometry: ShapeGeometry = new ShapeGeometry(floorShape);
+    const matrix: Matrix4 = new Matrix4().makeRotationX(Math.PI / 2);
+    geometry.applyMatrix(matrix);
+
+    return new Mesh(geometry, Floor.material);
   }
 }
