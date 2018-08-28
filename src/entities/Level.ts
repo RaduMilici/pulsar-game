@@ -1,12 +1,15 @@
 import GameObject from './GameObject';
+import Cube from './Cube';
 import { Shape, QuadTree, Vector, BoundingBox } from 'pulsar-pathfinding';
-import Room from './room/Room';
+import { toVec3 } from '../util';
+import Rooms from './room/Rooms';
 import MST from './corridors/MST';
+import Corridors from './corridors/Corridors';
 
 export default class Level extends GameObject {
-  readonly rooms: Room[] = [];
+  readonly rooms: Rooms;
   readonly mst: MST;
-  private static minRoomArea: number = 10;
+  readonly corridors: Corridors;
 
   private readonly shape: Shape;
   private readonly quadTree: QuadTree;
@@ -18,55 +21,11 @@ export default class Level extends GameObject {
     this.boundingBox.grow(1);
     this.shape = this.makeShape();
     this.quadTree = new QuadTree(this.shape, points);
-    this.rooms = this.makeRooms();
+    this.rooms = new Rooms(points);
     this.mst = new MST(this);
-    this.makeWalls();
-    this.add(...this.rooms, this.mst);
-  }
-
-  private makeRooms(): Room[] {
-    const rooms: Room[] = this.points.map((point: Vector) => new Room(point));
-    return Level.growRooms(rooms);
-  }
-
-  private makeWalls(): void {
-    this.rooms.forEach((room: Room) => room.makeWalls(this.mst.lines));
-  }
-
-  private getRoomByCentroid(centroid: Vector): Room {
-    return this.rooms.find((room: Room) => room.centroid.equals(centroid));
-  }
-
-  private static growRooms(rooms: Room[]): Room[] {
-    return rooms.reduce((acc: Room[], room: Room) => {
-      if (room.area < Level.minRoomArea) {
-        const containedRoom: Room = Level.makeContainedRoom(room);
-        acc.push(containedRoom);
-        acc.push(Level.growRoom(room));
-      } else {
-        acc.push(room);
-      }
-      return acc;
-    }, []);
-  }
-
-  private static makeContainedRoom(room: Room): Room {
-    const point: Vector = new Vector();
-    point.quadTree = room.quadTree;
-    return new Room(point, true);
-  }
-
-  private static growRoom(room: Room): Room {
-    let biggerRoom: Room = room;
-
-    while (biggerRoom.area < Level.minRoomArea) {
-      const biggerQuadTree: QuadTree = biggerRoom.quadTree.parent;
-      const point: Vector = new Vector(biggerQuadTree.shape.centroid);
-      point.quadTree = biggerQuadTree;
-      biggerRoom = new Room(point);
-    }
-
-    return biggerRoom;
+    this.rooms.makeWalls(this.mst);
+    this.corridors = new Corridors(this.mst, this.rooms);
+    this.add(this.rooms, this.mst, this.corridors);
   }
 
   private makeShape(): Shape {
