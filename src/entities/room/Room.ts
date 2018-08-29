@@ -8,10 +8,10 @@ export default class Room extends GameObject {
   quadTree: QuadTree;
   readonly area: number;
 
-  private walls: Walls;
+  walls: Walls;
   private readonly floor: Floor;
 
-  constructor(private readonly shape: Shape) {
+  constructor(readonly shape: Shape) {
     super();
 
     this.area = shape.boundingBox.area;

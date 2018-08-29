@@ -8,7 +8,7 @@ import Corridors from '../corridors/Corridors';
 
 export default class Rooms extends GameObject {
   private static minRoomArea: number = 5;
-  private readonly rooms: Room[];
+  readonly rooms: Room[];
 
   constructor(private readonly points: Vector[]) {
     super();
@@ -88,7 +88,7 @@ export default class Rooms extends GameObject {
     return new Room(point.quadTree.shape);
   }
 
-  private getRoomByCentroid(centroid: Vector): Room {
+  getRoomByCentroid(centroid: Vector): Room {
     return this.rooms.find((room: Room) => room.centroid.equals(centroid));
   }
 }
