@@ -32,7 +32,7 @@ export default class Floor extends GameObject {
 
     floorShape.moveTo(ccw[0].x, ccw[0].y);
 
-    for (let i = 1; i < 4; i++) {
+    for (let i = 1; i < ccw.length; i++) {
       floorShape.lineTo(ccw[i].x, ccw[i].y);
     }
 

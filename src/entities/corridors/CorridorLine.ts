@@ -1,4 +1,5 @@
 import { Line, Vector, contains } from 'pulsar-pathfinding';
+import Side from '../../types/side';
 
 export default class CorridorLine extends Line {
   readonly intersections: Vector[] = [];
@@ -7,7 +8,11 @@ export default class CorridorLine extends Line {
     return this.intersections.length !== 0;
   }
 
-  getParallel(distance: number, side: number): Line {
+  get slope(): number {
+    return (this.b.y - this.a.y) / (this.b.x - this.a.x);
+  }
+
+  getParallel(distance: number, side: Side): Line {
     let dx: number = this.a.x - this.b.x;
     let dy: number = this.a.y - this.b.y;
     const dist: number = Math.sqrt(dx * dx + dy * dy) / 2;

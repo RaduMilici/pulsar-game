@@ -6,7 +6,7 @@ import { uniqueVectorArray } from './util';
 import { Vector, randomInt, randomFloat } from 'pulsar-pathfinding';
 
 const app3D: App3D = new App3D(app3DSettings);
-app3D.camera.position.set(10, 10, 10);
+app3D.camera.position.set(0, 25, 0);
 
 const generate = () => {
   console.time('level');

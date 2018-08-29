@@ -1,10 +1,11 @@
-import { Line, Vector, Shape } from 'pulsar-pathfinding';
+import { Line, Shape } from 'pulsar-pathfinding';
 import GameObject from '../GameObject';
 import MST from './MST';
 import Room from '../room/Room';
 import Rooms from '../room/Rooms';
 import CorridorLine from './CorridorLine';
 import Walls from '../room/Walls';
+import Side from '../../types/side';
 
 export default class Corridors extends GameObject {
   readonly mstLines: Line[];
@@ -20,20 +21,10 @@ export default class Corridors extends GameObject {
 
   private makeCorridors(): void {
     this.lines.forEach((line: CorridorLine) => {
-      if (line.intersections.length !== 2) return;
-
-      const a: Vector = line.intersections[0];
-      const b: Vector = line.intersections[1];
-      const corridorLine = new CorridorLine(a, b);
-
-      const left: Line = corridorLine.getParallel(Corridors.width, -1);
-      const right: Line = corridorLine.getParallel(Corridors.width, 1);
-
+      const left: Line = line.getParallel(Corridors.width, Side.Left);
+      const right: Line = line.getParallel(Corridors.width, Side.Right);
       const shape: Shape = new Shape([left.a, left.b, right.a, right.b]);
-      const room: Room = new Room(shape);
-
-      room.makeWalls(this.lines);
-      this.add(room);
+      this.add(new Room(shape));
     });
   }
 }

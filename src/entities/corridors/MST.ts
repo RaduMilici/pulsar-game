@@ -29,7 +29,7 @@ export default class MST extends GameObject {
     //this.lines = this.duplicateLines(this.triangulation.MST.lines);
     //this.lines = this.hull.lines;
 
-    this.add(...this.makeDebugLines());
+    //this.add(...this.makeDebugLines());
   }
 
   private duplicateLines(lines: LinePulsar[]): LinePulsar[] {

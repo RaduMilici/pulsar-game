@@ -10,6 +10,8 @@ import {
   Matrix4,
   MeshBasicMaterial,
   DoubleSide,
+  Geometry,
+  Face3,
 } from 'three';
 
 export default class Wall extends GameObject {

@@ -32,9 +32,9 @@ export default class Rooms extends GameObject {
 
   intersectCorridors(corridors: Corridors): CorridorLine[] {
     return corridors.mstLines.reduce((acc: CorridorLine[], { a, b }: Line) => {
-      const corridor = new CorridorLine(a, b);
-      const roomA = this.getRoomByCentroid(a);
-      const roomB = this.getRoomByCentroid(b);
+      const corridor: CorridorLine = new CorridorLine(a, b);
+      const roomA: Room = this.getRoomByCentroid(a);
+      const roomB: Room = this.getRoomByCentroid(b);
 
       const intersectionsA: Vector[] = roomA.intersect(corridor);
       const intersectionsB: Vector[] = roomB.intersect(corridor);
@@ -65,17 +65,18 @@ export default class Rooms extends GameObject {
 
   private static growRoom(room: Room): Room {
     let biggerRoom: Room = room;
+    let parent: QuadTree = biggerRoom.quadTree.parent;
 
     while (biggerRoom.area < Rooms.minRoomArea) {
-      const biggerQuadTree: QuadTree = biggerRoom.quadTree.parent;
       // make sure quadtree doesn't already have a room associated with it
-      if (biggerQuadTree.containedPoints.length !== 0) {
+      if (parent.containedPoints.length !== 0) {
         return null;
       }
-      const point: Vector = new Vector(biggerQuadTree.shape.centroid);
-      point.quadTree = biggerQuadTree;
-      biggerQuadTree.containedPoints.push(point);
-      biggerRoom = new Room(point.quadTree.shape);
+
+      parent.containedPoints.push(parent.shape.centroid);
+      biggerRoom = new Room(parent.shape);
+      biggerRoom.quadTree = parent;
+      parent = parent.parent;
     }
 
     return biggerRoom;
@@ -84,7 +85,7 @@ export default class Rooms extends GameObject {
   private static makeContainedRoom(room: Room): Room {
     const point: Vector = new Vector();
     point.quadTree = room.quadTree;
-    return new Room(point.quadTree.shape, true);
+    return new Room(point.quadTree.shape);
   }
 
   private getRoomByCentroid(centroid: Vector): Room {

@@ -11,14 +11,12 @@ export default class Room extends GameObject {
   private walls: Walls;
   private readonly floor: Floor;
 
-  constructor(private readonly shape: Shape, isContained: boolean = false) {
+  constructor(private readonly shape: Shape) {
     super();
 
     this.area = shape.boundingBox.area;
     this.floor = new Floor(shape);
-    if (!isContained) {
-      this.add(this.floor);
-    }
+    this.add(this.floor);
   }
 
   get centroid(): Vector {
