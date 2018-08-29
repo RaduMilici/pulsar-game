@@ -9,7 +9,7 @@ import Side from '../../types/side';
 
 export default class Corridors extends GameObject {
   readonly mstLines: Line[];
-  private readonly lines: CorridorLine[] = [];
+  readonly lines: CorridorLine[] = [];
   private static width: number = Walls.doorWidth / 4;
 
   constructor({ lines }: MST, private readonly rooms: Rooms) {

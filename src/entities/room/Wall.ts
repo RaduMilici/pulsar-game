@@ -22,7 +22,7 @@ export default class Wall extends GameObject {
   private readonly frameSize: size;
 
   constructor(
-    private readonly line: Line,
+    readonly line: Line,
     private readonly mstLines: Line[],
     private readonly shape: ShapePulsar
   ) {

@@ -6,6 +6,7 @@ import {
 } from 'pulsar-pathfinding';
 import GameObject from '../GameObject';
 import Level from '../Level';
+import Room from '../room/Room';
 import { toVec3 } from '../../util';
 import { Geometry, Line, LineBasicMaterial } from 'three';
 
@@ -22,14 +23,14 @@ export default class MST extends GameObject {
     this.triangulation = new Triangulation(this.points);
     this.triangulation.start();
     this.triangulation.MST.start();
-    //this.hull = new Hull(this.triangulation);
-    //this.hull.start();
+    this.hull = new Hull(this.triangulation);
+    this.hull.start();
     //this.lines = this.makeBrokenLines(this.triangulation.MST.lines);
     this.lines = this.triangulation.MST.lines;
     //this.lines = this.duplicateLines(this.triangulation.MST.lines);
     //this.lines = this.hull.lines;
-
-    //this.add(...this.makeDebugLines());
+    this.add(...this.makeDebugLines(this.level.boundingBox.lines));
+    //this.add(...this.makeDebugLines(this.lines));
   }
 
   private duplicateLines(lines: LinePulsar[]): LinePulsar[] {
@@ -78,8 +79,8 @@ export default class MST extends GameObject {
     return [line1, line2];
   }
 
-  private makeDebugLines(): Line[] {
-    return this.lines.map(({ a, b }: LinePulsar) => {
+  private makeDebugLines(lines: LinePulsar[]): Line[] {
+    return lines.map(({ a, b }: LinePulsar) => {
       const geometry: Geometry = new Geometry();
       geometry.vertices.push(toVec3(a, 0.1), toVec3(b, 0.1));
       return new Line(geometry, new LineBasicMaterial());
