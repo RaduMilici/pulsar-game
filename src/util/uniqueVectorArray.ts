@@ -8,6 +8,7 @@ import {
 const uniqueVectorArray = (box: BoundingBox, count: number): Vector[] => {
   const { topLeft, topRight, bottomLeft, bottomRight } = box;
   const points: Vector[] = [topLeft, topRight, bottomLeft, bottomRight];
+  const delta: number = 1;
 
   const sortedX: Vector[] = immutableObjectSort(points, 'x');
   const sortedY: Vector[] = immutableObjectSort(points, 'y');
@@ -20,8 +21,8 @@ const uniqueVectorArray = (box: BoundingBox, count: number): Vector[] => {
   const random: Vector[] = [];
 
   for (let i = 0; i < count; i++) {
-    const x: number = randomInt(firstX.x, lastX.x);
-    const y: number = randomInt(firstY.y, lastY.y);
+    const x: number = randomInt(firstX.x + delta, lastX.x - delta);
+    const y: number = randomInt(firstY.y + delta, lastY.y - delta);
     random.push(new Vector({ x, y }));
   }
 

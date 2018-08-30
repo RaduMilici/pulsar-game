@@ -1,16 +1,19 @@
 import GameObject from './GameObject';
 import { Rotate } from '../components';
-import { BoxGeometry, Mesh } from 'three';
+import { BoxGeometry, Geometry, Mesh, MeshBasicMaterial } from 'three';
 
 export default class Cube extends GameObject {
+  static geometry: Geometry = new BoxGeometry(0.3, 0.3, 0.3);
+  static material: MeshBasicMaterial = new MeshBasicMaterial({
+    color: 0xffffff,
+  });
+
   constructor() {
     super();
 
-    const rotate: Rotate = new Rotate(0, 2, 0);
-    this.components.push(rotate);
+    //const rotate: Rotate = new Rotate(0, 2, 0);
+    //this.components.push(rotate);
 
-    const geometry = new BoxGeometry(0.5, 0.5, 0.5);
-    const cube = new Mesh(geometry);
-    this.add(cube);
+    this.add(new Mesh(Cube.geometry, Cube.material));
   }
 }

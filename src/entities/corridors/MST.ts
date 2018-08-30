@@ -29,7 +29,8 @@ export default class MST extends GameObject {
     this.lines = this.triangulation.MST.lines;
     //this.lines = this.duplicateLines(this.triangulation.MST.lines);
     //this.lines = this.hull.lines;
-    this.add(...this.makeDebugLines(this.level.boundingBox.lines));
+
+    //this.add(...this.makeDebugLines(this.level.boundingBox.lines));
     //this.add(...this.makeDebugLines(this.lines));
   }
 

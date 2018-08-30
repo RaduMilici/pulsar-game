@@ -6,15 +6,14 @@ import toVec3 from '../../util/toVec3';
 import CorridorLine from '../corridors/CorridorLine';
 
 export default class Walls extends GameObject {
+  readonly walls: Wall[] = [];
+
   static height: number = 0.5;
   static extraWidth: number = 0.2;
-  static doorWidth: number = 1;
+  static doorWidth: number = 2;
   static doorFrameWidth: number = 0.2;
+
   private static raycasterHeight: number = Walls.height / 2;
-
-  readonly intersections: Vector[] = [];
-
-  readonly walls: Wall[] = [];
 
   constructor(
     private readonly shape: Shape,

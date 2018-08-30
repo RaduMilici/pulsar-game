@@ -1,13 +1,12 @@
 import GameObject from '../GameObject';
-import { Vector, Line } from 'pulsar-pathfinding';
+import { Vector, Line, QuadTree } from 'pulsar-pathfinding';
 import Room from './Room';
-import QuadTree from 'pulsar-pathfinding/dist/quadtree/QuadTree';
 import MST from '../corridors/MST';
 import CorridorLine from '../corridors/CorridorLine';
 import Corridors from '../corridors/Corridors';
 
 export default class Rooms extends GameObject {
-  private static minRoomArea: number = 5;
+  private static minRoomArea: number = 10;
   readonly rooms: Room[];
 
   constructor(private readonly points: Vector[]) {
