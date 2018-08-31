@@ -6,14 +6,14 @@ import {
   size,
   BoundingBox,
 } from 'pulsar-pathfinding';
-import Room from '../entities/room/Room';
-import Level from '../entities/Level';
+import Room from '../entities/level/room/Room';
+import Level from '../entities/level/Level';
 import Cube from '../entities/Cube';
 import { toVec3 } from '../util';
-import CorridorLine from '../entities/corridors/CorridorLine';
+import CorridorLine from '../entities/level/corridor/CorridorLine';
 
 export default class Navigation {
-  private readonly grid: Grid;
+  readonly grid: Grid;
 
   constructor(private readonly level: Level) {
     const gridSize: size = {
@@ -84,7 +84,7 @@ export default class Navigation {
     console.timeEnd('nav');
   }
 
-  private getTile({ x, y }: Vector): NavigatorTile {
+  getTile({ x, y }: Vector): NavigatorTile {
     const rounded: Vector = new Vector({ x: Math.round(x), y: Math.round(y) });
     return this.grid.findTile(rounded);
   }

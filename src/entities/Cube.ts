@@ -11,8 +11,8 @@ export default class Cube extends GameObject {
   constructor(color: string = '') {
     super();
 
-    //const rotate: Rotate = new Rotate(0, 2, 0);
-    //this.components.push(rotate);
+    const rotate: Rotate = new Rotate(0, 2, 0);
+    this.components.push(rotate);
 
     const material: MeshBasicMaterial =
       color === '' ? Cube.material : new MeshBasicMaterial({ color });

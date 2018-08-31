@@ -1,16 +1,18 @@
-import { Vector, QuadTree, Line, Shape } from 'pulsar-pathfinding';
-import GameObject from '../GameObject';
+import { Vector, QuadTree, Shape } from 'pulsar-pathfinding';
+import GameObject from '../../GameObject';
 import Floor from './Floor';
 import Walls from './Walls';
-import CorridorLine from '../corridors/CorridorLine';
-import Navigation from '../../nav/Navigation';
+import CorridorLine from '../corridor/CorridorLine';
+import Navigation from '../../../nav/Navigation';
+import { Vector3 } from 'three';
+import { toVec3 } from '../../../util';
 
 export default class Room extends GameObject {
   quadTree: QuadTree;
   readonly area: number;
 
   walls: Walls;
-  private readonly floor: Floor;
+  readonly floor: Floor;
 
   constructor(readonly shape: Shape, private readonly navigation: Navigation) {
     super();
@@ -22,6 +24,10 @@ export default class Room extends GameObject {
 
   get centroid(): Vector {
     return this.shape.centroid;
+  }
+
+  get centroidV3(): Vector3 {
+    return toVec3(this.centroid);
   }
 
   addNavData() {

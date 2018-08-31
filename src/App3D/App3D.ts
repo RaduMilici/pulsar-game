@@ -14,7 +14,7 @@ export default class App3D {
   readonly scene: Scene = new Scene();
   readonly updater: Updater = new Updater();
 
-  constructor(settings: app3DSettings) {
+  constructor(readonly settings: app3DSettings) {
     this.camera = App3D.createCamera(settings);
     this.container = App3D.getContainer(settings.containerSelector);
     this.renderer = App3D.createRenderer(settings);
@@ -38,13 +38,21 @@ export default class App3D {
     });
   }
 
-  add(object: GameObject | GameComponent | Component): void {
+  add(
+    object: GameObject | GameObject[] | GameComponent | Component,
+    parent?: GameObject
+  ): void {
     if (object instanceof GameObject) {
       object.components.forEach((component: GameComponent) => {
         component.gameObject = object;
       });
       this.updater.add(object);
-      this.scene.add(object);
+
+      if (parent) {
+        parent.add(object);
+      } else if (!object.parent) {
+        this.scene.add(object);
+      }
     }
 
     if (object instanceof GameComponent || object instanceof Component) {

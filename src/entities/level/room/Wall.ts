@@ -1,12 +1,12 @@
 import { Line, Shape as ShapePulsar, size, Vector } from 'pulsar-pathfinding';
-import { toVec3, makePlane } from '../../util';
-import GameObject from '../GameObject';
+import { toVec3, makePlane } from '../../../util/index';
+import GameObject from '../../GameObject';
 import {
   height,
   doorFrameWidth,
   doorWidth,
   extraWidth,
-} from '../../const/wall';
+} from '../../../const/wall';
 import CanvasTexture from './CanvasTexture';
 import {
   Mesh,
