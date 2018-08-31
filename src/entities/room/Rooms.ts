@@ -1,57 +1,78 @@
 import GameObject from '../GameObject';
 import { Vector, Line, QuadTree } from 'pulsar-pathfinding';
 import Room from './Room';
-import MST from '../corridors/MST';
+import Level from '../Level';
+import MST from '../MST';
 import CorridorLine from '../corridors/CorridorLine';
 import Corridors from '../corridors/Corridors';
+import Navigation from '../../nav/Navigation';
 
 export default class Rooms extends GameObject {
   private static minRoomArea: number = 10;
+  readonly navigation: Navigation;
+  readonly corridors: Corridors;
   readonly rooms: Room[];
+  readonly mst: MST;
 
-  constructor(private readonly points: Vector[]) {
+  constructor({ points, navigation }: Level) {
     super();
 
-    this.rooms = this.points.map((point: Vector) => {
-      const room: Room = new Room(point.quadTree.shape);
-      room.quadTree = point.quadTree;
+    this.navigation = navigation;
+    this.rooms = points.map(({ quadTree }: Vector) => {
+      const room: Room = new Room(quadTree.shape, this.navigation);
+      room.quadTree = quadTree;
       return room;
     });
-    this.rooms = Rooms.growRooms(this.rooms);
-    this.add(...this.rooms);
+    this.rooms = this.growRooms(this.rooms);
+    this.mst = new MST(this);
+    this.makeWalls();
+    this.corridors = new Corridors(this);
+    this.addNavData();
+
+    this.add(...this.rooms, this.corridors);
   }
 
   get centroids(): Vector[] {
     return this.rooms.map((room: Room) => room.centroid);
   }
 
-  makeWalls(mst: MST) {
-    this.rooms.forEach((room: Room) => room.makeWalls(mst.lines));
+  makeWalls() {
+    //this.rooms.forEach((room: Room) => room.makeWalls(this.mst.lines));
   }
 
-  intersectCorridors(corridors: Corridors): CorridorLine[] {
-    return corridors.mstLines.reduce((acc: CorridorLine[], { a, b }: Line) => {
-      const corridor: CorridorLine = new CorridorLine(a, b);
-      const roomA: Room = this.getRoomByCentroid(a);
-      const roomB: Room = this.getRoomByCentroid(b);
+  getRoomByCentroid(centroid: Vector): Room {
+    return this.rooms.find((room: Room) => room.centroid.equals(centroid));
+  }
 
-      const intersectionsA: Vector[] = roomA.intersect(corridor);
-      const intersectionsB: Vector[] = roomB.intersect(corridor);
+  intersectCorridors(): CorridorLine[] {
+    return this.mst.lines.reduce((acc: CorridorLine[], line: CorridorLine) => {
+      const roomA: Room = this.getRoomByCentroid(line.a);
+      const roomB: Room = this.getRoomByCentroid(line.b);
 
-      corridor.addIntersections(intersectionsA);
-      corridor.addIntersections(intersectionsB);
+      roomA.makeWalls(this.mst.lines);
+      roomB.makeWalls(this.mst.lines);
 
-      acc.push(corridor);
+      const intersectionsA: Vector[] = roomA.intersect(line);
+      const intersectionsB: Vector[] = roomB.intersect(line);
+
+      line.addIntersections(intersectionsA);
+      line.addIntersections(intersectionsB);
+
+      acc.push(line);
       return acc;
     }, []);
   }
 
-  private static growRooms(rooms: Room[]): Room[] {
+  private addNavData() {
+    this.rooms.forEach((room: Room) => room.addNavData());
+  }
+
+  private growRooms(rooms: Room[]): Room[] {
     return rooms.reduce((acc: Room[], room: Room) => {
       if (room.area < Rooms.minRoomArea) {
         //const containedRoom: Room = Rooms.makeContainedRoom(room);
         //acc.push(containedRoom);
-        const biggerRoom: Room = Rooms.growRoom(room);
+        const biggerRoom: Room = this.growRoom(room);
         if (biggerRoom) {
           acc.push(biggerRoom);
         }
@@ -62,7 +83,7 @@ export default class Rooms extends GameObject {
     }, []);
   }
 
-  private static growRoom(room: Room): Room {
+  private growRoom(room: Room): Room {
     let biggerRoom: Room = room;
     let parent: QuadTree = biggerRoom.quadTree.parent;
 
@@ -73,7 +94,7 @@ export default class Rooms extends GameObject {
       }
 
       parent.containedPoints.push(parent.shape.centroid);
-      biggerRoom = new Room(parent.shape);
+      biggerRoom = new Room(parent.shape, this.navigation);
       biggerRoom.quadTree = parent;
       parent = parent.parent;
     }
@@ -81,13 +102,9 @@ export default class Rooms extends GameObject {
     return biggerRoom;
   }
 
-  private static makeContainedRoom(room: Room): Room {
+  private makeContainedRoom(room: Room): Room {
     const point: Vector = new Vector();
     point.quadTree = room.quadTree;
-    return new Room(point.quadTree.shape);
-  }
-
-  getRoomByCentroid(centroid: Vector): Room {
-    return this.rooms.find((room: Room) => room.centroid.equals(centroid));
+    return new Room(point.quadTree.shape, this.navigation);
   }
 }

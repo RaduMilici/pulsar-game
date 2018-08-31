@@ -8,7 +8,7 @@ import CorridorLine from '../corridors/CorridorLine';
 export default class Walls extends GameObject {
   readonly walls: Wall[] = [];
 
-  static height: number = 0.5;
+  static height: number = 1;
   static extraWidth: number = 0.2;
   static doorWidth: number = 2;
   static doorFrameWidth: number = 0.2;
@@ -26,7 +26,7 @@ export default class Walls extends GameObject {
   }
 
   makeHoles(): void {
-    this.mstLines.forEach((line: Line) => {
+    this.mstLines.forEach((line: CorridorLine) => {
       const raycaster = Walls.makeRaycaster(line);
 
       this.walls.forEach((wall: Wall) => {

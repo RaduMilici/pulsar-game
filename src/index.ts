@@ -3,7 +3,7 @@ import { app3DSettings, debugBoundingBox } from './const';
 import { Level } from './entities';
 import { OrbitControls } from 'three-orbitcontrols-ts';
 import { uniqueVectorArray } from './util';
-import { Vector, randomInt, randomFloat } from 'pulsar-pathfinding';
+import { Vector, randomInt, randomFloat, DegToRad } from 'pulsar-pathfinding';
 
 const app3D: App3D = new App3D(app3DSettings);
 app3D.camera.position.set(0, 75, 0);
@@ -11,12 +11,19 @@ app3D.camera.position.set(0, 75, 0);
 const generate = () => {
   console.time('level');
   app3D.clear();
-  const points: Vector[] = uniqueVectorArray(debugBoundingBox, 10);
+  const points: Vector[] = uniqueVectorArray(debugBoundingBox, 75);
 
   /*const points: Vector[] = [];
-  for (let x = -50; x < 50; x += 1) {
+  for (let x = 6; x < 94; x++) {
     const vector: Vector = new Vector({ x, y: randomFloat(-5, 5) + x });
     points.push(vector);
+  }*/
+
+  /*const points: Vector[] = [];
+  for (let x = 1; x < 99; x += 10) {
+      const v1: Vector = new Vector({ x, y: 20 });
+      const v4: Vector = new Vector({ x, y: 80 });
+      points.push(v1, v4);
   }*/
 
   /*const points: Vector[] = [
