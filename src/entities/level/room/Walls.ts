@@ -1,10 +1,10 @@
-import GameObject from '../GameObject';
+import GameObject from '../../GameObject';
 import Wall from './Wall';
 import { Line, Shape, Vector } from 'pulsar-pathfinding';
 import { Intersection, Raycaster, Vector3 } from 'three';
-import toVec3 from '../../util/toVec3';
-import CorridorLine from '../corridors/CorridorLine';
-import { height } from '../../const/wall';
+import toVec3 from '../../../util/toVec3';
+import CorridorLine from '../corridor/CorridorLine';
+import { height } from '../../../const/wall';
 
 export default class Walls extends GameObject {
   readonly walls: Wall[] = [];

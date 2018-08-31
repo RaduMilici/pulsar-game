@@ -5,10 +5,10 @@ import {
   Hull,
 } from 'pulsar-pathfinding';
 import GameObject from './GameObject';
-import Rooms from './room/Rooms';
+import Rooms from './level/room/Rooms';
 import { toVec3 } from '../util/index';
 import { Geometry, Line, LineBasicMaterial } from 'three';
-import CorridorLine from './corridors/CorridorLine';
+import CorridorLine from './level/corridor/CorridorLine';
 
 export default class MST extends GameObject {
   readonly lines: CorridorLine[];

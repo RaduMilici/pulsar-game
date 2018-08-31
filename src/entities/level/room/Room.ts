@@ -1,9 +1,9 @@
 import { Vector, QuadTree, Line, Shape } from 'pulsar-pathfinding';
-import GameObject from '../GameObject';
+import GameObject from '../../GameObject';
 import Floor from './Floor';
 import Walls from './Walls';
-import CorridorLine from '../corridors/CorridorLine';
-import Navigation from '../../nav/Navigation';
+import CorridorLine from '../corridor/CorridorLine';
+import Navigation from '../../../nav/Navigation';
 
 export default class Room extends GameObject {
   quadTree: QuadTree;

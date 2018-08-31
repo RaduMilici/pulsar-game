@@ -6,11 +6,11 @@ import {
   size,
   BoundingBox,
 } from 'pulsar-pathfinding';
-import Room from '../entities/room/Room';
-import Level from '../entities/Level';
+import Room from '../entities/level/room/Room';
+import Level from '../entities/level/Level';
 import Cube from '../entities/Cube';
 import { toVec3 } from '../util';
-import CorridorLine from '../entities/corridors/CorridorLine';
+import CorridorLine from '../entities/level/corridor/CorridorLine';
 
 export default class Navigation {
   private readonly grid: Grid;

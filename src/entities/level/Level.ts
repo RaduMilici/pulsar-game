@@ -1,7 +1,7 @@
-import GameObject from './GameObject';
+import GameObject from '../GameObject';
 import { Shape, QuadTree, Vector, BoundingBox } from 'pulsar-pathfinding';
 import Rooms from './room/Rooms';
-import Navigation from '../nav/Navigation';
+import Navigation from '../../nav/Navigation';
 
 export default class Level extends GameObject {
   readonly rooms: Rooms;

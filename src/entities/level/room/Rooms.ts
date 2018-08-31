@@ -1,11 +1,11 @@
-import GameObject from '../GameObject';
-import { Vector, Line, QuadTree } from 'pulsar-pathfinding';
+import GameObject from '../../GameObject';
+import { Vector, QuadTree } from 'pulsar-pathfinding';
 import Room from './Room';
 import Level from '../Level';
-import MST from '../MST';
-import CorridorLine from '../corridors/CorridorLine';
-import Corridors from '../corridors/Corridors';
-import Navigation from '../../nav/Navigation';
+import MST from '../../MST';
+import CorridorLine from '../corridor/CorridorLine';
+import Corridors from '../corridor/Corridors';
+import Navigation from '../../../nav/Navigation';
 
 export default class Rooms extends GameObject {
   private static minRoomArea: number = 10;
@@ -25,7 +25,6 @@ export default class Rooms extends GameObject {
     });
     this.rooms = this.growRooms(this.rooms);
     this.mst = new MST(this);
-    this.makeWalls();
     this.corridors = new Corridors(this);
     this.addNavData();
 
@@ -34,10 +33,6 @@ export default class Rooms extends GameObject {
 
   get centroids(): Vector[] {
     return this.rooms.map((room: Room) => room.centroid);
-  }
-
-  makeWalls() {
-    //this.rooms.forEach((room: Room) => room.makeWalls(this.mst.lines));
   }
 
   getRoomByCentroid(centroid: Vector): Room {
