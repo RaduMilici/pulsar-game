@@ -6,12 +6,12 @@ import { uniqueVectorArray } from './util';
 import { Vector, randomInt, randomFloat, DegToRad } from 'pulsar-pathfinding';
 
 const app3D: App3D = new App3D(app3DSettings);
-app3D.camera.position.set(0, 75, 0);
+app3D.camera.position.set(50, 75, 50);
 
 const generate = () => {
   console.time('level');
   app3D.clear();
-  const points: Vector[] = uniqueVectorArray(debugBoundingBox, 75);
+  const points: Vector[] = uniqueVectorArray(debugBoundingBox, 50);
 
   /*const points: Vector[] = [];
   for (let x = 6; x < 94; x++) {
@@ -32,12 +32,12 @@ const generate = () => {
     new Vector({ x: 14, y: -15 }),
   ];*/
 
-  const level: Level = new Level(points, debugBoundingBox);
-  level.position.set(
+  const level: Level = new Level(points, debugBoundingBox, app3D);
+  /*level.position.set(
     -debugBoundingBox.width / 2,
     0,
     -debugBoundingBox.height / 2
-  );
+  );*/
   app3D.add(level);
   app3D.start();
   console.timeEnd('level');
@@ -49,4 +49,4 @@ generate();
 
 document.getElementById('generate').addEventListener('click', generate);
 
-new OrbitControls(app3D.camera, app3D.renderer.domElement);
+//new OrbitControls(app3D.camera, app3D.renderer.domElement);

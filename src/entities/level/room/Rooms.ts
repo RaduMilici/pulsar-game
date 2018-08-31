@@ -6,6 +6,7 @@ import MST from '../../MST';
 import CorridorLine from '../corridor/CorridorLine';
 import Corridors from '../corridor/Corridors';
 import Navigation from '../../../nav/Navigation';
+import { Mesh } from 'three';
 
 export default class Rooms extends GameObject {
   private static minRoomArea: number = 10;
@@ -33,6 +34,10 @@ export default class Rooms extends GameObject {
 
   get centroids(): Vector[] {
     return this.rooms.map((room: Room) => room.centroid);
+  }
+
+  get floor(): GameObject[] {
+    return this.rooms.map((room: Room) => room.floor);
   }
 
   getRoomByCentroid(centroid: Vector): Room {

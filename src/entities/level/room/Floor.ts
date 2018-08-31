@@ -1,8 +1,6 @@
 import GameObject from '../../GameObject';
 import { Shape as ShapePulsar, Vector } from 'pulsar-pathfinding';
-import { toVec3 } from '../../../util/index';
 import {
-  Vector3,
   Mesh,
   MeshBasicMaterial,
   DoubleSide,
