@@ -45,7 +45,6 @@ export default class Player extends GameObject {
 
   private startNavigator(navigator: Navigator): void {
     if (this.activeNavigator) {
-      this.activeNavigator.stop();
       this.level.app3D.remove(navigator);
     }
 

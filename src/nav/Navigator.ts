@@ -2,6 +2,7 @@ import {
   Navigator as NavigatorPulsar,
   NavigatorTile,
   Grid,
+  tickData,
 } from 'pulsar-pathfinding';
 import GameComponent from '../components/GameComponent';
 import GameObject from '../entities/GameObject';
@@ -12,7 +13,7 @@ export default class Navigator extends GameComponent {
   private vec2Path: Vector2[];
   private splinePath: SplineCurve;
   private splinePathLength: number;
-  private speed: number = 0.1;
+  private speed: number = 5;
   private percentOfSpline: number = 0;
   private navigator: NavigatorPulsar;
 
@@ -34,7 +35,6 @@ export default class Navigator extends GameComponent {
   }
 
   start(): void {
-    console.time('nav');
     this.navigator.start();
   }
 
@@ -52,11 +52,10 @@ export default class Navigator extends GameComponent {
     this.splinePath = new SplineCurve(this.vec2Path);
     this.splinePathLength = this.splinePath.getLength();
     this.updater.add(this);
-    console.timeEnd('nav');
   }
 
-  update() {
-    this.percentOfSpline += this.speed / this.splinePathLength;
+  update({ deltaTime }: tickData) {
+    this.percentOfSpline += (this.speed / this.splinePathLength) * deltaTime;
 
     if (this.reachedDestination) {
       return this.updater.remove(this);
