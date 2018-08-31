@@ -1,7 +1,12 @@
 import { Line, Shape as ShapePulsar, size, Vector } from 'pulsar-pathfinding';
 import { toVec3, makePlane } from '../../util';
 import GameObject from '../GameObject';
-import Walls from './Walls';
+import {
+  height,
+  doorFrameWidth,
+  doorWidth,
+  extraWidth,
+} from '../../const/wall';
 import CanvasTexture from './CanvasTexture';
 import {
   Mesh,
@@ -10,41 +15,36 @@ import {
   Matrix4,
   MeshBasicMaterial,
   DoubleSide,
-  Geometry,
-  Face3,
 } from 'three';
 
 export default class Wall extends GameObject {
   private debugMaterial: MeshBasicMaterial;
   private mesh: Mesh;
+
   private readonly map: CanvasTexture;
-  private readonly holeSize: size;
-  private readonly frameSize: size;
+
+  private static holeSize: size = {
+    width: CanvasTexture.getPixelMultiplier(doorWidth),
+    height: CanvasTexture.getPixelMultiplier(height),
+  };
+
+  private static frameSize: size = {
+    width:
+      Wall.holeSize.width + CanvasTexture.getPixelMultiplier(doorFrameWidth),
+    height:
+      Wall.holeSize.height + CanvasTexture.getPixelMultiplier(doorFrameWidth),
+  };
 
   constructor(
     readonly line: Line,
-    private readonly mstLines: Line[],
-    private readonly shape: ShapePulsar
+    private mstLines: Line[],
+    private shape: ShapePulsar
   ) {
     super();
 
-    this.holeSize = {
-      width: CanvasTexture.getPixelMultiplier(Walls.doorWidth),
-      height: CanvasTexture.getPixelMultiplier(Walls.height),
-    };
-
-    this.frameSize = {
-      width:
-        this.holeSize.width +
-        CanvasTexture.getPixelMultiplier(Walls.doorFrameWidth),
-      height:
-        this.holeSize.height +
-        CanvasTexture.getPixelMultiplier(Walls.doorFrameWidth),
-    };
-
     this.map = new CanvasTexture({
       width: this.line.length,
-      height: Walls.height,
+      height,
     });
 
     this.create();
@@ -52,10 +52,10 @@ export default class Wall extends GameObject {
 
   addHole(uv: Vector2) {
     //this.map.drawRect(uv, this.frameSize);
-    this.map.erase(uv, this.holeSize);
+    this.map.erase(uv, Wall.holeSize);
   }
 
-  intersect(line: Line): Vector {
+  intersect(line: Line): Vector | null {
     return line.intersects(this.line)
       ? line.intersectionPoint(this.line)
       : null;
@@ -68,15 +68,15 @@ export default class Wall extends GameObject {
       alphaTest: 0.9,
       transparent: true,
     });
-    this.mesh = this.makeSolidWall();
+    this.mesh = this.makeMesh();
     this.add(this.mesh);
     this.updateMatrixWorld(true);
   }
 
-  private makeSolidWall(): Mesh {
+  private makeMesh(): Mesh {
     const wall: Mesh = makePlane({
-      width: this.line.length + Walls.extraWidth,
-      height: Walls.height,
+      width: this.line.length + extraWidth,
+      height,
     });
     wall.material = this.debugMaterial;
     this.setTransforms(wall);
@@ -86,11 +86,7 @@ export default class Wall extends GameObject {
   private setTransforms(plane: Mesh): void {
     const centroidV3: Vector3 = toVec3(this.shape.centroid);
     const midpointV3: Vector3 = toVec3(this.line.midpoint);
-    const matrix: Matrix4 = new Matrix4().makeTranslation(
-      0,
-      Walls.height / 2,
-      0
-    );
+    const matrix: Matrix4 = new Matrix4().makeTranslation(0, height / 2, 0);
 
     plane.geometry.applyMatrix(matrix);
     plane.position.copy(midpointV3);

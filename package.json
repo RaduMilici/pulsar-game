@@ -23,7 +23,7 @@
   "homepage": "https://github.com/RaduMilici/pulsar-game#readme",
   "dependencies": {
     "@types/three": "^0.92.17",
-    "pulsar-pathfinding": "^1.3.2",
+    "pulsar-pathfinding": "^1.3.3",
     "three": "^0.95.0"
   },
   "devDependencies": {
