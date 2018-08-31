@@ -27,18 +27,6 @@ export default class CorridorLine extends Line {
   }
 
   addIntersections(points: Vector[]): void {
-    points.forEach((p: Vector) => this.add(p));
-  }
-
-  private add(point: Vector): void {
-    const index: number = this.intersections.findIndex(
-      (intersection: Vector) => {
-        return point.equals(intersection);
-      }
-    );
-
-    if (index === -1) {
-      this.intersections.push(point);
-    }
+    this.intersections.push(...points);
   }
 }

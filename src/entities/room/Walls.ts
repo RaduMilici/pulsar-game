@@ -4,21 +4,14 @@ import { Line, Shape, Vector } from 'pulsar-pathfinding';
 import { Intersection, Raycaster, Vector3 } from 'three';
 import toVec3 from '../../util/toVec3';
 import CorridorLine from '../corridors/CorridorLine';
+import { height } from '../../const/wall';
 
 export default class Walls extends GameObject {
   readonly walls: Wall[] = [];
 
-  static height: number = 1;
-  static extraWidth: number = 0.2;
-  static doorWidth: number = 2;
-  static doorFrameWidth: number = 0.2;
+  private static raycasterHeight: number = height / 2;
 
-  private static raycasterHeight: number = Walls.height / 2;
-
-  constructor(
-    private readonly shape: Shape,
-    private readonly mstLines: Line[]
-  ) {
+  constructor(private shape: Shape, private mstLines: Line[]) {
     super();
     this.walls = this.makeWalls();
     this.makeHoles();
@@ -44,10 +37,7 @@ export default class Walls extends GameObject {
     const aV3: Vector3 = toVec3(a, Walls.raycasterHeight);
     const bV3: Vector3 = toVec3(b, Walls.raycasterHeight);
 
-    const direction: Vector3 = bV3
-      .clone()
-      .sub(aV3)
-      .normalize();
+    const direction: Vector3 = bV3.sub(aV3).normalize();
     return new Raycaster(aV3, direction, 0, length);
   }
 

@@ -4,11 +4,8 @@ import {
   Navigator,
   Vector,
   size,
-  Line,
   BoundingBox,
-  immutableObjectSort,
 } from 'pulsar-pathfinding';
-import Rooms from '../entities/room/Rooms';
 import Room from '../entities/room/Room';
 import Level from '../entities/Level';
 import Cube from '../entities/Cube';

@@ -1,17 +1,16 @@
-import { Line, Shape } from 'pulsar-pathfinding';
+import { Shape } from 'pulsar-pathfinding';
 import GameObject from '../GameObject';
-import MST from '../MST';
 import Room from '../room/Room';
 import Rooms from '../room/Rooms';
 import CorridorLine from './CorridorLine';
-import Walls from '../room/Walls';
 import Side from '../../types/side';
 import Navigation from '../../nav/Navigation';
+import { doorWidth } from '../../const/wall';
 
 export default class Corridors extends GameObject {
   readonly lines: CorridorLine[] = [];
   private readonly navigation: Navigation;
-  private static width: number = Walls.doorWidth / 4;
+  private static width: number = doorWidth / 4;
 
   constructor(private readonly rooms: Rooms) {
     super();
