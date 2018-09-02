@@ -8,8 +8,8 @@ import App3D from '../../App3D/App3D';
 export default class Level extends GameObject {
   readonly rooms: Rooms;
   readonly navigation: Navigation;
+  readonly player: Player;
   private readonly quadTree: QuadTree;
-  private readonly player: Player;
 
   constructor(
     private points: Vector[],

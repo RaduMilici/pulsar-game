@@ -16,7 +16,7 @@ export default class App3D {
 
   constructor(readonly settings: app3DSettings) {
     this.camera = App3D.createCamera(settings);
-    this.container = App3D.getContainer(settings.containerSelector);
+    this.container = App3D.getElement(settings.containerSelector);
     this.renderer = App3D.createRenderer(settings);
     this.container.appendChild(this.renderer.domElement);
     this.updater.onUpdateComplete = new Render(this);
@@ -33,8 +33,8 @@ export default class App3D {
   clear(): void {
     this.updater.clear();
     new Dispose(this.scene);
-    this.scene.children.forEach((obj: Object3D) => {
-      this.scene.remove(obj);
+    this.scene.children.forEach((obj: GameObject) => {
+      this.remove(obj);
     });
   }
 
@@ -71,7 +71,7 @@ export default class App3D {
     }
   }
 
-  private static getContainer(selector: string): HTMLElement | null {
+  static getElement(selector: string): HTMLElement | null {
     const container: HTMLElement | null = document.querySelector(selector);
 
     if (container === null) {

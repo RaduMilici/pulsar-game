@@ -6,9 +6,11 @@ import MST from '../../MST';
 import CorridorLine from '../corridor/CorridorLine';
 import Corridors from '../corridor/Corridors';
 import Navigation from '../../../nav/Navigation';
-import { Mesh } from 'three';
+import { Object3D } from 'three';
 
 export default class Rooms extends GameObject {
+  readonly floor: Object3D[];
+
   private static minRoomArea: number = 10;
   readonly navigation: Navigation;
   readonly corridors: Corridors;
@@ -28,7 +30,7 @@ export default class Rooms extends GameObject {
     this.mst = new MST(this);
     this.corridors = new Corridors(this);
     this.addNavData();
-
+    this.floor = this.getNavFloor();
     this.add(...this.rooms, this.corridors);
   }
 
@@ -36,8 +38,10 @@ export default class Rooms extends GameObject {
     return this.rooms.map((room: Room) => room.centroid);
   }
 
-  get floor(): GameObject[] {
-    return this.rooms.map((room: Room) => room.floor);
+  getNavFloor(): Object3D[] {
+    const floor: Object3D[] = this.rooms.map((room: Room) => room.floor);
+    const corridors: Object3D[] = this.corridors.children;
+    return [...floor, ...corridors];
   }
 
   getRoomByCentroid(centroid: Vector): Room {
@@ -70,8 +74,6 @@ export default class Rooms extends GameObject {
   private growRooms(rooms: Room[]): Room[] {
     return rooms.reduce((acc: Room[], room: Room) => {
       if (room.area < Rooms.minRoomArea) {
-        //const containedRoom: Room = Rooms.makeContainedRoom(room);
-        //acc.push(containedRoom);
         const biggerRoom: Room = this.growRoom(room);
         if (biggerRoom) {
           acc.push(biggerRoom);
@@ -100,11 +102,5 @@ export default class Rooms extends GameObject {
     }
 
     return biggerRoom;
-  }
-
-  private makeContainedRoom(room: Room): Room {
-    const point: Vector = new Vector();
-    point.quadTree = room.quadTree;
-    return new Room(point.quadTree.shape, this.navigation);
   }
 }

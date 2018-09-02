@@ -9,13 +9,12 @@ import GameObject from '../entities/GameObject';
 import { SplineCurve, Vector2 } from 'three';
 
 export default class Navigator extends GameComponent {
-  private navPath: NavigatorTile[];
-  private vec2Path: Vector2[];
   private splinePath: SplineCurve;
-  private splinePathLength: number;
-  private speed: number = 5;
-  private percentOfSpline: number = 0;
+  private distancePerTick: number;
   private navigator: NavigatorPulsar;
+
+  private speed: number = 5;
+  private movementRatio: number = 0;
 
   constructor(
     private grid: Grid,
@@ -38,32 +37,39 @@ export default class Navigator extends GameComponent {
     this.navigator.start();
   }
 
+  update({ deltaTime }: tickData) {
+    this.movementRatio += this.distancePerTick * deltaTime;
+
+    if (this.reachedDestination) {
+      this.updater.remove(this);
+    } else {
+      this.move();
+    }
+  }
+
   private get reachedDestination(): boolean {
-    return this.percentOfSpline >= 1;
+    return this.movementRatio >= 1;
   }
 
   private onNavComplete(path: NavigatorTile[]): void {
-    this.navPath = path;
-    this.vec2Path = [this.origin, ...path].map(
-      ({ position }: NavigatorTile) => {
-        return new Vector2(position.x, position.y);
-      }
+    const vec2Path: Vector2[] = path.map(
+      ({ position }: NavigatorTile) => new Vector2(position.x, position.y)
     );
-    this.splinePath = new SplineCurve(this.vec2Path);
-    this.splinePathLength = this.splinePath.getLength();
+    const currentPos: Vector2 = new Vector2(
+      this.mobile.position.x,
+      this.mobile.position.z
+    );
+
+    vec2Path.unshift(currentPos);
+
+    this.splinePath = new SplineCurve(vec2Path);
+    this.distancePerTick = this.speed / this.splinePath.getLength();
+
     this.updater.add(this);
   }
 
-  update({ deltaTime }: tickData) {
-    this.percentOfSpline += (this.speed / this.splinePathLength) * deltaTime;
-
-    if (this.reachedDestination) {
-      return this.updater.remove(this);
-    }
-
-    const positionOnSpline: Vector2 = this.splinePath.getPointAt(
-      this.percentOfSpline
-    );
-    this.mobile.position.set(positionOnSpline.x, 0, positionOnSpline.y);
+  private move(): void {
+    const { x, y }: Vector2 = this.splinePath.getPointAt(this.movementRatio);
+    this.mobile.position.set(x, 0, y);
   }
 }

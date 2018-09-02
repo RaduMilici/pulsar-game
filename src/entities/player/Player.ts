@@ -4,13 +4,13 @@ import Level from '../level/Level';
 import PlayerCamera from './PlayerCamera';
 import PlayerController from './PlayerController';
 import { Vector3 } from 'three';
-import toVec2 from '../../util/toVec2';
+import toVector from '../../util/toVector';
 import { Vector, NavigatorTile } from 'pulsar-pathfinding';
 import Navigator from '../../nav/Navigator';
 
 export default class Player extends GameObject {
+  readonly controller: PlayerController;
   private readonly camera: PlayerCamera;
-  private readonly controller: PlayerController;
   private activeNavigator: Navigator;
 
   constructor(readonly level: Level) {
@@ -22,13 +22,12 @@ export default class Player extends GameObject {
     this.camera = new PlayerCamera(this, level.app3D.camera);
     this.controller = new PlayerController(level, this);
 
-    level.app3D.add(this.controller);
     level.app3D.add(cube, this);
   }
 
   moveTo(position: Vector3): void {
-    const startV2: Vector = toVec2(this.position);
-    const positionV2: Vector = toVec2(position);
+    const startV2: Vector = toVector(this.position);
+    const positionV2: Vector = toVector(position);
     const start: NavigatorTile = this.level.navigation.getTile(startV2);
     const destination: NavigatorTile = this.level.navigation.getTile(
       positionV2
@@ -45,7 +44,7 @@ export default class Player extends GameObject {
 
   private startNavigator(navigator: Navigator): void {
     if (this.activeNavigator) {
-      this.level.app3D.remove(navigator);
+      this.level.app3D.remove(this.activeNavigator);
     }
 
     this.activeNavigator = navigator;

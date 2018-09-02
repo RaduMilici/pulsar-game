@@ -66,24 +66,6 @@ export default class Navigation {
     }
   }
 
-  debugPathfinding() {
-    const start: Room = this.level.rooms.rooms[0];
-    const end: Room = this.level.rooms.rooms[this.level.rooms.rooms.length - 1];
-    const startTile: NavigatorTile = this.getTile(start.centroid);
-    const endTile: NavigatorTile = this.getTile(end.centroid);
-
-    const nav: Navigator = new Navigator(
-      this.grid,
-      startTile,
-      endTile,
-      undefined,
-      this.onNavComplete.bind(this)
-    );
-    console.time('nav');
-    nav.start();
-    console.timeEnd('nav');
-  }
-
   getTile({ x, y }: Vector): NavigatorTile {
     const rounded: Vector = new Vector({ x: Math.round(x), y: Math.round(y) });
     return this.grid.findTile(rounded);
@@ -91,25 +73,6 @@ export default class Navigation {
 
   private addCube(pos: Vector): void {
     const cube = new Cube();
-    cube.position.copy(toVec3(pos));
-    this.level.add(cube);
-  }
-
-  private onNavComplete(path: NavigatorTile[]) {
-    path.forEach((tile: NavigatorTile) => {
-      const cube = new Cube('white');
-      const pos = new Vector({
-        x: tile.position.x,
-        y: tile.position.y,
-      });
-      cube.position.copy(toVec3(pos));
-      this.level.add(cube);
-    });
-  }
-
-  private onNavExplore(tile: NavigatorTile) {
-    const cube = new Cube('blue');
-    const pos = new Vector(tile.position);
     cube.position.copy(toVec3(pos));
     this.level.add(cube);
   }
