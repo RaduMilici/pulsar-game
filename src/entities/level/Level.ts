@@ -2,13 +2,13 @@ import GameObject from '../GameObject';
 import { Shape, QuadTree, Vector, BoundingBox } from 'pulsar-pathfinding';
 import Rooms from './room/Rooms';
 import Navigation from '../../nav/Navigation';
-import Player from '../../entities/player/Player';
+import Character from '../player/Character';
 import App3D from '../../App3D/App3D';
 
 export default class Level extends GameObject {
   readonly rooms: Rooms;
   readonly navigation: Navigation;
-  readonly player: Player;
+  readonly player: Character;
   private readonly quadTree: QuadTree;
 
   constructor(
@@ -20,7 +20,7 @@ export default class Level extends GameObject {
     this.quadTree = new QuadTree(this.shape, points);
     this.navigation = new Navigation(this);
     this.rooms = new Rooms(this);
-    this.player = new Player(this);
+    this.player = new Character(this);
     //this.navigation.debugPathfinding();
     this.add(this.rooms, this.player);
   }

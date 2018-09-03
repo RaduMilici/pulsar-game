@@ -1,28 +1,37 @@
 import GameObject from '../GameObject';
-import Cube from '../Cube';
+import Cone from '../Cone';
 import Level from '../level/Level';
 import PlayerCamera from './PlayerCamera';
 import PlayerController from './PlayerController';
-import { Vector3 } from 'three';
+import { Vector3, Object3D } from 'three';
 import toVector from '../../util/toVector';
 import { Vector, NavigatorTile } from 'pulsar-pathfinding';
 import Navigator from '../../nav/Navigator';
 
-export default class Player extends GameObject {
+export default class Character extends GameObject {
+  readonly mesh: Object3D;
   readonly controller: PlayerController;
+  readonly height: number = 0;
+
   private readonly camera: PlayerCamera;
   private activeNavigator: Navigator;
 
   constructor(readonly level: Level) {
     super();
 
-    const cube: Cube = new Cube();
-
     this.position.copy(level.rooms.rooms[0].centroidV3);
     this.camera = new PlayerCamera(this, level.app3D.camera);
     this.controller = new PlayerController(level, this);
 
-    level.app3D.add(cube, this);
+    this.mesh = new Cone();
+    this.add(this.mesh);
+    //level.app3D.add(cube, this);
+  }
+
+  faceTo({ x, z }: Vector3): void {
+    const lookAt: Vector3 = new Vector3(x, this.position.y, z);
+    lookAt.sub(this.position);
+    this.mesh.lookAt(lookAt);
   }
 
   moveTo(position: Vector3): void {

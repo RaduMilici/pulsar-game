@@ -5,13 +5,14 @@ import {
   tickData,
 } from 'pulsar-pathfinding';
 import GameComponent from '../components/GameComponent';
-import GameObject from '../entities/GameObject';
-import { SplineCurve, Vector2 } from 'three';
+import Character from '../entities/player/Character';
+import { SplineCurve, Vector2, Vector3 } from 'three';
 
 export default class Navigator extends GameComponent {
   private splinePath: SplineCurve;
   private distancePerTick: number;
   private navigator: NavigatorPulsar;
+  private static up: Vector3 = new Vector3(0, 1, 0);
 
   private speed: number = 5;
   private movementRatio: number = 0;
@@ -20,7 +21,7 @@ export default class Navigator extends GameComponent {
     private grid: Grid,
     private origin: NavigatorTile,
     private destination: NavigatorTile,
-    private mobile: GameObject
+    private mobile: Character
   ) {
     super();
 
@@ -43,6 +44,7 @@ export default class Navigator extends GameComponent {
     if (this.reachedDestination) {
       this.updater.remove(this);
     } else {
+      this.rotate();
       this.move();
     }
   }
@@ -69,7 +71,21 @@ export default class Navigator extends GameComponent {
   }
 
   private move(): void {
-    const { x, y }: Vector2 = this.splinePath.getPointAt(this.movementRatio);
-    this.mobile.position.set(x, 0, y);
+    const { x, y }: Vector2 = this.getPathPoint(this.movementRatio);
+    this.mobile.position.set(x, this.mobile.height, y);
+  }
+
+  private rotate(): void {
+    const { x, y }: Vector2 = this.getPathPoint(
+      this.movementRatio + Number.EPSILON
+    );
+    const forward: Vector3 = new Vector3(x, this.mobile.height, y).sub(
+      this.mobile.position
+    );
+    this.mobile.mesh.lookAt(forward);
+  }
+
+  private getPathPoint(number: number): Vector2 {
+    return this.splinePath.getPointAt(number);
   }
 }

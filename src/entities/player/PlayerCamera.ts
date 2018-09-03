@@ -1,10 +1,10 @@
 import { PerspectiveCamera, Vector3 } from 'three';
-import Player from './Player';
+import Character from './Character';
 
 export default class PlayerCamera {
   private static relativePosition: Vector3 = new Vector3(10, 20, 10);
 
-  constructor(private player: Player, private camera: PerspectiveCamera) {
+  constructor(private player: Character, private camera: PerspectiveCamera) {
     player.add(camera);
     this.placeCamera();
   }

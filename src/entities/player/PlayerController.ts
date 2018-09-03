@@ -1,14 +1,14 @@
 import { size } from 'pulsar-pathfinding';
 import { Raycaster, Vector2, Vector3, Intersection } from 'three';
 import Level from '../level/Level';
-import Player from './Player';
+import Character from './Character';
 
 export default class PlayerController {
   private raycaster: Raycaster = new Raycaster();
   private mouse: Vector2 = new Vector2();
   private containerSize: size;
 
-  constructor(private level: Level, private player: Player) {
+  constructor(private level: Level, private player: Character) {
     this.containerSize = {
       width: level.app3D.settings.renderer.width,
       height: level.app3D.settings.renderer.height,
@@ -24,7 +24,7 @@ export default class PlayerController {
     );
     if (i[0]) {
       const position: Vector3 = i[0].point;
-      this.clickedFloor(position);
+      this.clickedFloor(position, event);
     }
   }
 
@@ -34,7 +34,11 @@ export default class PlayerController {
     return new Vector2(x, y);
   }
 
-  private clickedFloor(position: Vector3): void {
-    this.player.moveTo(position);
+  private clickedFloor(position: Vector3, { shiftKey }: MouseEvent): void {
+    if (shiftKey) {
+      this.player.faceTo(position);
+    } else {
+      this.player.moveTo(position);
+    }
   }
 }
