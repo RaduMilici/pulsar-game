@@ -25,7 +25,6 @@ export default class Character extends GameObject {
 
     this.mesh = new Cone();
     this.add(this.mesh);
-    //level.app3D.add(cube, this);
   }
 
   faceTo({ x, z }: Vector3): void {
