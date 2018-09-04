@@ -57,10 +57,15 @@ export default class Character extends GameObject {
       end: destination,
       speed: 35,
       navigation: this.level.navigation,
+      onEndPath: this.onProjectileEndPath.bind(this),
     };
 
     const projectile: Projectile = new Projectile(data);
     this.level.app3D.add(projectile);
+  }
+
+  private onProjectileEndPath(projectile: Projectile): void {
+    this.level.app3D.remove(projectile);
   }
 
   private startNavigator(navigator: Navigator): void {

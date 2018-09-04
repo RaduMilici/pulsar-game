@@ -9,22 +9,22 @@ import moveSplineData from '../../types/moveSplineData';
 
 export default class Projectile extends GameObject {
   private readonly begin: Vector3;
+  private readonly speed: number;
+  private readonly onEndPath: (projectile: Projectile) => void;
 
   private moveSpline: MoveSpline;
   private end: Vector3;
-  private dir: Vector3;
-  private speed: number;
   private navigation: Navigation;
   private mesh: Cube = new Cube();
 
-  constructor({ begin, end, speed, navigation }: projectileData) {
+  constructor({ begin, end, speed, navigation, onEndPath }: projectileData) {
     super();
 
     this.begin = begin;
     this.end = end;
-    this.dir = end.clone().sub(begin);
     this.speed = speed;
     this.navigation = navigation;
+    this.onEndPath = onEndPath || (() => {});
 
     this.add(this.mesh);
     this.position.copy(this.begin);
@@ -36,6 +36,9 @@ export default class Projectile extends GameObject {
       speed: this.speed,
       mobile: this,
       updater: this.updater,
+      onFinish: () => {
+        this.onEndPath(this);
+      },
     };
     this.moveSpline = new MoveSpline(data);
     this.updater.add(this.moveSpline);

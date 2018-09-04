@@ -35,7 +35,7 @@ export default class Navigation {
         if (!tile) continue;
 
         this.grid.obstacles.remove(tile);
-        this.addCube(tile.position);
+        //this.addCube(tile.position);
       }
     }
   }
