@@ -24,7 +24,8 @@
   "dependencies": {
     "@types/three": "^0.92.17",
     "pulsar-pathfinding": "^1.3.5",
-    "three": "^0.95.0"
+    "three": "^0.95.0",
+    "vue": "^2.5.17"
   },
   "devDependencies": {
     "concurrently": "^3.6.1",
@@ -33,6 +34,7 @@
     "three-orbitcontrols-ts": "^0.1.2",
     "ts-loader": "^4.5.0",
     "typescript": "^3.0.1",
+    "vue-loader": "^15.4.1",
     "webpack": "^4.16.5",
     "webpack-cli": "^3.1.0"
   }
