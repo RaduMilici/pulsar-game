@@ -31,9 +31,7 @@ export default class Character extends GameObject {
 
   faceTo({ x, z }: Vector3): void {
     this.stopActiveNavigator();
-    const lookAt: Vector3 = new Vector3(x, this.position.y, z);
-    lookAt.sub(this.position);
-    this.mesh.lookAt(lookAt);
+    this.lookAt(new Vector3(x, 0, z));
   }
 
   moveTo(position: Vector3): void {
@@ -45,7 +43,8 @@ export default class Character extends GameObject {
       this.level.navigation.grid,
       start,
       destination,
-      this
+      this,
+      this.level.app3D.updater
     );
 
     this.startNavigator(navigator);
@@ -55,7 +54,7 @@ export default class Character extends GameObject {
     const data: projectileData = {
       begin: this.position,
       end: destination,
-      speed: 5,
+      speed: 35,
       navigation: this.level.navigation,
     };
 
@@ -66,13 +65,12 @@ export default class Character extends GameObject {
   private startNavigator(navigator: Navigator): void {
     this.stopActiveNavigator();
     this.activeNavigator = navigator;
-    navigator.updater = this.level.app3D.updater;
     navigator.start();
   }
 
   private stopActiveNavigator(): void {
     if (this.activeNavigator) {
-      this.level.app3D.remove(this.activeNavigator);
+      this.activeNavigator.stop();
     }
   }
 }

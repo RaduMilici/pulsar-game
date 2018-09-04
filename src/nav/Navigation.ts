@@ -27,8 +27,8 @@ export default class Navigation {
     const startY: number = smaller.topLeft.y;
     const endY: number = smaller.bottomRight.y;
 
-    for (let x = startX; x < endX; x++) {
-      for (let y = startY; y > endY; y--) {
+    for (let x = startX; x <= endX; x++) {
+      for (let y = startY; y >= endY; y--) {
         const pos: Vector = new Vector({ x, y });
         const tile: NavigatorTile = this.getTile(pos);
 
@@ -53,7 +53,7 @@ export default class Navigation {
       const lerp: Vector = aTile.position.lerp(bTile.position, i / distance);
       const lerpTile: NavigatorTile = this.getTile(lerp);
       this.grid.obstacles.remove(lerpTile);
-      //this.addCube(lerpTile.position);
+      this.addCube(lerpTile.position);
     }
   }
 

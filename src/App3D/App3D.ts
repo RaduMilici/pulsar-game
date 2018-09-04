@@ -32,18 +32,19 @@ export default class App3D {
 
   clear(): void {
     this.updater.clear();
+    this.removeSceneChildren();
     new Dispose(this.scene);
-    this.scene.children.forEach((obj: GameObject) => {
-      this.remove(obj);
-    });
   }
 
   add(object: GameObject | GameObject[] | GameComponent | Component, parent?: GameObject): void {
     if (object instanceof GameObject) {
+      object.updater = this.updater;
       object.components.forEach((component: GameComponent) => {
+        component.updater = this.updater;
         component.gameObject = object;
+        this.updater.add(component);
       });
-      this.updater.add(object);
+      object.start();
 
       if (parent) {
         parent.add(object);
@@ -53,18 +54,22 @@ export default class App3D {
     }
 
     if (object instanceof GameComponent || object instanceof Component) {
+      object.updater = this.updater;
       this.updater.add(object);
     }
   }
 
-  remove(object: GameObject | GameComponent | Component): void {
+  remove(object: Object3D | GameObject | GameComponent | Component): void {
     if (object instanceof GameObject) {
       this.updater.remove(object);
-      this.scene.remove(object);
     }
 
     if (object instanceof GameComponent || object instanceof Component) {
       this.updater.remove(object);
+    }
+
+    if (object instanceof Object3D) {
+      this.scene.remove(object);
     }
   }
 
@@ -89,5 +94,11 @@ export default class App3D {
     const webGLRenderer: WebGLRenderer = new WebGLRenderer({ antialias });
     webGLRenderer.setSize(width, height);
     return webGLRenderer;
+  }
+
+  private removeSceneChildren(): void {
+    for (let i = this.scene.children.length - 1; i >= 0; i--) {
+      this.remove(this.scene.children[i]);
+    }
   }
 }

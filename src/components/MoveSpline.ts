@@ -2,9 +2,11 @@ import GameComponent from '../components/GameComponent';
 import GameObject from '../entities/GameObject';
 import moveSplineData from '../types/moveSplineData';
 import { SplineCurve, Vector2, Vector3 } from 'three';
-import { tickData } from 'pulsar-pathfinding';
+import { tickData, Updater } from 'pulsar-pathfinding';
 
 export default class MoveSpline extends GameComponent {
+  updater: Updater;
+
   private path: SplineCurve;
   private mobile: GameObject;
   private movementRatio: number = 0;
@@ -12,11 +14,12 @@ export default class MoveSpline extends GameComponent {
   private readonly speed: number;
   private readonly distancePerTick: number;
 
-  constructor({ path, speed, mobile }: moveSplineData) {
+  constructor({ path, speed, mobile, updater }: moveSplineData) {
     super();
 
     this.speed = speed;
     this.mobile = mobile;
+    this.updater = updater;
     this.path = new SplineCurve(path);
     this.distancePerTick = this.speed / this.path.getLength();
   }
@@ -43,8 +46,7 @@ export default class MoveSpline extends GameComponent {
 
   private rotate(): void {
     const { x, y }: Vector2 = this.getPathPoint(this.movementRatio + Number.EPSILON);
-    const forward: Vector3 = new Vector3(x, 0, y).sub(this.mobile.position);
-    this.mobile.lookAt(forward);
+    this.mobile.lookAt(new Vector3(x, 0, y));
   }
 
   private getPathPoint(ratio: number): Vector2 {
