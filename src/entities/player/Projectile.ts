@@ -1,7 +1,7 @@
-import { Vector3 } from "three";
+import { Vector3 } from 'three';
 import GameObject from '../GameObject';
-import Navigation from '../../nav/Navigation'
-import Cube from '../../entities/Cube'
+import Navigation from '../../nav/Navigation';
+import Cube from '../../entities/Cube';
 import projectileData from '../../types/projectileData';
 
 export default class Projectile extends GameObject {
@@ -24,5 +24,4 @@ export default class Projectile extends GameObject {
     this.add(this.mesh);
     this.position.copy(this.begin);
   }
-
 }

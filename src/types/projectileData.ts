@@ -1,5 +1,5 @@
-import { Vector3 } from "three";
-import Navigation from '../nav/Navigation'
+import { Vector3 } from 'three';
+import Navigation from '../nav/Navigation';
 
 type projectileData = {
   begin: Vector3;

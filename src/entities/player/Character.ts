@@ -56,7 +56,7 @@ export default class Character extends GameObject {
       begin: this.position,
       end: destination,
       speed: 5,
-      navigation: this.level.navigation
+      navigation: this.level.navigation,
     };
 
     const projectile: Projectile = new Projectile(data);

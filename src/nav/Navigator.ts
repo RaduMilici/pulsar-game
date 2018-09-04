@@ -66,12 +66,16 @@ export default class Navigator extends GameComponent {
     const currentPos: Vector2 = new Vector2(this.mobile.position.x, this.mobile.position.z);
     vec2Path.unshift(currentPos);
 
-    this.splineMovement = new MoveSpline({ path: vec2Path, speed: this.speed, mobile: this.mobile });
+    this.splineMovement = new MoveSpline({
+      path: vec2Path,
+      speed: this.speed,
+      mobile: this.mobile,
+    });
     this.splineMovement.updater = this.updater;
     this.updater.add(this.splineMovement);
   }
 
-    /*this.splinePath = new SplineCurve(vec2Path);
+  /*this.splinePath = new SplineCurve(vec2Path);
     this.distancePerTick = this.speed / this.splinePath.getLength();
 
     this.updater.add(this);

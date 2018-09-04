@@ -7,4 +7,13 @@ import EventManager from './EventManager';
 import round from './round';
 import Gyroscope from './Gyroscope';
 
-export { uniqueVectorArray, makePlane, toVec3, clamp, nearestPowerOf2, EventManager, round, Gyroscope };
+export {
+  uniqueVectorArray,
+  makePlane,
+  toVec3,
+  clamp,
+  nearestPowerOf2,
+  EventManager,
+  round,
+  Gyroscope,
+};

@@ -1,7 +1,7 @@
 import GameComponent from '../components/GameComponent';
 import GameObject from '../entities/GameObject';
 import moveSplineData from '../types/moveSplineData';
-import { SplineCurve, Vector2, Vector3 } from "three";
+import { SplineCurve, Vector2, Vector3 } from 'three';
 import { tickData } from 'pulsar-pathfinding';
 
 export default class MoveSpline extends GameComponent {
@@ -50,5 +50,4 @@ export default class MoveSpline extends GameComponent {
   private getPathPoint(ratio: number): Vector2 {
     return this.path.getPointAt(ratio);
   }
-
 }

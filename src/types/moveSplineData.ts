@@ -1,5 +1,5 @@
-import { Vector2 } from "three";
-import GameObject from '../entities/GameObject'
+import { Vector2 } from 'three';
+import GameObject from '../entities/GameObject';
 
 type moveSplineData = {
   path: Vector2[];
