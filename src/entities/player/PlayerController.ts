@@ -5,7 +5,6 @@ import Character from './Character';
 
 export default class PlayerController {
   private raycaster: Raycaster = new Raycaster();
-  private mouse: Vector2 = new Vector2();
   private containerSize: size;
 
   constructor(private level: Level, private player: Character) {
@@ -16,12 +15,9 @@ export default class PlayerController {
   }
 
   onClick(event: MouseEvent) {
-    this.mouse = this.getMouse(event);
-    this.raycaster.setFromCamera(this.mouse, this.level.app3D.camera);
-    const i: Intersection[] = this.raycaster.intersectObjects(
-      this.level.rooms.floor,
-      true
-    );
+    const mouse: Vector2 = this.getMouse(event);
+    this.raycaster.setFromCamera(mouse, this.level.app3D.camera);
+    const i: Intersection[] = this.raycaster.intersectObjects(this.level.rooms.floor, true);
     if (i[0]) {
       const position: Vector3 = i[0].point;
       this.clickedFloor(position, event);
@@ -37,6 +33,7 @@ export default class PlayerController {
   private clickedFloor(position: Vector3, { shiftKey }: MouseEvent): void {
     if (shiftKey) {
       this.player.faceTo(position);
+      this.player.launchProjectile(position);
     } else {
       this.player.moveTo(position);
     }

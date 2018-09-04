@@ -6,7 +6,7 @@
   "scripts": {
     "start": "lite-server",
     "dev": "concurrently \"lite-server\" \"npm run build-watch\"",
-    "format": "prettier --single-quote --trailing-comma es5 --write $(git ls-files \"*.ts\")",
+    "format": "prettier --single-quote --print-width 100 --trailing-comma es5 --write $(git ls-files \"*.ts\")",
     "build": "webpack --config webpack.config.js",
     "build-watch": "webpack --config webpack.config.js --watch"
   },

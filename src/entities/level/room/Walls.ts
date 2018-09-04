@@ -42,8 +42,6 @@ export default class Walls extends GameObject {
   }
 
   private makeWalls(): Wall[] {
-    return this.shape.lines.map(
-      (line: Line) => new Wall(line, this.mstLines, this.shape)
-    );
+    return this.shape.lines.map((line: Line) => new Wall(line, this.mstLines, this.shape));
   }
 }

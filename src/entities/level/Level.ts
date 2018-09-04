@@ -11,11 +11,7 @@ export default class Level extends GameObject {
   readonly player: Character;
   private readonly quadTree: QuadTree;
 
-  constructor(
-    private points: Vector[],
-    readonly boundingBox: BoundingBox,
-    readonly app3D: App3D
-  ) {
+  constructor(private points: Vector[], readonly boundingBox: BoundingBox, readonly app3D: App3D) {
     super();
     this.quadTree = new QuadTree(this.shape, points);
     this.navigation = new Navigation(this);

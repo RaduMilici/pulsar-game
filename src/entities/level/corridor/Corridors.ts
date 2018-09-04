@@ -24,9 +24,7 @@ export default class Corridors extends GameObject {
       const left: CorridorLine = line.getParallel(Corridors.width, Side.Left);
       const right: CorridorLine = line.getParallel(Corridors.width, Side.Right);
       const shape: Shape = new Shape([left.a, left.b, right.a, right.b]);
-      [left, line, right].forEach((l: CorridorLine) =>
-        this.navigation.clearCorridor(l)
-      );
+      [left, line, right].forEach((l: CorridorLine) => this.navigation.clearCorridor(l));
       this.add(new Room(shape, this.navigation));
     });
   }

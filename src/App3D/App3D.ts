@@ -38,10 +38,7 @@ export default class App3D {
     });
   }
 
-  add(
-    object: GameObject | GameObject[] | GameComponent | Component,
-    parent?: GameObject
-  ): void {
+  add(object: GameObject | GameObject[] | GameComponent | Component, parent?: GameObject): void {
     if (object instanceof GameObject) {
       object.components.forEach((component: GameComponent) => {
         component.gameObject = object;
@@ -81,10 +78,7 @@ export default class App3D {
     return container;
   }
 
-  private static createCamera({
-    camera,
-    renderer,
-  }: app3DSettings): PerspectiveCamera {
+  private static createCamera({ camera, renderer }: app3DSettings): PerspectiveCamera {
     const { fov, near, far } = camera;
     const { width, height } = renderer;
     return new PerspectiveCamera(fov, width / height, near, far);

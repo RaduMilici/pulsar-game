@@ -7,6 +7,8 @@ import { Vector3, Object3D } from 'three';
 import toVector from '../../util/toVector';
 import { Vector, NavigatorTile } from 'pulsar-pathfinding';
 import Navigator from '../../nav/Navigator';
+import Projectile from './Projectile';
+import projectileData from '../../types/projectileData';
 
 export default class Character extends GameObject {
   readonly mesh: Object3D;
@@ -28,6 +30,7 @@ export default class Character extends GameObject {
   }
 
   faceTo({ x, z }: Vector3): void {
+    this.stopActiveNavigator();
     const lookAt: Vector3 = new Vector3(x, this.position.y, z);
     lookAt.sub(this.position);
     this.mesh.lookAt(lookAt);
@@ -37,9 +40,7 @@ export default class Character extends GameObject {
     const startV2: Vector = toVector(this.position);
     const positionV2: Vector = toVector(position);
     const start: NavigatorTile = this.level.navigation.getTile(startV2);
-    const destination: NavigatorTile = this.level.navigation.getTile(
-      positionV2
-    );
+    const destination: NavigatorTile = this.level.navigation.getTile(positionV2);
     const navigator: Navigator = new Navigator(
       this.level.navigation.grid,
       start,
@@ -50,13 +51,28 @@ export default class Character extends GameObject {
     this.startNavigator(navigator);
   }
 
-  private startNavigator(navigator: Navigator): void {
-    if (this.activeNavigator) {
-      this.level.app3D.remove(this.activeNavigator);
-    }
+  launchProjectile(destination: Vector3): void {
+    const data: projectileData = {
+      begin: this.position,
+      end: destination,
+      speed: 5,
+      navigation: this.level.navigation
+    };
 
+    const projectile: Projectile = new Projectile(data);
+    this.level.app3D.add(projectile);
+  }
+
+  private startNavigator(navigator: Navigator): void {
+    this.stopActiveNavigator();
     this.activeNavigator = navigator;
     navigator.updater = this.level.app3D.updater;
     navigator.start();
+  }
+
+  private stopActiveNavigator(): void {
+    if (this.activeNavigator) {
+      this.level.app3D.remove(this.activeNavigator);
+    }
   }
 }
