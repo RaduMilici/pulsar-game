@@ -2,11 +2,7 @@ import { tickData } from 'pulsar-pathfinding';
 import GameComponent from './GameComponent';
 
 export default class Rotate extends GameComponent {
-  constructor(
-    private readonly x: number,
-    private readonly y: number,
-    private readonly z: number
-  ) {
+  constructor(private readonly x: number, private readonly y: number, private readonly z: number) {
     super();
   }
 

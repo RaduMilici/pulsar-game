@@ -1,9 +1,4 @@
-import {
-  Vector,
-  Triangulation,
-  Line as LinePulsar,
-  Hull,
-} from 'pulsar-pathfinding';
+import { Vector, Triangulation, Line as LinePulsar, Hull } from 'pulsar-pathfinding';
 import GameObject from './GameObject';
 import Rooms from './level/room/Rooms';
 import { toVec3 } from '../util/index';
@@ -26,9 +21,7 @@ export default class MST extends GameObject {
     this.hull = new Hull(this.triangulation);
     this.hull.start();
     //this.lines = this.makeBrokenLines(this.triangulation.MST.lines);
-    this.lines = this.triangulation.MST.lines.map(
-      ({ a, b }: LinePulsar) => new CorridorLine(a, b)
-    );
+    this.lines = this.triangulation.MST.lines.map(({ a, b }: LinePulsar) => new CorridorLine(a, b));
     //this.lines = this.duplicateLines(this.triangulation.MST.lines);
     //this.lines = this.hull.lines;
 

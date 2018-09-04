@@ -1,21 +1,9 @@
 import { Line, Shape as ShapePulsar, size, Vector } from 'pulsar-pathfinding';
 import { toVec3, makePlane } from '../../../util/index';
 import GameObject from '../../GameObject';
-import {
-  height,
-  doorFrameWidth,
-  doorWidth,
-  extraWidth,
-} from '../../../const/wall';
+import { height, doorFrameWidth, doorWidth, extraWidth } from '../../../const/wall';
 import CanvasTexture from './CanvasTexture';
-import {
-  Mesh,
-  Vector2,
-  Vector3,
-  Matrix4,
-  MeshBasicMaterial,
-  DoubleSide,
-} from 'three';
+import { Mesh, Vector2, Vector3, Matrix4, MeshBasicMaterial, DoubleSide } from 'three';
 
 export default class Wall extends GameObject {
   private debugMaterial: MeshBasicMaterial;
@@ -29,17 +17,11 @@ export default class Wall extends GameObject {
   };
 
   private static frameSize: size = {
-    width:
-      Wall.holeSize.width + CanvasTexture.getPixelMultiplier(doorFrameWidth),
-    height:
-      Wall.holeSize.height + CanvasTexture.getPixelMultiplier(doorFrameWidth),
+    width: Wall.holeSize.width + CanvasTexture.getPixelMultiplier(doorFrameWidth),
+    height: Wall.holeSize.height + CanvasTexture.getPixelMultiplier(doorFrameWidth),
   };
 
-  constructor(
-    readonly line: Line,
-    private mstLines: Line[],
-    private shape: ShapePulsar
-  ) {
+  constructor(readonly line: Line, private mstLines: Line[], private shape: ShapePulsar) {
     super();
 
     this.map = new CanvasTexture({
@@ -56,9 +38,7 @@ export default class Wall extends GameObject {
   }
 
   intersect(line: Line): Vector | null {
-    return line.intersects(this.line)
-      ? line.intersectionPoint(this.line)
-      : null;
+    return line.intersects(this.line) ? line.intersectionPoint(this.line) : null;
   }
 
   private create(): void {

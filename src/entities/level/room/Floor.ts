@@ -1,13 +1,6 @@
 import GameObject from '../../GameObject';
 import { Shape as ShapePulsar, Vector } from 'pulsar-pathfinding';
-import {
-  Mesh,
-  MeshBasicMaterial,
-  DoubleSide,
-  Shape,
-  ShapeGeometry,
-  Matrix4,
-} from 'three';
+import { Mesh, MeshBasicMaterial, DoubleSide, Shape, ShapeGeometry, Matrix4 } from 'three';
 import { floorColor } from '../../../const/colors';
 
 export default class Floor extends GameObject {

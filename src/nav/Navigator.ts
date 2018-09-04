@@ -2,74 +2,64 @@ import {
   Navigator as NavigatorPulsar,
   NavigatorTile,
   Grid,
-  tickData,
+  navigatorSettings,
+  Updater,
+  Component,
 } from 'pulsar-pathfinding';
-import GameComponent from '../components/GameComponent';
-import GameObject from '../entities/GameObject';
-import { SplineCurve, Vector2 } from 'three';
+import MoveSpline from '../components/MoveSpline';
+import Character from '../entities/player/Character';
+import { Vector2 } from 'three';
 
-export default class Navigator extends GameComponent {
-  private splinePath: SplineCurve;
-  private distancePerTick: number;
+export default class Navigator {
+  private static maxSteps: number = 200;
+
   private navigator: NavigatorPulsar;
-
-  private speed: number = 5;
-  private movementRatio: number = 0;
+  private speed: number = 15;
+  private splineMovement: Component = new Component();
 
   constructor(
     private grid: Grid,
-    private origin: NavigatorTile,
-    private destination: NavigatorTile,
-    private mobile: GameObject
+    private begin: NavigatorTile,
+    private end: NavigatorTile,
+    private mobile: Character,
+    private readonly updater: Updater
   ) {
-    super();
-
-    this.navigator = new NavigatorPulsar(
+    const settings: navigatorSettings = {
       grid,
-      origin,
-      destination,
-      undefined,
-      this.onNavComplete.bind(this)
-    );
+      begin,
+      end,
+      onComplete: this.onNavComplete.bind(this),
+      maxSteps: Navigator.maxSteps,
+    };
+
+    this.navigator = new NavigatorPulsar(settings);
   }
 
   start(): void {
-    this.navigator.start();
-  }
-
-  update({ deltaTime }: tickData) {
-    this.movementRatio += this.distancePerTick * deltaTime;
-
-    if (this.reachedDestination) {
-      this.updater.remove(this);
-    } else {
-      this.move();
+    if (this.begin && this.end) {
+      this.navigator.start();
     }
   }
 
-  private get reachedDestination(): boolean {
-    return this.movementRatio >= 1;
+  stop() {
+    this.updater.remove(this.splineMovement);
   }
 
   private onNavComplete(path: NavigatorTile[]): void {
     const vec2Path: Vector2[] = path.map(
       ({ position }: NavigatorTile) => new Vector2(position.x, position.y)
     );
-    const currentPos: Vector2 = new Vector2(
-      this.mobile.position.x,
-      this.mobile.position.z
-    );
 
+    // this is the first element or the character will snap to the first tile
+    const currentPos: Vector2 = new Vector2(this.mobile.position.x, this.mobile.position.z);
     vec2Path.unshift(currentPos);
 
-    this.splinePath = new SplineCurve(vec2Path);
-    this.distancePerTick = this.speed / this.splinePath.getLength();
-
-    this.updater.add(this);
-  }
-
-  private move(): void {
-    const { x, y }: Vector2 = this.splinePath.getPointAt(this.movementRatio);
-    this.mobile.position.set(x, 0, y);
+    this.splineMovement = new MoveSpline({
+      path: vec2Path,
+      speed: this.speed,
+      mobile: this.mobile,
+      updater: this.updater,
+    });
+    this.updater.add(this.splineMovement);
   }
 }

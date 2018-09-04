@@ -1,15 +1,8 @@
-import {
-  Grid,
-  NavigatorTile,
-  Navigator,
-  Vector,
-  size,
-  BoundingBox,
-} from 'pulsar-pathfinding';
+import { Grid, NavigatorTile, Vector, size, BoundingBox } from 'pulsar-pathfinding';
 import Room from '../entities/level/room/Room';
 import Level from '../entities/level/Level';
 import Cube from '../entities/Cube';
-import { toVec3 } from '../util';
+import { toVec3, round } from '../util';
 import CorridorLine from '../entities/level/corridor/CorridorLine';
 
 export default class Navigation {
@@ -22,9 +15,7 @@ export default class Navigation {
     };
 
     this.grid = new Grid(gridSize);
-    this.grid.onTileCreate = (tile: NavigatorTile) => {
-      tile.isObstacle = true;
-    };
+    this.grid.onTileCreate = (tile: NavigatorTile) => (tile.isObstacle = true);
     this.grid.makeGrid();
   }
 
@@ -36,8 +27,8 @@ export default class Navigation {
     const startY: number = smaller.topLeft.y;
     const endY: number = smaller.bottomRight.y;
 
-    for (let x = startX; x < endX; x++) {
-      for (let y = startY; y > endY; y--) {
+    for (let x = startX; x <= endX; x++) {
+      for (let y = startY; y >= endY; y--) {
         const pos: Vector = new Vector({ x, y });
         const tile: NavigatorTile = this.getTile(pos);
 
@@ -66,8 +57,8 @@ export default class Navigation {
     }
   }
 
-  getTile({ x, y }: Vector): NavigatorTile {
-    const rounded: Vector = new Vector({ x: Math.round(x), y: Math.round(y) });
+  getTile({ x, y }: Vector): NavigatorTile | null {
+    const rounded: Vector = new Vector({ x: round(x), y: round(y) });
     return this.grid.findTile(rounded);
   }
 
