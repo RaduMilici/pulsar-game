@@ -53,7 +53,7 @@ export default class Navigation {
       const lerp: Vector = aTile.position.lerp(bTile.position, i / distance);
       const lerpTile: NavigatorTile = this.getTile(lerp);
       this.grid.obstacles.remove(lerpTile);
-      this.addCube(lerpTile.position);
+      //this.addCube(lerpTile.position);
     }
   }
 

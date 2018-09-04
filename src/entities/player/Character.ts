@@ -39,6 +39,7 @@ export default class Character extends GameObject {
     const positionV2: Vector = toVector(position);
     const start: NavigatorTile = this.level.navigation.getTile(startV2);
     const destination: NavigatorTile = this.level.navigation.getTile(positionV2);
+
     const navigator: Navigator = new Navigator(
       this.level.navigation.grid,
       start,

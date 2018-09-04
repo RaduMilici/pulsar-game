@@ -31,11 +31,14 @@ export default class Navigator {
       onComplete: this.onNavComplete.bind(this),
       maxSteps: Navigator.maxSteps,
     };
+
     this.navigator = new NavigatorPulsar(settings);
   }
 
   start(): void {
-    this.navigator.start();
+    if (this.begin && this.end) {
+      this.navigator.start();
+    }
   }
 
   stop() {
