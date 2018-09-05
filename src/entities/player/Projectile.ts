@@ -54,7 +54,7 @@ export default class Projectile extends GameObject {
     for (let i = 0; i < distance; i++) {
       const pos: Vector2 = begin.clone().lerp(end, i / distance);
       const posVec: Vector = new Vector({ x: pos.x, y: pos.y });
-      const tile: NavigatorTile = this.navigation.getTile(posVec);
+      const tile: NavigatorTile | null = this.navigation.getTile(posVec);
 
       if (tile && !tile.isObstacle) {
         path.push(pos);

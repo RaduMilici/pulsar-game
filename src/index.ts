@@ -29,6 +29,8 @@ const generate = () => {
 
 generate();
 
+//setInterval(generate, 300);
+
 document.getElementById('generate').addEventListener('click', generate);
 
 //new OrbitControls(app3D.camera, app3D.renderer.domElement);
