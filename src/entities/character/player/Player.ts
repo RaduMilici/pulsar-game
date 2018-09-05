@@ -29,13 +29,8 @@ export default class Player extends Character {
   attack(position: Vector3, mouseButton: number): void;
   attack(character: Character, mouseButton: number): void;
   attack(target: Vector3 | Character, mouseButton: number): void {
-    let position: Vector3 = target instanceof Vector3 ? target : target.position;
-
-    const data: skillData = {
-      begin: this.position,
-      end: position,
-      navigation: this.level.navigation,
-    };
+    const end: Vector3 = target instanceof Vector3 ? target : target.position;
+    const data: skillData = { begin: this.position, end, navigation: this.level.navigation };
 
     if (mouseButton === MouseButtons.Left) {
       this.primarySkill.use(data);
