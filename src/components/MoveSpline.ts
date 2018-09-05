@@ -13,14 +13,14 @@ export default class MoveSpline extends GameComponent {
   private readonly distancePerTick: number;
   private readonly onFinish: (position: Vector2) => void;
 
-  constructor({ path, speed, mobile, onFinish }: moveSplineData) {
+  constructor({ path, speed, mobile, onFinish = () => {} }: moveSplineData) {
     super();
 
     this.speed = speed;
     this.mobile = mobile;
     this.path = new SplineCurve(path);
     this.distancePerTick = this.speed / this.path.getLength();
-    this.onFinish = onFinish || (() => {});
+    this.onFinish = onFinish;
   }
 
   private get reachedDestination(): boolean {
