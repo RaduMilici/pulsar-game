@@ -5,7 +5,6 @@ export default class Gyroscope extends Object3D {
     const translationObject = new Vector3();
     const quaternionObject = new Quaternion();
     const scaleObject = new Vector3();
-
     const translationWorld = new Vector3();
     const quaternionWorld = new Quaternion();
     const scaleWorld = new Vector3();

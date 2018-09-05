@@ -1,4 +1,4 @@
-import { Grid, NavigatorTile, Vector, size, BoundingBox } from 'pulsar-pathfinding';
+import { Grid, NavigatorTile, Vector, size, BoundingBox, Navigator } from 'pulsar-pathfinding';
 import Room from '../entities/level/room/Room';
 import Level from '../entities/level/Level';
 import Cube from '../entities/Cube';
@@ -52,8 +52,12 @@ export default class Navigation {
     for (let i = 0; i < distance; i++) {
       const lerp: Vector = aTile.position.lerp(bTile.position, i / distance);
       const lerpTile: NavigatorTile = this.getTile(lerp);
-      this.grid.obstacles.remove(lerpTile);
-      //this.addCube(lerpTile.position);
+      const neighbors: NavigatorTile[] = this.getNeighbors(lerpTile);
+
+      neighbors.forEach((tile: NavigatorTile) => {
+        this.grid.obstacles.remove(tile);
+        //this.addCube(tile.position);
+      });
     }
   }
 
@@ -66,5 +70,21 @@ export default class Navigation {
     const cube = new Cube();
     cube.position.copy(toVec3(pos));
     this.level.add(cube);
+  }
+
+  private getNeighbors(tile: NavigatorTile): NavigatorTile[] {
+    const neighbors: NavigatorTile[] = [];
+
+    for (let i = 0; i < 9; i++) {
+      const x: number = tile.position.x + Navigator.getColOffset(i);
+      const y: number = tile.position.y + Navigator.getRowOffset(i);
+      const neighbor: NavigatorTile = this.getTile(new Vector({ x, y }));
+
+      if (tile) {
+        neighbors.push(neighbor);
+      }
+    }
+
+    return neighbors;
   }
 }
