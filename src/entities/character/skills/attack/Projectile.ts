@@ -1,23 +1,23 @@
-import { Vector2, Vector3 } from 'three';
-import GameObject from '../GameObject';
-import Navigation from '../../nav/Navigation';
-import MoveSpline from '../../components/MoveSpline';
-import Cube from '../../entities/Cube';
+import { Object3D, Vector2, Vector3 } from 'three';
+import GameObject from '../../../GameObject';
+import Navigation from '../../../../nav/Navigation';
+import MoveSpline from '../../../../components/MoveSpline';
+import Cube from '../../../Cube';
 import { NavigatorTile, Vector } from 'pulsar-pathfinding';
-import projectileData from '../../types/projectileData';
-import moveSplineData from '../../types/moveSplineData';
+import projectileData from '../../../../types/projectileData';
+import moveSplineData from '../../../../types/moveSplineData';
 
 export default class Projectile extends GameObject {
   private readonly begin: Vector3;
   private readonly speed: number;
+  private readonly mesh: Object3D;
   private readonly onEndPath: (projectile: Projectile) => void;
 
   private moveSpline: MoveSpline;
   private end: Vector3;
   private navigation: Navigation;
-  private mesh: Cube = new Cube();
 
-  constructor({ begin, end, speed, navigation, onEndPath }: projectileData) {
+  constructor({ begin, end, speed, navigation, onEndPath, mesh = new Cube() }: projectileData) {
     super();
 
     this.begin = begin;
@@ -25,6 +25,7 @@ export default class Projectile extends GameObject {
     this.speed = speed;
     this.navigation = navigation;
     this.onEndPath = onEndPath || (() => {});
+    this.mesh = mesh;
     this.add(this.mesh);
     this.position.copy(this.begin);
   }

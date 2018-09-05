@@ -2,6 +2,7 @@ import { size } from 'pulsar-pathfinding';
 import { Raycaster, Vector2, Vector3, Intersection, Object3D } from 'three';
 import Level from '../../level/Level';
 import Player from '../player/Player';
+import MouseButtons from '../../../types/MouseButtons';
 
 export default class PlayerController {
   private raycaster: Raycaster = new Raycaster();
@@ -33,10 +34,10 @@ export default class PlayerController {
     return new Vector2(x, y);
   }
 
-  private clickedFloor(position: Vector3, { shiftKey }: MouseEvent): void {
+  private clickedFloor(position: Vector3, { shiftKey, button }: MouseEvent): void {
     if (shiftKey) {
       this.player.faceTo(position);
-      this.player.attack(position);
+      this.player.attack(position, button);
     } else {
       this.player.moveTo(position);
     }
