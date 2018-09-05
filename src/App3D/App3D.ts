@@ -32,11 +32,11 @@ export default class App3D {
 
   clear(): void {
     this.updater.clear();
-    this.removeSceneChildren();
+    this.removeChildren(this.scene);
     new Dispose(this.scene);
   }
 
-  add(object: GameObject | GameObject[] | GameComponent | Component, parent?: GameObject): void {
+  add(object: Object3D | GameObject | GameComponent | Component, parent?: Object3D | Scene): void {
     if (object instanceof GameObject) {
       object.updater = this.updater;
       object.components.forEach((component: GameComponent) => {
@@ -45,11 +45,11 @@ export default class App3D {
         this.updater.add(component);
       });
       object.start();
+    }
 
+    if (object instanceof Object3D) {
       if (parent) {
         parent.add(object);
-      } else if (!object.parent) {
-        this.scene.add(object);
       }
     }
 
@@ -61,6 +61,7 @@ export default class App3D {
 
   remove(object: Object3D | GameObject | GameComponent | Component): void {
     if (object instanceof GameObject) {
+      this.removeChildren(object);
       this.updater.remove(object);
     }
 
@@ -69,7 +70,9 @@ export default class App3D {
     }
 
     if (object instanceof Object3D) {
-      this.scene.remove(object);
+      if (object.parent) {
+        object.parent.remove(object);
+      }
     }
   }
 
@@ -96,9 +99,9 @@ export default class App3D {
     return webGLRenderer;
   }
 
-  private removeSceneChildren(): void {
-    for (let i = this.scene.children.length - 1; i >= 0; i--) {
-      this.remove(this.scene.children[i]);
+  private removeChildren(parent: Object3D): void {
+    for (let i = parent.children.length - 1; i >= 0; i--) {
+      this.remove(parent.children[i]);
     }
   }
 }

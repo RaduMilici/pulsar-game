@@ -5,6 +5,7 @@ import Level from '../../level/Level';
 import { Vector3 } from 'three';
 import projectileData from '../../../types/projectileData';
 import Projectile from '../Projectile';
+import GameObject from '../../GameObject';
 
 export default class Player extends Character {
   readonly controller: PlayerController;
@@ -40,10 +41,10 @@ export default class Player extends Character {
     };
 
     const projectile: Projectile = new Projectile(data);
-    this.level.app3D.add(projectile);
+    GameObject.app3D.add(projectile, GameObject.scene);
   }
 
   private onProjectileEndPath(projectile: Projectile): void {
-    this.level.app3D.remove(projectile);
+    this.remove(projectile);
   }
 }

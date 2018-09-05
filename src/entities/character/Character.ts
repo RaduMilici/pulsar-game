@@ -31,8 +31,7 @@ export default class Character extends GameObject {
       this.level.navigation.grid,
       start,
       destination,
-      this,
-      this.level.app3D.updater
+      this
     );
 
     this.startNavigator(navigator);

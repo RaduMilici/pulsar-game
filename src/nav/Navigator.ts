@@ -3,7 +3,6 @@ import {
   NavigatorTile,
   Grid,
   navigatorSettings,
-  Updater,
   Component,
 } from 'pulsar-pathfinding';
 import { toVec2 } from '../util';
@@ -11,6 +10,7 @@ import MoveSpline from '../components/MoveSpline';
 import Character from '../entities/character/Character';
 import { Vector2 } from 'three';
 import moveSplineData from '../types/moveSplineData';
+import GameObject from '../entities/GameObject';
 
 export default class Navigator {
   private static maxSteps: number = 200;
@@ -23,8 +23,7 @@ export default class Navigator {
     private grid: Grid,
     private begin: NavigatorTile,
     private end: NavigatorTile,
-    private mobile: Character,
-    private readonly updater: Updater
+    private mobile: Character
   ) {
     const settings: navigatorSettings = {
       grid,
@@ -44,7 +43,7 @@ export default class Navigator {
   }
 
   stop() {
-    this.updater.remove(this.splineMovement);
+    GameObject.app3D.remove(this.splineMovement);
   }
 
   private onNavComplete(path: NavigatorTile[]): void {
@@ -64,9 +63,8 @@ export default class Navigator {
       path: vec2Path,
       speed: this.speed,
       mobile: this.mobile,
-      updater: this.updater,
     };
     this.splineMovement = new MoveSpline(data);
-    this.updater.add(this.splineMovement);
+    GameObject.app3D.add(this.splineMovement);
   }
 }
