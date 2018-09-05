@@ -67,7 +67,7 @@ export default class Projectile extends GameObject {
     if (!hitWall) {
       /*
       * Only add the last point if there was a clear path to it.
-      * Otherwise, projectile passes through obstacles.
+      * Otherwise, projectile would pass through obstacles.
       */
       path.push(end);
     }

@@ -19,9 +19,10 @@ export default class PlayerController {
   onClick(event: MouseEvent) {
     const mouse: Vector2 = this.getMouse(event);
     this.raycaster.setFromCamera(mouse, this.level.app3D.camera);
-    const i: Intersection[] = this.raycaster.intersectObjects(this.allFloors, true);
-    if (i[0]) {
-      const position: Vector3 = i[0].point;
+    const intersections: Intersection[] = this.raycaster.intersectObjects(this.allFloors, true);
+
+    if (intersections[0]) {
+      const position: Vector3 = intersections[0].point;
       this.clickedFloor(position, event);
     }
   }

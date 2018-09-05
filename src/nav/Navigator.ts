@@ -10,6 +10,7 @@ import { toVec2 } from '../util';
 import MoveSpline from '../components/MoveSpline';
 import Character from '../entities/character/Character';
 import { Vector2 } from 'three';
+import moveSplineData from '../types/moveSplineData';
 
 export default class Navigator {
   private static maxSteps: number = 200;
@@ -55,16 +56,17 @@ export default class Navigator {
 
     const vec2Path: Vector2[] = path.map(({ position }: NavigatorTile) => toVec2(position));
 
-    // this is the first element or the character will snap to the first tile
+    // Add this as the first element or the character will snap to the first tile's position.
     const currentPos: Vector2 = new Vector2(this.mobile.position.x, this.mobile.position.z);
     vec2Path.unshift(currentPos);
 
-    this.splineMovement = new MoveSpline({
+    const data: moveSplineData = {
       path: vec2Path,
       speed: this.speed,
       mobile: this.mobile,
       updater: this.updater,
-    });
+    };
+    this.splineMovement = new MoveSpline(data);
     this.updater.add(this.splineMovement);
   }
 }
