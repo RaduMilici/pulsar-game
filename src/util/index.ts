@@ -6,11 +6,13 @@ import nearestPowerOf2 from './nearestPowerOf2';
 import EventManager from './EventManager';
 import round from './round';
 import Gyroscope from './Gyroscope';
+import toVec2 from './toVec2';
 
 export {
   uniqueVectorArray,
   makePlane,
   toVec3,
+  toVec2,
   clamp,
   nearestPowerOf2,
   EventManager,

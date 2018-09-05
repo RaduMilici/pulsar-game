@@ -1,36 +1,23 @@
 import GameObject from '../GameObject';
 import Cone from '../Cone';
 import Level from '../level/Level';
-import PlayerCamera from './PlayerCamera';
-import PlayerController from './PlayerController';
 import { Vector3, Object3D } from 'three';
 import toVector from '../../util/toVector';
 import { Vector, NavigatorTile } from 'pulsar-pathfinding';
 import Navigator from '../../nav/Navigator';
-import Projectile from './Projectile';
-import projectileData from '../../types/projectileData';
 
 export default class Character extends GameObject {
   readonly mesh: Object3D;
-  readonly controller: PlayerController;
-  readonly height: number = 0;
-
-  private readonly camera: PlayerCamera;
   private activeNavigator: Navigator;
 
   constructor(readonly level: Level) {
     super();
-
-    this.position.copy(level.rooms.rooms[0].centroidV3);
-    this.camera = new PlayerCamera(this, level.app3D.camera);
-    this.controller = new PlayerController(level, this);
-
     this.mesh = new Cone();
     this.add(this.mesh);
   }
 
   faceTo({ x, z }: Vector3): void {
-    this.stopActiveNavigator();
+    this.stopNavigator();
     this.lookAt(new Vector3(x, 0, z));
   }
 
@@ -44,37 +31,19 @@ export default class Character extends GameObject {
       this.level.navigation.grid,
       start,
       destination,
-      this,
-      this.level.app3D.updater
+      this
     );
 
     this.startNavigator(navigator);
   }
 
-  launchProjectile(destination: Vector3): void {
-    const data: projectileData = {
-      begin: this.position,
-      end: destination,
-      speed: 35,
-      navigation: this.level.navigation,
-      onEndPath: this.onProjectileEndPath.bind(this),
-    };
-
-    const projectile: Projectile = new Projectile(data);
-    this.level.app3D.add(projectile);
-  }
-
-  private onProjectileEndPath(projectile: Projectile): void {
-    this.level.app3D.remove(projectile);
-  }
-
   private startNavigator(navigator: Navigator): void {
-    this.stopActiveNavigator();
+    this.stopNavigator();
     this.activeNavigator = navigator;
     navigator.start();
   }
 
-  private stopActiveNavigator(): void {
+  private stopNavigator(): void {
     if (this.activeNavigator) {
       this.activeNavigator.stop();
     }

@@ -3,12 +3,14 @@ import {
   NavigatorTile,
   Grid,
   navigatorSettings,
-  Updater,
   Component,
 } from 'pulsar-pathfinding';
+import { toVec2 } from '../util';
 import MoveSpline from '../components/MoveSpline';
-import Character from '../entities/player/Character';
+import Character from '../entities/character/Character';
 import { Vector2 } from 'three';
+import moveSplineData from '../types/moveSplineData';
+import GameObject from '../entities/GameObject';
 
 export default class Navigator {
   private static maxSteps: number = 200;
@@ -21,8 +23,7 @@ export default class Navigator {
     private grid: Grid,
     private begin: NavigatorTile,
     private end: NavigatorTile,
-    private mobile: Character,
-    private readonly updater: Updater
+    private mobile: Character
   ) {
     const settings: navigatorSettings = {
       grid,
@@ -42,24 +43,28 @@ export default class Navigator {
   }
 
   stop() {
-    this.updater.remove(this.splineMovement);
+    GameObject.app3D.remove(this.splineMovement);
   }
 
   private onNavComplete(path: NavigatorTile[]): void {
-    const vec2Path: Vector2[] = path.map(
-      ({ position }: NavigatorTile) => new Vector2(position.x, position.y)
-    );
+    /*
+    * Most likely NavigatorPulsar went over Navigator.maxSteps and returned an empty array.
+    * No need to continue.
+    */
+    if (path.length === 0) return;
 
-    // this is the first element or the character will snap to the first tile
+    const vec2Path: Vector2[] = path.map(({ position }: NavigatorTile) => toVec2(position));
+
+    // Add this as the first element or the character will snap to the first tile's position.
     const currentPos: Vector2 = new Vector2(this.mobile.position.x, this.mobile.position.z);
     vec2Path.unshift(currentPos);
 
-    this.splineMovement = new MoveSpline({
+    const data: moveSplineData = {
       path: vec2Path,
       speed: this.speed,
       mobile: this.mobile,
-      updater: this.updater,
-    });
-    this.updater.add(this.splineMovement);
+    };
+    this.splineMovement = new MoveSpline(data);
+    GameObject.app3D.add(this.splineMovement);
   }
 }
