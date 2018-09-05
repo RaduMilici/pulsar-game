@@ -32,7 +32,6 @@ export default class MoveSpline extends GameComponent {
 
     if (this.reachedDestination) {
       GameObject.app3D.remove(this);
-      console.log(this.updater);
       this.onFinish(this.getPathPoint(1));
     } else {
       this.rotate();
