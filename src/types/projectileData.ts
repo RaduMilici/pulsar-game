@@ -1,6 +1,6 @@
 import { Vector3 } from 'three';
 import Navigation from '../nav/Navigation';
-import Projectile from '../entities/player/Projectile';
+import Projectile from '../entities/character/Projectile';
 
 type projectileData = {
   begin: Vector3;

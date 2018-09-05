@@ -7,7 +7,7 @@ import {
   Component,
 } from 'pulsar-pathfinding';
 import MoveSpline from '../components/MoveSpline';
-import Character from '../entities/player/Character';
+import Character from '../entities/character/Character';
 import { Vector2 } from 'three';
 
 export default class Navigator {
