@@ -25,7 +25,6 @@ export default class Projectile extends GameObject {
     this.speed = speed;
     this.navigation = navigation;
     this.onEndPath = onEndPath || (() => {});
-
     this.add(this.mesh);
     this.position.copy(this.begin);
   }
@@ -59,12 +58,17 @@ export default class Projectile extends GameObject {
       if (tile && !tile.isObstacle) {
         path.push(pos);
       } else {
+        // No need to continue beyond an obstacle.
         hitWall = true;
         break;
       }
     }
 
     if (!hitWall) {
+      /*
+      * Only add the last point if there was a clear path to it.
+      * Otherwise, projectile passes through obstacles.
+      */
       path.push(end);
     }
 

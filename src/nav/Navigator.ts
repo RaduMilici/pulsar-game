@@ -6,6 +6,7 @@ import {
   Updater,
   Component,
 } from 'pulsar-pathfinding';
+import { toVec2 } from '../util';
 import MoveSpline from '../components/MoveSpline';
 import Character from '../entities/character/Character';
 import { Vector2 } from 'three';
@@ -46,9 +47,13 @@ export default class Navigator {
   }
 
   private onNavComplete(path: NavigatorTile[]): void {
-    const vec2Path: Vector2[] = path.map(
-      ({ position }: NavigatorTile) => new Vector2(position.x, position.y)
-    );
+    /*
+    * Most likely NavigatorPulsar went over Navigator.maxSteps and returned an empty array.
+    * No need to continue.
+    */
+    if (path.length === 0) return;
+
+    const vec2Path: Vector2[] = path.map(({ position }: NavigatorTile) => toVec2(position));
 
     // this is the first element or the character will snap to the first tile
     const currentPos: Vector2 = new Vector2(this.mobile.position.x, this.mobile.position.z);
