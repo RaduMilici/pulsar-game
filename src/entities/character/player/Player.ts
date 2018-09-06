@@ -1,13 +1,10 @@
+import { Level } from 'entities';
+import { Vector3 } from 'three';
+import { skillData, MouseButtons } from 'types';
+import { Skill, Shotgun, Fireball } from 'skills';
 import Character from '../Character';
 import PlayerCamera from './PlayerCamera';
 import PlayerController from './PlayerController';
-import Level from '../../level/Level';
-import { Vector3 } from 'three';
-import skillData from '../../../types/skillData';
-import Skill from '../skills/Skill';
-import Shotgun from '../skills/attack/Shotgun';
-import Fireball from '../skills/attack/Fireball';
-import MouseButtons from '../../../types/MouseButtons';
 
 export default class Player extends Character {
   readonly controller: PlayerController;

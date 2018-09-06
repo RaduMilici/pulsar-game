@@ -1,11 +1,11 @@
 import { Object3D, Vector2, Vector3 } from 'three';
-import GameObject from '../../../GameObject';
-import Navigation from '../../../../nav/Navigation';
-import MoveSpline from '../../../../components/MoveSpline';
-import Cube from '../../../Cube';
+import GameObject from '../../GameObject';
+import Navigation from '../../../nav/Navigation';
+import MoveSpline from '../../../components/MoveSpline';
+import Cube from '../../Cube';
 import { NavigatorTile, Vector } from 'pulsar-pathfinding';
-import projectileData from '../../../../types/projectileData';
-import moveSplineData from '../../../../types/moveSplineData';
+import projectileData from '../../../types/projectileData';
+import moveSplineData from '../../../types/moveSplineData';
 
 export default class Projectile extends GameObject {
   private readonly begin: Vector3;

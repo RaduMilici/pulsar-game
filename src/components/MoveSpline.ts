@@ -1,6 +1,6 @@
-import GameComponent from '../components/GameComponent';
-import GameObject from '../entities/GameObject';
-import moveSplineData from '../types/moveSplineData';
+import { GameComponent } from 'components';
+import { GameObject } from 'entities';
+import { moveSplineData } from 'types';
 import { SplineCurve, Vector2, Vector3 } from 'three';
 import { tickData } from 'pulsar-pathfinding';
 

@@ -1,8 +1,8 @@
-import Skill from '../Skill';
+import Skill from './Skill';
 import Projectile from './Projectile';
-import projectileData from '../../../../types/projectileData';
-import GameObject from '../../../GameObject';
-import skillData from '../../../../types/skillData';
+import projectileData from '../../../types/projectileData';
+import GameObject from '../../GameObject';
+import skillData from '../../../types/skillData';
 import { Vector3 } from 'three';
 import { randomFloat } from 'pulsar-pathfinding';
 

@@ -1,6 +1,6 @@
 import { Component } from 'pulsar-pathfinding';
 import { WebGLRenderer, PerspectiveCamera, Scene } from 'three';
-import { App3D } from './index';
+import App3D from './App3D';
 
 export default class Render extends Component {
   private readonly renderer: WebGLRenderer;

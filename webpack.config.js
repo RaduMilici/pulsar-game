@@ -20,7 +20,17 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: [ '.tsx', '.ts', '.js' ]
+        extensions: [ '.tsx', '.ts', '.js' ],
+        alias: {
+          src: resolve('src'),
+          components: resolve('src', 'components'),
+          entities: resolve('src', 'entities'),
+          types: resolve('src', 'types'),
+          util: resolve('src', 'util'),
+          const: resolve('src', 'const'),
+          nav: resolve('src', 'nav'),
+          skills: resolve('src', 'entities', 'character', 'skills')
+        }
     },
     output: {
         filename: 'bundle.js',

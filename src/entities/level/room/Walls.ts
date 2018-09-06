@@ -4,12 +4,12 @@ import { Line, Shape, Vector } from 'pulsar-pathfinding';
 import { Intersection, Raycaster, Vector3 } from 'three';
 import toVec3 from '../../../util/toVec3';
 import CorridorLine from '../corridor/CorridorLine';
-import { height } from '../../../const/wall';
+import { wall } from 'const';
 
 export default class Walls extends GameObject {
   readonly walls: Wall[] = [];
 
-  private static raycasterHeight: number = height / 2;
+  private static raycasterHeight: number = wall.height / 2;
 
   constructor(private shape: Shape, private mstLines: Line[]) {
     super();

@@ -12,7 +12,12 @@
     "baseUrl": ".",
     "paths": {
       "src/*": ["src/*"],
-      "types/*": ["src/types/*"]
+      "types": ["src/types"],
+      "entities": ["src/entities"],
+      "components": ["src/components"],
+      "const": ["src/const"],
+      "nav": ["src/nav"],
+      "skills": ["src/entities/character/skills"]
     }
   }
 }

@@ -1,21 +1,25 @@
-import uniqueVectorArray from './uniqueVectorArray';
-import makePlane from './makePlane';
-import toVec3 from './toVec3';
 import clamp from './clamp';
-import nearestPowerOf2 from './nearestPowerOf2';
 import EventManager from './EventManager';
-import round from './round';
 import Gyroscope from './Gyroscope';
+import makePlane from './makePlane';
+import nearestPowerOf2 from './nearestPowerOf2';
+import removeEventListeners from './removeEventListeners';
+import round from './round';
 import toVec2 from './toVec2';
+import toVec3 from './toVec3';
+import toVector from './toVector';
+import uniqueVectorArray from './uniqueVectorArray';
 
 export {
-  uniqueVectorArray,
-  makePlane,
-  toVec3,
-  toVec2,
   clamp,
-  nearestPowerOf2,
   EventManager,
-  round,
   Gyroscope,
+  makePlane,
+  nearestPowerOf2,
+  removeEventListeners,
+  round,
+  toVec2,
+  toVec3,
+  toVector,
+  uniqueVectorArray,
 };

@@ -1,5 +1,5 @@
 import GameComponent from './GameComponent';
-import Render from '../App3D/Render';
+import MoveSpline from './MoveSpline';
 import Rotate from './Rotate';
 
-export { GameComponent, Render, Rotate };
+export { GameComponent, MoveSpline, Rotate };
