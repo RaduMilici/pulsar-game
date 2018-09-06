@@ -26,6 +26,8 @@ const generate = () => {
     level.player.controller.onClick.bind(level.player.controller)
   );
 
+  eventManager.add('#container3D', 'contextmenu', (event: Event) => event.preventDefault());
+
   app3D.add(level, app3D.scene);
   app3D.start();
   console.timeEnd('level');
