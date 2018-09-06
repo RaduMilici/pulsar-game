@@ -1,8 +1,6 @@
 import { size } from 'pulsar-pathfinding';
 import { Raycaster, Vector2, Vector3, Intersection, Object3D } from 'three';
-import Level from '../../level/Level';
-import Player from '../player/Player';
-import MouseButtons from '../../../types/MouseButtons';
+import { Level, Player } from 'entities';
 
 export default class PlayerController {
   private raycaster: Raycaster = new Raycaster();

@@ -1,5 +1,5 @@
 import { Component, tickData } from 'pulsar-pathfinding';
-import GameObject from '../../GameObject';
+import { GameObject } from 'entities';
 
 export default class Cooldown extends Component {
   constructor(public time: number) {

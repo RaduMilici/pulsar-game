@@ -1,6 +1,5 @@
 import { PlaneGeometry, MeshBasicMaterial, Mesh, Matrix4, Vector3 } from 'three';
-import GameObject from '../GameObject';
-import Level from './Level';
+import { GameObject, Level } from 'entities';
 import { size } from 'pulsar-pathfinding';
 
 export default class GhostPlane extends GameObject {

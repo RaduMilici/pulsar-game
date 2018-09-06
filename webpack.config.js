@@ -29,7 +29,8 @@ module.exports = {
             util: resolve('src', 'util'),
             const: resolve('src', 'const'),
             nav: resolve('src', 'nav'),
-            skills: resolve('src', 'entities', 'character', 'skills')
+            skills: resolve('src', 'entities', 'character', 'skills'),
+            character: resolve('src', 'entities', 'character'),
         }
     },
     output: {

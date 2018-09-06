@@ -1,6 +1,6 @@
-import GameObject from './GameObject';
 import { Rotate } from '../components';
 import { BoxGeometry, Geometry, Mesh, MeshBasicMaterial } from 'three';
+import GameObject from './GameObject';
 
 export default class Cube extends GameObject {
   static geometry: Geometry = new BoxGeometry(0.3, 0.3, 0.3);

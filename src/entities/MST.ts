@@ -1,9 +1,7 @@
 import { Vector, Triangulation, Line as LinePulsar, Hull } from 'pulsar-pathfinding';
-import GameObject from './GameObject';
-import Rooms from './level/room/Rooms';
-import { toVec3 } from '../util/index';
+import { Rooms, GameObject, CorridorLine } from 'entities';
+import { toVec3 } from 'util';
 import { Geometry, Line, LineBasicMaterial } from 'three';
-import CorridorLine from './level/corridor/CorridorLine';
 
 export default class MST extends GameObject {
   readonly lines: CorridorLine[];

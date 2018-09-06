@@ -1,6 +1,6 @@
 import { SphereGeometry, MeshBasicMaterial, Mesh } from 'three';
-import GameObject from './GameObject';
-import { Rotate } from '../components';
+import { GameObject } from 'entities';
+import { Rotate } from 'components';
 
 export default class Sphere extends GameObject {
   static geometry: SphereGeometry = new SphereGeometry(1, 3, 3);

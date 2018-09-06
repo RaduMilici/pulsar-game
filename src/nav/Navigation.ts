@@ -1,9 +1,6 @@
 import { Grid, NavigatorTile, Vector, size, BoundingBox, Navigator } from 'pulsar-pathfinding';
-import Room from '../entities/level/room/Room';
-import Level from '../entities/level/Level';
-import Cube from '../entities/Cube';
-import { toVec3, round } from '../util';
-import CorridorLine from '../entities/level/corridor/CorridorLine';
+import { Room, Level, Cube, CorridorLine } from 'entities';
+import { toVec3, round } from 'util';
 
 export default class Navigation {
   readonly grid: Grid;
