@@ -1,5 +1,5 @@
 import Cooldown from './Cooldown';
-import skillData from '../../../types/skillData';
+import skillData from "types/skillData";
 import GameObject from '../../GameObject';
 
 export default class Skill {
