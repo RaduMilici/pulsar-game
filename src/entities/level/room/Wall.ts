@@ -59,8 +59,8 @@ export default class Wall extends GameObject {
       height: wall.height,
     });
     wallMesh.material = this.debugMaterial;
-    this.setTransforms(wall);
-    return wall;
+    this.setTransforms(wallMesh);
+    return wallMesh;
   }
 
   private setTransforms(plane: Mesh): void {
