@@ -1,6 +1,6 @@
 import { PerspectiveCamera, Vector3 } from 'three';
-import { Character } from 'entities';
 import { Gyroscope } from 'util';
+import Character from 'entities/character/Character';
 
 export default class PlayerCamera {
   private static relativePosition: Vector3 = new Vector3(10, 20, 10);

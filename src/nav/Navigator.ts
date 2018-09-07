@@ -5,10 +5,10 @@ import {
   navigatorSettings,
   Component,
 } from 'pulsar-pathfinding';
-import { toVec2 } from '../util';
-import { MoveSpline } from 'components';
+import { toVec2 } from 'util';
 import { Vector2 } from 'three';
 import { moveSplineData } from 'types';
+import MoveSpline from 'components/MoveSpline';
 import GameObject from 'entities/GameObject';
 import Character from 'entities/character/Character';
 
