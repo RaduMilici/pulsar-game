@@ -1,6 +1,8 @@
-import { GameObject, Rooms, Player } from 'entities';
 import { Shape, QuadTree, Vector, BoundingBox } from 'pulsar-pathfinding';
-import { Navigation } from 'nav';
+import Navigation from 'nav/Navigation';
+import GameObject from 'entities/GameObject';
+import Rooms from 'entities/level/room/Rooms';
+import Player from 'entities/character/player/Player';
 import GhostPlane from './GhostPlane';
 import App3D from '../../App3D/App3D';
 

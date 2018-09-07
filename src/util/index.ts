@@ -1,5 +1,6 @@
 import clamp from './clamp';
 import EventManager from './EventManager';
+import findElement from './findElement';
 import Gyroscope from './Gyroscope';
 import makePlane from './makePlane';
 import nearestPowerOf2 from './nearestPowerOf2';
@@ -13,6 +14,7 @@ import uniqueVectorArray from './uniqueVectorArray';
 export {
   clamp,
   EventManager,
+  findElement,
   Gyroscope,
   makePlane,
   nearestPowerOf2,

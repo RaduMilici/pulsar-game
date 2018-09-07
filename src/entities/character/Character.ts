@@ -1,8 +1,10 @@
-import { GameObject, Cone, Level } from 'entities';
 import { Vector3, Object3D } from 'three';
 import { toVector } from 'util';
 import { Vector, NavigatorTile } from 'pulsar-pathfinding';
-import { Navigator } from 'nav';
+import Navigator from 'nav/Navigator';
+import Cone from 'entities/Cone';
+import Level from 'entities/level/Level';
+import GameObject from 'entities/GameObject';
 
 export default class Character extends GameObject {
   readonly mesh: Object3D;

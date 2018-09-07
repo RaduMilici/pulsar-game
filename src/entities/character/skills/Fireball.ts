@@ -1,7 +1,8 @@
-import { Projectile } from 'skills';
 import { projectileData, skillData } from 'types';
-import { GameObject, Sphere } from 'entities';
+import GameObject from 'entities/GameObject';
+import Sphere from 'entities/Sphere';
 import Skill from './Skill';
+import Projectile from './Projectile';
 
 export default class Fireball extends Skill {
   constructor() {

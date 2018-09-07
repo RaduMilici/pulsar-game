@@ -1,8 +1,9 @@
 import { Vector, QuadTree, Shape } from 'pulsar-pathfinding';
-import { GameObject, CorridorLine } from 'entities';
-import { Navigation } from 'nav';
 import { Vector3 } from 'three';
-import { toVec3 } from '../../../util';
+import { toVec3 } from 'util';
+import Navigation from 'nav/Navigation';
+import GameObject from 'entities/GameObject';
+import CorridorLine from 'entities/level/corridor/CorridorLine';
 import Floor from './Floor';
 import Walls from './Walls';
 

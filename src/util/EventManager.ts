@@ -1,5 +1,5 @@
 import { uniqueId, removeFromArray } from 'pulsar-pathfinding';
-import App3D from '../App3D/App3D';
+import findElement from './findElement';
 
 class EventData {
   readonly id: number = uniqueId();
@@ -10,7 +10,7 @@ class EventData {
     readonly type: string,
     readonly callback: (event: Event) => any
   ) {
-    this.element = App3D.getElement(selector);
+    this.element = findElement(selector);
     this.element.addEventListener(type, callback, false);
   }
 }

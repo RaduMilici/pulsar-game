@@ -1,7 +1,11 @@
-import { GameObject, Level, Corridors, CorridorLine, MST } from 'entities';
 import { Vector, QuadTree } from 'pulsar-pathfinding';
-import { Navigation } from 'nav';
 import { Object3D } from 'three';
+import Navigation from 'nav/Navigation';
+import GameObject from 'entities/GameObject';
+import MST from 'entities/MST';
+import Level from 'entities/level/Level';
+import Corridors from 'entities/level/corridor/Corridors';
+import CorridorLine from 'entities/level/corridor/CorridorLine';
 import Room from './Room';
 
 export default class Rooms extends GameObject {

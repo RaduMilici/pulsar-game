@@ -1,5 +1,6 @@
 const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const CircularDependencyPlugin = require('circular-dependency-plugin');
 
 const resolve = (...args) => path.resolve(__dirname, ...args);
 
@@ -38,6 +39,11 @@ module.exports = {
         path: resolve('dist')
     },
     plugins: [
-        new VueLoaderPlugin()
+        new VueLoaderPlugin(),
+        new CircularDependencyPlugin({
+          exclude: /a\.js|node_modules/,
+          failOnError: true,
+          cwd: process.cwd(),
+        })
     ]
 };

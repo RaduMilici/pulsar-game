@@ -1,9 +1,10 @@
 import { Object3D, Vector2, Vector3 } from 'three';
-import { GameObject, Cube } from 'entities';
 import { Navigation } from 'nav';
 import { MoveSpline } from 'components';
 import { NavigatorTile, Vector } from 'pulsar-pathfinding';
 import { projectileData, moveSplineData } from 'types';
+import GameObject from 'entities/GameObject';
+import Cube from 'entities/Cube';
 
 export default class Projectile extends GameObject {
   private readonly begin: Vector3;

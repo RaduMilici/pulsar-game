@@ -3,6 +3,7 @@ import { Updater, Component } from 'pulsar-pathfinding';
 import { GameObject } from 'entities';
 import { GameComponent } from 'components';
 import { app3DSettings } from 'types';
+import { findElement } from 'util';
 import Render from './Render';
 import Dispose from './Dispose';
 
@@ -16,7 +17,7 @@ export default class App3D {
 
   constructor(readonly settings: app3DSettings) {
     this.camera = App3D.createCamera(settings);
-    this.container = App3D.getElement(settings.containerSelector);
+    this.container = findElement(settings.containerSelector);
     this.renderer = App3D.createRenderer(settings);
     this.container.appendChild(this.renderer.domElement);
     this.updater.onUpdateComplete = new Render(this);
@@ -74,16 +75,6 @@ export default class App3D {
         object.parent.remove(object);
       }
     }
-  }
-
-  static getElement(selector: string): HTMLElement | null {
-    const container: HTMLElement | null = document.querySelector(selector);
-
-    if (container === null) {
-      console.error(`Can't find container with selector ${selector}`);
-    }
-
-    return container;
   }
 
   private static createCamera({ camera, renderer }: app3DSettings): PerspectiveCamera {

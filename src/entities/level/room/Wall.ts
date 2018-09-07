@@ -1,8 +1,8 @@
 import { Line, Shape as ShapePulsar, size, Vector } from 'pulsar-pathfinding';
-import { toVec3, makePlane } from '../../../util/index';
-import { GameObject } from 'entities';
+import { toVec3, makePlane } from 'util';
 import { wall } from 'const';
 import { Mesh, Vector2, Vector3, Matrix4, MeshBasicMaterial, DoubleSide } from 'three';
+import GameObject from 'entities/GameObject';
 import CanvasTexture from './CanvasTexture';
 
 export default class Wall extends GameObject {

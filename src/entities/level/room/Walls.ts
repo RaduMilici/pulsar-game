@@ -1,8 +1,9 @@
 import { Line, Shape, Vector } from 'pulsar-pathfinding';
 import { Intersection, Raycaster, Vector3 } from 'three';
 import { toVec3 } from 'util';
-import { CorridorLine, GameObject } from 'entities';
 import { wall } from 'const';
+import CorridorLine from 'entities/level/corridor/CorridorLine';
+import GameObject from 'entities/GameObject';
 import Wall from './Wall';
 
 export default class Walls extends GameObject {

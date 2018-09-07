@@ -1,7 +1,10 @@
-import { Level, Character } from 'entities';
 import { Vector3 } from 'three';
 import { skillData, MouseButtons } from 'types';
-import { Skill, Shotgun, Fireball } from 'skills';
+import Skill from 'skills/Skill';
+import Shotgun from 'skills/Shotgun';
+import Fireball from 'skills/Fireball';
+import Level from 'entities/level/Level';
+import Character from 'entities/character/Character';
 import PlayerCamera from './PlayerCamera';
 import PlayerController from './PlayerController';
 

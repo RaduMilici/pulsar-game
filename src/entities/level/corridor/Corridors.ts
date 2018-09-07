@@ -1,8 +1,10 @@
 import { Shape } from 'pulsar-pathfinding';
-import { GameObject, Room, Rooms } from 'entities';
 import { Side } from 'types';
-import { Navigation } from 'nav';
 import { wall } from 'const';
+import Navigation from 'nav/Navigation';
+import GameObject from 'entities/GameObject';
+import Room from 'entities/level/room/Room';
+import Rooms from 'entities/level/room/Rooms';
 import CorridorLine from './CorridorLine';
 
 export default class Corridors extends GameObject {
