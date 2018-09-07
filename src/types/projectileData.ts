@@ -1,6 +1,6 @@
 import { Vector3, Object3D } from 'three';
-import { Navigation } from 'nav';
-import { Projectile } from 'skills';
+import Navigation from 'nav/Navigation';
+import Projectile from 'skills/Projectile';
 
 type projectileData = {
   begin: Vector3;

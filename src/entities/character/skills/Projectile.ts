@@ -1,8 +1,8 @@
 import { Object3D, Vector2, Vector3 } from 'three';
-import { Navigation } from 'nav';
-import { MoveSpline } from 'components';
 import { NavigatorTile, Vector } from 'pulsar-pathfinding';
 import { projectileData, moveSplineData } from 'types';
+import Navigation from 'nav/Navigation';
+import MoveSpline from 'components/MoveSpline';
 import GameObject from 'entities/GameObject';
 import Cube from 'entities/Cube';
 

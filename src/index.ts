@@ -1,10 +1,10 @@
-import { App3D } from './App3D';
+import App3D from './App3D/App3D';
 import { app3DSettings, debugBoundingBox } from './const';
-import { Level } from './entities';
 import { OrbitControls } from 'three-orbitcontrols-ts';
 import { uniqueVectorArray, EventManager } from './util';
 import { Vector } from 'pulsar-pathfinding';
-import GameObject from './entities/GameObject';
+import Level from 'entities/level/Level';
+import GameObject from 'entities/GameObject';
 
 const app3D: App3D = new App3D(app3DSettings);
 const eventManager: EventManager = new EventManager();
