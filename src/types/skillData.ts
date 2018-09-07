@@ -1,5 +1,5 @@
 import { Vector3 } from 'three';
-import Navigation from '../nav/Navigation';
+import { Navigation } from 'nav';
 
 type skillData = {
   begin: Vector3;

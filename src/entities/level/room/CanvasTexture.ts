@@ -1,7 +1,7 @@
 import { Vector2, CanvasTexture as CanvasTextureThree } from 'three';
 import { size, point } from 'pulsar-pathfinding';
 import { nearestPowerOf2 } from '../../../util/index';
-import { wallColor } from '../../../const/colors';
+import { wallColor } from 'const';
 
 export default class CanvasTexture extends CanvasTextureThree {
   private static pixelMultiplier: number = 20;

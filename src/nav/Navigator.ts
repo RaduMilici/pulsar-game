@@ -6,11 +6,11 @@ import {
   Component,
 } from 'pulsar-pathfinding';
 import { toVec2 } from '../util';
-import MoveSpline from '../components/MoveSpline';
-import Character from '../entities/character/Character';
+import { MoveSpline } from 'components';
 import { Vector2 } from 'three';
-import moveSplineData from '../types/moveSplineData';
-import GameObject from '../entities/GameObject';
+import { moveSplineData } from 'types';
+import GameObject from 'entities/GameObject';
+import Character from 'entities/character/Character';
 
 export default class Navigator {
   private static maxSteps: number = 200;

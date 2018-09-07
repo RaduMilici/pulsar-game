@@ -1,8 +1,8 @@
-import GameComponent from '../components/GameComponent';
-import GameObject from '../entities/GameObject';
-import moveSplineData from '../types/moveSplineData';
+import { moveSplineData } from 'types';
 import { SplineCurve, Vector2, Vector3 } from 'three';
 import { tickData } from 'pulsar-pathfinding';
+import GameComponent from './GameComponent';
+import GameObject from 'entities/GameObject';
 
 export default class MoveSpline extends GameComponent {
   private path: SplineCurve;

@@ -1,10 +1,10 @@
-import GameObject from '../GameObject';
 import { Shape, QuadTree, Vector, BoundingBox } from 'pulsar-pathfinding';
-import Rooms from './room/Rooms';
-import Navigation from '../../nav/Navigation';
-import Player from '../character/player/Player';
-import App3D from '../../App3D/App3D';
+import Navigation from 'nav/Navigation';
+import GameObject from 'entities/GameObject';
+import Rooms from 'entities/level/room/Rooms';
+import Player from 'entities/character/player/Player';
 import GhostPlane from './GhostPlane';
+import App3D from '../../App3D/App3D';
 
 export default class Level extends GameObject {
   readonly rooms: Rooms;

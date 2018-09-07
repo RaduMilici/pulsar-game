@@ -1,6 +1,6 @@
+import { skillData } from 'types';
+import GameObject from 'entities/GameObject';
 import Cooldown from './Cooldown';
-import skillData from '../../../types/skillData';
-import GameObject from '../../GameObject';
 
 export default class Skill {
   cooldownTime: number = 0;

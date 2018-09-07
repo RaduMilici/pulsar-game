@@ -1,9 +1,9 @@
 import { Line, Shape as ShapePulsar, size, Vector } from 'pulsar-pathfinding';
-import { toVec3, makePlane } from '../../../util/index';
-import GameObject from '../../GameObject';
-import { height, doorFrameWidth, doorWidth, extraWidth } from '../../../const/wall';
-import CanvasTexture from './CanvasTexture';
+import { toVec3, makePlane } from 'util';
+import { wall } from 'const';
 import { Mesh, Vector2, Vector3, Matrix4, MeshBasicMaterial, DoubleSide } from 'three';
+import GameObject from 'entities/GameObject';
+import CanvasTexture from './CanvasTexture';
 
 export default class Wall extends GameObject {
   private debugMaterial: MeshBasicMaterial;
@@ -12,13 +12,13 @@ export default class Wall extends GameObject {
   private readonly map: CanvasTexture;
 
   private static holeSize: size = {
-    width: CanvasTexture.getPixelMultiplier(doorWidth),
-    height: CanvasTexture.getPixelMultiplier(height),
+    width: CanvasTexture.getPixelMultiplier(wall.doorWidth),
+    height: CanvasTexture.getPixelMultiplier(wall.height),
   };
 
   private static frameSize: size = {
-    width: Wall.holeSize.width + CanvasTexture.getPixelMultiplier(doorFrameWidth),
-    height: Wall.holeSize.height + CanvasTexture.getPixelMultiplier(doorFrameWidth),
+    width: Wall.holeSize.width + CanvasTexture.getPixelMultiplier(wall.doorFrameWidth),
+    height: Wall.holeSize.height + CanvasTexture.getPixelMultiplier(wall.doorFrameWidth),
   };
 
   constructor(readonly line: Line, private mstLines: Line[], private shape: ShapePulsar) {
@@ -26,7 +26,7 @@ export default class Wall extends GameObject {
 
     this.map = new CanvasTexture({
       width: this.line.length,
-      height,
+      height: wall.height,
     });
 
     this.create();
@@ -54,19 +54,19 @@ export default class Wall extends GameObject {
   }
 
   private makeMesh(): Mesh {
-    const wall: Mesh = makePlane({
-      width: this.line.length + extraWidth,
-      height,
+    const wallMesh: Mesh = makePlane({
+      width: this.line.length + wall.extraWidth,
+      height: wall.height,
     });
-    wall.material = this.debugMaterial;
-    this.setTransforms(wall);
-    return wall;
+    wallMesh.material = this.debugMaterial;
+    this.setTransforms(wallMesh);
+    return wallMesh;
   }
 
   private setTransforms(plane: Mesh): void {
     const centroidV3: Vector3 = toVec3(this.shape.centroid);
     const midpointV3: Vector3 = toVec3(this.line.midpoint);
-    const matrix: Matrix4 = new Matrix4().makeTranslation(0, height / 2, 0);
+    const matrix: Matrix4 = new Matrix4().makeTranslation(0, wall.height / 2, 0);
 
     plane.geometry.applyMatrix(matrix);
     plane.position.copy(midpointV3);

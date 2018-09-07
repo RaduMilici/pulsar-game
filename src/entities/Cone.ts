@@ -1,5 +1,5 @@
-import GameObject from './GameObject';
 import { ConeGeometry, Geometry, Mesh, MeshBasicMaterial, Matrix4 } from 'three';
+import GameObject from './GameObject';
 
 export default class Cone extends GameObject {
   static material: MeshBasicMaterial = new MeshBasicMaterial({

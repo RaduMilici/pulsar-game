@@ -8,6 +8,26 @@
     "allowJs": true,
     "noEmitOnError": true,
     "moduleResolution": "node",
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "baseUrl": ".",
+    "paths": {
+      "types": ["src/types"],
+      "util": ["src/util"],
+      "entities": ["src/entities"],
+      "components": ["src/components"],
+      "const": ["src/const"],
+      "nav": ["src/nav"],
+      "skills": ["src/entities/character/skills"],
+      "character": ["src/entities/character/"],
+      "src/*": ["src/*"],
+      "types/*": ["src/types/*"],
+      "util/*": ["src/util/*"],
+      "entities/*": ["src/entities/*"],
+      "components/*": ["src/components/*"],
+      "const/*": ["src/const/*"],
+      "nav/*": ["src/nav/*"],
+      "skills/*": ["src/entities/character/skills/*"],
+      "character/*": ["src/entities/character/*"]
+    }
   }
 }

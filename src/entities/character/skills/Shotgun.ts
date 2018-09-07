@@ -1,10 +1,9 @@
-import Skill from '../Skill';
-import Projectile from './Projectile';
-import projectileData from '../../../../types/projectileData';
-import GameObject from '../../../GameObject';
-import skillData from '../../../../types/skillData';
+import { projectileData, skillData } from 'types';
 import { Vector3 } from 'three';
 import { randomFloat } from 'pulsar-pathfinding';
+import GameObject from 'entities/GameObject';
+import Skill from './Skill';
+import Projectile from './Projectile';
 
 export default class Shotgun extends Skill {
   constructor() {
