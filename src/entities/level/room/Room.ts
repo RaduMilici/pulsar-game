@@ -1,4 +1,4 @@
-import { Vector, QuadTree, Shape } from 'pulsar-pathfinding';
+import { Vector, QuadTree, Shape, NavigatorTile } from 'pulsar-pathfinding';
 import { Vector3 } from 'three';
 import { toVec3 } from 'util';
 import Navigation from 'nav/Navigation';
@@ -9,9 +9,10 @@ import Walls from './Walls';
 
 export default class Room extends GameObject {
   quadTree: QuadTree;
-  readonly area: number;
-
   walls: Walls;
+  tiles: NavigatorTile[] = [];
+
+  readonly area: number;
   readonly floor: Floor;
 
   constructor(readonly shape: Shape, private readonly navigation: Navigation) {
@@ -19,6 +20,7 @@ export default class Room extends GameObject {
 
     this.area = shape.boundingBox.area;
     this.floor = new Floor(shape);
+
     this.add(this.floor);
   }
 
@@ -31,7 +33,7 @@ export default class Room extends GameObject {
   }
 
   addNavData() {
-    this.navigation.clearRoom(this);
+    this.tiles = this.navigation.clearRoom(this);
   }
 
   intersect(line: CorridorLine): Vector[] {
