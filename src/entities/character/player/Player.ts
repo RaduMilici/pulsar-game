@@ -1,5 +1,5 @@
 import { Vector3 } from 'three';
-import { skillData, MouseButtons } from 'types';
+import { skillData, MouseButtons, characterData } from 'types';
 import Skill from 'skills/Skill';
 import Shotgun from 'skills/Shotgun';
 import Fireball from 'skills/Fireball';
@@ -10,16 +10,18 @@ import PlayerController from './PlayerController';
 
 export default class Player extends Character {
   readonly controller: PlayerController;
+  readonly level: Level;
+
   private readonly camera: PlayerCamera;
   private primarySkill: Skill;
   private secondarySkill: Skill;
 
-  constructor(readonly level: Level) {
-    super(level);
+  constructor(playerData: characterData) {
+    super(playerData);
 
-    this.position.copy(level.rooms.rooms[0].centroidV3);
-    this.camera = new PlayerCamera(this, level.app3D.camera);
-    this.controller = new PlayerController(level, this);
+    this.level = playerData.level;
+    this.camera = new PlayerCamera(this, this.level.app3D.camera);
+    this.controller = new PlayerController(this.level, this);
 
     this.primarySkill = new Shotgun();
     this.secondarySkill = new Fireball();

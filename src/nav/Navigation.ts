@@ -1,4 +1,12 @@
-import { Grid, NavigatorTile, Vector, size, BoundingBox, Navigator } from 'pulsar-pathfinding';
+import {
+  Grid,
+  NavigatorTile,
+  Vector,
+  size,
+  BoundingBox,
+  Navigator,
+  randomInt,
+} from 'pulsar-pathfinding';
 import { toVec3, round } from 'util';
 import Room from 'entities/level/room/Room';
 import Level from 'entities/level/Level';
@@ -19,13 +27,15 @@ export default class Navigation {
     this.grid.makeGrid();
   }
 
-  clearRoom(room: Room): void {
+  clearRoom(room: Room): NavigatorTile[] {
     const smaller: BoundingBox = room.shape.boundingBox.clone();
     smaller.grow(-1);
     const startX: number = smaller.topLeft.x;
     const endX: number = smaller.topRight.x;
     const startY: number = smaller.topLeft.y;
     const endY: number = smaller.bottomRight.y;
+
+    const freedTiles: NavigatorTile[] = [];
 
     for (let x = startX; x <= endX; x++) {
       for (let y = startY; y >= endY; y--) {
@@ -34,10 +44,13 @@ export default class Navigation {
 
         if (!tile) continue;
 
+        freedTiles.push(tile);
         this.grid.obstacles.remove(tile);
         //this.addCube(tile.position);
       }
     }
+
+    return freedTiles;
   }
 
   clearCorridor({ a, b }: CorridorLine): void {
@@ -72,7 +85,7 @@ export default class Navigation {
     this.level.add(cube);
   }
 
-  private getNeighbors(tile: NavigatorTile): NavigatorTile[] {
+  getNeighbors(tile: NavigatorTile): NavigatorTile[] {
     const neighbors: NavigatorTile[] = [];
 
     for (let i = 0; i < 9; i++) {
@@ -86,5 +99,11 @@ export default class Navigation {
     }
 
     return neighbors;
+  }
+
+  getRandomNeighbor(tile: NavigatorTile): NavigatorTile {
+    const neighbors: NavigatorTile[] = this.getNeighbors(tile);
+    const index: number = randomInt(0, neighbors.length - 1);
+    return neighbors[index];
   }
 }
