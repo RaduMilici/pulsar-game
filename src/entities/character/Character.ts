@@ -11,18 +11,20 @@ export default class Character extends GameObject {
   readonly mesh: Object3D;
   readonly level: Level;
   readonly navStopDistance: number;
+  readonly speed: number;
 
   destination: NavigatorTile;
 
   private activeNavigator: Navigator;
 
-  constructor({ level, position, navStopDistance = 0, mesh = new Cone() }: characterData) {
+  constructor({ level, position, navStopDistance = 0, mesh = new Cone(), speed }: characterData) {
     super();
     this.level = level;
-    this.mesh = mesh;
     this.navStopDistance = navStopDistance;
+    this.mesh = mesh;
+    this.speed = speed;
     this.position.copy(position);
-    this.destination = this.level.navigation.getTile(toVector(this.position));
+    this.destination = this.getInitialPositionAsDestination();
     this.add(this.mesh);
   }
 
@@ -41,11 +43,13 @@ export default class Character extends GameObject {
       this.level.navigation.grid,
       start,
       this.destination,
-      this
+      this,
     );
 
     this.startNavigator(navigator);
   }
+  
+  onNavComplete(): void {}
 
   private startNavigator(navigator: Navigator): void {
     this.stopNavigator();
@@ -57,5 +61,9 @@ export default class Character extends GameObject {
     if (this.activeNavigator) {
       this.activeNavigator.stop();
     }
+  }
+
+  private getInitialPositionAsDestination(): NavigatorTile {
+    return this.level.navigation.getTile(toVector(this.position));
   }
 }

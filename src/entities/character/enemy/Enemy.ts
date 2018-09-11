@@ -1,20 +1,10 @@
-import { Component } from 'pulsar-pathfinding';
 import Character from 'entities/character/Character';
 import Level from 'entities/level/Level';
 import Player from 'entities/character/player/Player';
 import GameObject from 'entities/GameObject';
 import { characterData } from 'types';
 import Scan from './Scan';
-
-class LookAt extends Component {
-  constructor(private a: GameObject, private b: GameObject) {
-    super();
-  }
-
-  update() {
-    this.a.lookAt(this.b.position);
-  }
-}
+import LookAt from './LookAt';
 
 export default class Enemy extends Character {
   level: Level;
@@ -41,9 +31,12 @@ export default class Enemy extends Character {
   }
 
   start() {
-    const scan: Scan = new Scan(this);
-    const lookAt: LookAt = new LookAt(this, this.player);
-    GameObject.app3D.updater.invokeRepeating(scan, 1000);
-    GameObject.app3D.updater.add(lookAt);
+    //const scan: Scan = new Scan(this);
+    //GameObject.app3D.updater.invokeRepeating(scan, 1000);
+  }
+  
+  onNavComplete() {
+    const lookAt = new LookAt(this, this.player);
+    lookAt.update();
   }
 }

@@ -16,14 +16,13 @@ export default class Navigator {
   private static maxSteps: number = 200;
 
   private navigator: NavigatorPulsar;
-  private speed: number = 15;
   private splineMovement: Component = new Component();
 
   constructor(
     private grid: Grid,
     private begin: NavigatorTile,
     private end: NavigatorTile,
-    private mobile: Character
+    private mobile: Character,
   ) {
     const settings: navigatorSettings = {
       grid,
@@ -61,8 +60,9 @@ export default class Navigator {
 
     const data: moveSplineData = {
       path: vec2Path,
-      speed: this.speed,
+      speed: this.mobile.speed,
       mobile: this.mobile,
+      onComplete: () => { this.mobile.onNavComplete() }
     };
     this.splineMovement = new MoveSpline(data);
     GameObject.app3D.add(this.splineMovement);

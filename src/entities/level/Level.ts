@@ -40,6 +40,7 @@ export default class Level extends GameObject {
     const data: characterData = {
       level: this,
       position: this.rooms.rooms[0].centroidV3,
+      speed: 15
     };
     return new Player(data);
   }
@@ -49,6 +50,7 @@ export default class Level extends GameObject {
       const data: characterData = {
         level: this,
         position: room.centroidV3,
+        speed: 5
       };
       return new Enemy(data);
     });

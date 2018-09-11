@@ -7,6 +7,7 @@ type characterData = {
   navStopDistance?: number;
   level: Level;
   position: Vector3;
+  speed: number;
 };
 
 export default characterData;

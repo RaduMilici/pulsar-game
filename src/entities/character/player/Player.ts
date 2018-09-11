@@ -7,6 +7,8 @@ import Level from 'entities/level/Level';
 import Character from 'entities/character/Character';
 import PlayerCamera from './PlayerCamera';
 import PlayerController from './PlayerController';
+import {NavigatorTile} from "pulsar-pathfinding";
+import {toVec3} from "util";
 
 export default class Player extends Character {
   readonly controller: PlayerController;
@@ -39,4 +41,9 @@ export default class Player extends Character {
       this.secondarySkill.use(data);
     }
   }
+
+  /*getRandomNeighboringTile(): NavigatorTile {
+    const random: NavigatorTile = this.level.navigation.getNeighbors(this.destination);
+    return toVec3(random.position);
+  }*/
 }
