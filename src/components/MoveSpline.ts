@@ -10,29 +10,38 @@ export default class MoveSpline extends GameComponent {
   private movementRatio: number = 0;
 
   private readonly speed: number;
+  private readonly stopDistance: number;
+  private readonly destination: Vector3;
   private readonly distancePerTick: number;
-  private readonly onFinish: (position: Vector2) => void;
+  private readonly onComplete: (position: Vector2) => void;
 
-  constructor({ path, speed, mobile, onFinish = () => {} }: moveSplineData) {
+  constructor({ path, speed, mobile, onComplete = () => {}, stopDistance }: moveSplineData) {
     super();
 
     this.speed = speed;
     this.mobile = mobile;
+    this.stopDistance = stopDistance;
+    this.onComplete = onComplete;
     this.path = new SplineCurve(path);
     this.distancePerTick = this.speed / this.path.getLength();
-    this.onFinish = onFinish;
+
+    const {x, y} = path[path.length - 1];
+    this.destination = new Vector3(x, 0, y);
   }
 
   private get reachedDestination(): boolean {
     return this.movementRatio >= 1;
   }
 
+  private get isCloseEnough(): boolean {
+    return this.mobile.position.distanceTo(this.destination) <= this.stopDistance;
+  }
+
   update({ deltaTime }: tickData) {
     this.movementRatio += this.distancePerTick * deltaTime;
 
-    if (this.reachedDestination) {
-      GameObject.app3D.remove(this);
-      this.onFinish(this.getPathPoint(1));
+    if (this.reachedDestination || this.isCloseEnough) {
+      this.stopMovement();
     } else {
       this.rotate();
       this.move();
@@ -51,5 +60,10 @@ export default class MoveSpline extends GameComponent {
 
   private getPathPoint(ratio: number): Vector2 {
     return this.path.getPointAt(ratio);
+  }
+
+  private stopMovement(): void {
+    GameObject.app3D.remove(this);
+    this.onComplete(this.getPathPoint(1));
   }
 }

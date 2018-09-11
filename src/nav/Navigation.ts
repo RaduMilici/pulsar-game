@@ -88,15 +88,16 @@ export default class Navigation {
   getNeighbors(tile: NavigatorTile): NavigatorTile[] {
     const neighbors: NavigatorTile[] = [];
 
-    for (let i = 0; i < 9; i++) {
-      const x: number = tile.position.x + Navigator.getColOffset(i);
-      const y: number = tile.position.y + Navigator.getRowOffset(i);
+    // get all neighbors, and not the central tile
+    [0, 1, 2, 3, 5, 6, 7, 8].forEach((num: number) => {
+      const x: number = tile.position.x + Navigator.getColOffset(num);
+      const y: number = tile.position.y + Navigator.getRowOffset(num);
       const neighbor: NavigatorTile = this.getTile(new Vector({ x, y }));
 
-      if (tile) {
+      if (neighbor) {
         neighbors.push(neighbor);
       }
-    }
+    });
 
     return neighbors;
   }

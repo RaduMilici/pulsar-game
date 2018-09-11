@@ -7,7 +7,7 @@ type projectileData = {
   end: Vector3;
   speed: number;
   navigation: Navigation;
-  onEndPath: (projectile: Projectile) => void;
+  onComplete: (projectile: Projectile) => void;
   mesh?: Object3D;
 };
 

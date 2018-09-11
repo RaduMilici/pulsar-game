@@ -10,20 +10,20 @@ export default class Projectile extends GameObject {
   private readonly begin: Vector3;
   private readonly speed: number;
   private readonly mesh: Object3D;
-  private readonly onEndPath: (projectile: Projectile) => void;
+  private readonly onComplete: (projectile: Projectile) => void;
 
   private moveSpline: MoveSpline;
   private end: Vector3;
   private navigation: Navigation;
 
-  constructor({ begin, end, speed, navigation, onEndPath, mesh = new Cube() }: projectileData) {
+  constructor({ begin, end, speed, navigation, onComplete, mesh = new Cube() }: projectileData) {
     super();
 
     this.begin = begin;
     this.end = end;
     this.speed = speed;
     this.navigation = navigation;
-    this.onEndPath = onEndPath || (() => {});
+    this.onComplete = onComplete || (() => {});
     this.mesh = mesh;
     this.add(this.mesh);
     this.position.copy(this.begin);
@@ -34,9 +34,7 @@ export default class Projectile extends GameObject {
       path: this.getPath(),
       speed: this.speed,
       mobile: this,
-      onFinish: () => {
-        this.onEndPath(this);
-      },
+      onComplete: () => { this.onComplete(this); },
     };
     this.moveSpline = new MoveSpline(data);
     GameObject.app3D.add(this.moveSpline);

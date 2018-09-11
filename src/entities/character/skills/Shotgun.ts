@@ -24,7 +24,7 @@ export default class Shotgun extends Skill {
         end: clone,
         speed: 35,
         navigation: navigation,
-        onEndPath: GameObject.app3D.remove.bind(GameObject.app3D),
+        onComplete: GameObject.app3D.remove.bind(GameObject.app3D),
       };
 
       const projectile: Projectile = new Projectile(projectileData);

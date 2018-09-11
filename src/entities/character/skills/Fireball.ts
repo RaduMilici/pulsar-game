@@ -16,7 +16,7 @@ export default class Fireball extends Skill {
       end,
       speed: 10,
       navigation: navigation,
-      onEndPath: GameObject.app3D.remove.bind(GameObject.app3D),
+      onComplete: GameObject.app3D.remove.bind(GameObject.app3D),
       mesh: new Sphere('red'),
     };
 
