@@ -1,4 +1,4 @@
-import { app3DSettings } from '../types';
+import { app3DSettings } from '../interfaces';
 
 const settings: app3DSettings = {
   containerSelector: '#container3D',

@@ -1,5 +1,5 @@
 import { Line, Vector } from 'pulsar-pathfinding';
-import { Side } from 'types';
+import { Side } from 'interfaces';
 
 export default class CorridorLine extends Line {
   readonly intersections: Vector[] = [];

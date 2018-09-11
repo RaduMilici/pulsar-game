@@ -7,7 +7,7 @@ import {
 } from 'pulsar-pathfinding';
 import { toVec2 } from 'util';
 import { Vector2 } from 'three';
-import { moveSplineData } from 'types';
+import { moveSplineData } from 'interfaces';
 import MoveSpline from 'components/MoveSpline';
 import GameObject from 'entities/GameObject';
 import Character from 'entities/character/Character';

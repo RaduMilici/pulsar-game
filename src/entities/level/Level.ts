@@ -7,7 +7,7 @@ import Player from 'entities/character/player/Player';
 import Enemy from 'entities/character/enemy/Enemy';
 import GhostPlane from './GhostPlane';
 import App3D from '../../App3D/App3D';
-import { characterData } from 'types';
+import { characterData } from 'interfaces';
 
 export default class Level extends GameObject {
   readonly rooms: Rooms;

@@ -1,4 +1,4 @@
-import { skillData } from 'types';
+import { skillData } from 'interfaces';
 import GameObject from 'entities/GameObject';
 import Cooldown from './Cooldown';
 

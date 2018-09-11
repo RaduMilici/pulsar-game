@@ -1,5 +1,5 @@
 import { Shape } from 'pulsar-pathfinding';
-import { Side } from 'types';
+import { Side } from 'interfaces';
 import { wall } from 'const';
 import Navigation from 'nav/Navigation';
 import GameObject from 'entities/GameObject';

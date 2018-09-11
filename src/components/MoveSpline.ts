@@ -1,4 +1,4 @@
-import { moveSplineData } from 'types';
+import { moveSplineData } from 'interfaces';
 import { SplineCurve, Vector2, Vector3 } from 'three';
 import { tickData } from 'pulsar-pathfinding';
 import GameComponent from './GameComponent';

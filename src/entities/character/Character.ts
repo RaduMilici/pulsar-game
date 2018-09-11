@@ -1,7 +1,7 @@
 import { Vector3, Object3D } from 'three';
 import { toVector } from 'util';
 import { Vector, NavigatorTile } from 'pulsar-pathfinding';
-import { characterData } from 'types';
+import { characterData } from 'interfaces';
 import Navigator from 'nav/Navigator';
 import Cone from 'entities/Cone';
 import Level from 'entities/level/Level';

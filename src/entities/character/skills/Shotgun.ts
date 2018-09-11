@@ -1,4 +1,4 @@
-import { projectileData, skillData } from 'types';
+import { projectileData, skillData } from 'interfaces';
 import { Vector3 } from 'three';
 import { randomFloat } from 'pulsar-pathfinding';
 import GameObject from 'entities/GameObject';

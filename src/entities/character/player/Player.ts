@@ -1,6 +1,6 @@
 import { Vector3 } from 'three';
 import { NavigatorTile} from 'pulsar-pathfinding';
-import { skillData, MouseButtons, characterData } from 'types';
+import { skillData, MouseButtons, characterData } from 'interfaces';
 import Skill from 'skills/Skill';
 import Shotgun from 'skills/Shotgun';
 import Fireball from 'skills/Fireball';

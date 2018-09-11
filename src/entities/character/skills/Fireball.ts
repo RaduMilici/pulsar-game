@@ -1,4 +1,4 @@
-import { projectileData, skillData } from 'types';
+import { projectileData, skillData } from 'interfaces';
 import GameObject from 'entities/GameObject';
 import Sphere from 'entities/Sphere';
 import Skill from './Skill';

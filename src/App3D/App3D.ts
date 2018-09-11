@@ -1,6 +1,6 @@
 import { WebGLRenderer, Scene, PerspectiveCamera, Object3D } from 'three';
 import { Updater, Component } from 'pulsar-pathfinding';
-import { app3DSettings } from 'types';
+import { app3DSettings } from 'interfaces';
 import { findElement } from 'util';
 import GameObject from 'entities/GameObject';
 import GameComponent from 'components/GameComponent';

@@ -5,6 +5,7 @@ import { uniqueVectorArray, EventManager } from './util';
 import { Vector } from 'pulsar-pathfinding';
 import Level from 'entities/level/Level';
 import GameObject from 'entities/GameObject';
+import './workerTest';
 
 const app3D: App3D = new App3D(app3DSettings);
 const eventManager: EventManager = new EventManager();
@@ -34,8 +35,6 @@ const generate = () => {
 };
 
 generate();
-
-//setInterval(generate, 300);
 
 document.getElementById('generate').addEventListener('click', generate);
 
