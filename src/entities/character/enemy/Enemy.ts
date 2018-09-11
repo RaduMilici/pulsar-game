@@ -1,9 +1,7 @@
 import Character from 'entities/character/Character';
 import Level from 'entities/level/Level';
 import Player from 'entities/character/player/Player';
-import GameObject from 'entities/GameObject';
 import { characterData } from 'types';
-import Scan from './Scan';
 import LookAt from './LookAt';
 
 export default class Enemy extends Character {
