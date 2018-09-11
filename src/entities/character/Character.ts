@@ -28,6 +28,9 @@ export default class Character extends GameObject {
     this.add(this.mesh);
   }
 
+  onNavStart(): void {}
+  onNavComplete(): void {}
+
   faceTo({ x, z }: Vector3): void {
     this.stopNavigator();
     this.lookAt(new Vector3(x, 0, z));
@@ -48,8 +51,6 @@ export default class Character extends GameObject {
 
     this.startNavigator(navigator);
   }
-  
-  onNavComplete(): void {}
 
   private startNavigator(navigator: Navigator): void {
     this.stopNavigator();

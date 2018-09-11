@@ -7,7 +7,7 @@ import LookAt from './LookAt';
 export default class Enemy extends Character {
   level: Level;
   player: Player;
-
+  isLockedOnPlayer: boolean = false;
 
   private maxRange: number = 15;
   private minRange: number = 3;
@@ -33,9 +33,14 @@ export default class Enemy extends Character {
     //const scan: Scan = new Scan(this);
     //GameObject.app3D.updater.invokeRepeating(scan, 1000);
   }
+
+  onNavStart() {
+    this.isLockedOnPlayer = true;
+  }
   
   onNavComplete() {
     const lookAt = new LookAt(this, this.player);
     lookAt.update();
+    this.isLockedOnPlayer = this.playerInRange;
   }
 }

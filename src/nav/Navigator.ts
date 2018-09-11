@@ -67,5 +67,6 @@ export default class Navigator {
     };
     this.splineMovement = new MoveSpline(data);
     GameObject.app3D.add(this.splineMovement);
+    this.mobile.onNavStart();
   }
 }

@@ -15,16 +15,21 @@ export default class Radius extends Component {
   }
 
   update() {
-    this.shape = new Shape(this.makeCirclePoints());
+    const radiusPoints: Vector[] = this.makeRadiusPoints();
+    this.shape = new Shape(radiusPoints);
     this.player.level.enemies.forEach((enemy: Enemy) => {
-      const isClose = this.shape.containsPoint(toVector(enemy.position));
-      if (isClose) {
-        enemy.moveTo(this.player.getRandomNeighboringPosition());
-      }
+      this.attackPlayerIfInsideRadius(enemy);
     });
   }
 
-  private makeCirclePoints(): Vector[] {
+  private attackPlayerIfInsideRadius(enemy: Enemy): void {
+    const isInsideRadius: boolean = this.shape.containsPoint(toVector(enemy.position));
+    if (isInsideRadius) {
+      enemy.moveTo(this.player.getRandomNeighboringPosition());
+    }
+  }
+
+  private makeRadiusPoints(): Vector[] {
     const points: Vector[] = [];
     const { x, y }: Vector = toVector(this.player.position);
     let angle = 0;
