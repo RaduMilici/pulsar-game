@@ -1,4 +1,5 @@
 import { Vector3 } from 'three';
+import { NavigatorTile} from 'pulsar-pathfinding';
 import { skillData, MouseButtons, characterData } from 'types';
 import Skill from 'skills/Skill';
 import Shotgun from 'skills/Shotgun';
@@ -7,14 +8,16 @@ import Level from 'entities/level/Level';
 import Character from 'entities/character/Character';
 import PlayerCamera from './PlayerCamera';
 import PlayerController from './PlayerController';
-import {NavigatorTile} from "pulsar-pathfinding";
-import {toVec3} from "util";
+import Radius from './Radius.component';
+import GameObject from 'entities/GameObject';
+import toVec3 from "util/toVec3";
 
 export default class Player extends Character {
   readonly controller: PlayerController;
   readonly level: Level;
 
   private readonly camera: PlayerCamera;
+  private readonly radius: Radius;
   private primarySkill: Skill;
   private secondarySkill: Skill;
 
@@ -24,6 +27,7 @@ export default class Player extends Character {
     this.level = playerData.level;
     this.camera = new PlayerCamera(this, this.level.app3D.camera);
     this.controller = new PlayerController(this.level, this);
+    this.radius = new Radius(this, 15);
 
     this.primarySkill = new Shotgun();
     this.secondarySkill = new Fireball();
@@ -41,9 +45,13 @@ export default class Player extends Character {
       this.secondarySkill.use(data);
     }
   }
+  
+  start() {
+    GameObject.app3D.updater.invokeRepeating(this.radius, 1000);
+  }
 
-  /*getRandomNeighboringTile(): NavigatorTile {
-    const random: NavigatorTile = this.level.navigation.getNeighbors(this.destination);
+  getRandomNeighboringPosition(): Vector3 {
+    const random: NavigatorTile = this.level.navigation.getRandomNeighbor(this.destination);
     return toVec3(random.position);
-  }*/
+  }
 }

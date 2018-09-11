@@ -50,7 +50,8 @@ export default class Level extends GameObject {
       const data: characterData = {
         level: this,
         position: room.centroidV3,
-        speed: 5
+        speed: 5,
+        navStopDistance: 4
       };
       return new Enemy(data);
     });

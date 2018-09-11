@@ -10,6 +10,7 @@ export default class Enemy extends Character {
   level: Level;
   player: Player;
 
+
   private maxRange: number = 15;
   private minRange: number = 3;
 

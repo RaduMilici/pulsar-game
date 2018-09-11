@@ -62,7 +62,8 @@ export default class Navigator {
       path: vec2Path,
       speed: this.mobile.speed,
       mobile: this.mobile,
-      onComplete: () => { this.mobile.onNavComplete() }
+      onComplete: () => { this.mobile.onNavComplete() },
+      stopDistance: this.mobile.navStopDistance
     };
     this.splineMovement = new MoveSpline(data);
     GameObject.app3D.add(this.splineMovement);

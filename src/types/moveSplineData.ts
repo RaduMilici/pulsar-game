@@ -6,6 +6,7 @@ type moveSplineData = {
   speed: number;
   mobile: GameObject;
   onComplete?: (position: Vector2) => void;
+  stopDistance?: number;
 };
 
 export default moveSplineData;
