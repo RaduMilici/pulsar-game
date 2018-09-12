@@ -8,6 +8,7 @@ import Enemy from 'entities/character/enemy/Enemy';
 import GhostPlane from './GhostPlane';
 import App3D from '../../App3D/App3D';
 import { characterData } from 'types';
+import { toVec3 } from 'util';
 
 export default class Level extends GameObject {
   readonly rooms: Rooms;
@@ -46,14 +47,21 @@ export default class Level extends GameObject {
   }
 
   private createEnemies(): Enemy[] {
-    return this.rooms.rooms.map((room: Room) => {
-      const data: characterData = {
-        level: this,
-        position: room.centroidV3,
-        speed: 5,
-        navStopDistance: 4
-      };
-      return new Enemy(data);
-    });
+    const enemyPerSquare = 0.015;
+    return this.rooms.rooms.reduce((acc: Enemy[], room: Room) => {
+
+      for (let i = 0; i < room.area * enemyPerSquare; i++) {
+        const data: characterData = {
+          level: this,
+          position: toVec3(room.randomTile().position),
+          speed: 5,
+          navStopDistance: 4
+        };
+        const enemy: Enemy = new Enemy(data);
+        acc.push(enemy);
+      }
+
+      return acc;
+    }, []);
   }
 }
