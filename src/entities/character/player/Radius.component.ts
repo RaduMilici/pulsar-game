@@ -25,7 +25,7 @@ export default class Radius extends Component {
   private attackPlayerIfInsideRadius(enemy: Enemy): void {
     const isInsideRadius: boolean = this.shape.containsPoint(toVector(enemy.position));
     if (isInsideRadius) {
-      enemy.moveTo(this.player.getRandomNeighboringPosition());
+      enemy.moveToPlayer();
     }
   }
 
