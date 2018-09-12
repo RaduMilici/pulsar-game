@@ -5,7 +5,7 @@ import { uniqueVectorArray, EventManager } from './util';
 import { Vector } from 'pulsar-pathfinding';
 import Level from 'entities/level/Level';
 import GameObject from 'entities/GameObject';
-import './workerTest';
+// import './workerTest';
 
 const app3D: App3D = new App3D(app3DSettings);
 const eventManager: EventManager = new EventManager();

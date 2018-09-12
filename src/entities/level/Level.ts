@@ -13,7 +13,7 @@ export default class Level extends GameObject {
   readonly rooms: Rooms;
   readonly navigation: Navigation;
   readonly player: Player;
-  readonly enemies: Enemy[];
+  readonly enemies: Enemy[] = [];
   readonly ghostPlane: GhostPlane;
   private readonly quadTree: QuadTree;
 
@@ -26,9 +26,9 @@ export default class Level extends GameObject {
     this.rooms = new Rooms(this);
 
     this.player = this.createPlayer();
-    this.enemies = this.createEnemies();
+    //this.enemies = this.createEnemies();
 
-    this.add(this.rooms, this.player, this.ghostPlane, ...this.enemies);
+    this.add(this.rooms, this.player, this.ghostPlane, /*...this.enemies*/);
   }
 
   get shape(): Shape {

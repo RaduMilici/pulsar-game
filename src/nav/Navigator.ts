@@ -11,12 +11,14 @@ import { moveSplineData } from 'interfaces';
 import MoveSpline from 'components/MoveSpline';
 import GameObject from 'entities/GameObject';
 import Character from 'entities/character/Character';
+import NavigatorWorker from "worker-loader?publicPath=dist/&name=NavigatorWorker.js!./NavigatorWorker";
 
 export default class Navigator {
   private static maxSteps: number = 200;
 
   private navigator: NavigatorPulsar;
   private splineMovement: Component = new Component();
+  private navigatorWorker: NavigatorWorker;
 
   constructor(
     private grid: Grid,
@@ -28,9 +30,17 @@ export default class Navigator {
       grid,
       begin,
       end,
-      onComplete: this.onNavComplete.bind(this),
+      onComplete: (path: NavigatorTile[]) => this.onNavComplete(path),
       maxSteps: Navigator.maxSteps,
     };
+    /*this.navigatorWorker = new NavigatorWorker();
+    this.navigatorWorker.postMessage(settings);
+
+    this.navigatorWorker.addEventListener("message", (event: MessageEvent) => {
+      console.log('addEventListener');
+      console.log(event.data);
+    });*/
+
 
     this.navigator = new NavigatorPulsar(settings);
   }
