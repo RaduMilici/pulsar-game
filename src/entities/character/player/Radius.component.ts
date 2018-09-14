@@ -1,5 +1,5 @@
 import { Shape, Component } from "pulsar-pathfinding";
-import Vector from "pulsar-pathfinding/dist/common/Vector";
+import {Vector} from "pulsar-pathfinding";
 import toVector from "util/toVector";
 import Player from './Player';
 import Enemy from 'entities/character/enemy/Enemy';
