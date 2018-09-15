@@ -1,7 +1,6 @@
 import { projectileData, skillData } from 'types';
 import { Vector3 } from 'three';
 import { randomFloat } from 'pulsar-pathfinding';
-import GameObject from 'entities/GameObject';
 import Skill from './Skill';
 import Projectile from './Projectile';
 
@@ -24,11 +23,11 @@ export default class Shotgun extends Skill {
         end: clone,
         speed: 35,
         navigation: navigation,
-        onComplete: GameObject.app3D.remove.bind(GameObject.app3D),
+        onComplete: app3D.remove.bind(app3D),
       };
 
       const projectile: Projectile = new Projectile(projectileData);
-      GameObject.app3D.add(projectile, GameObject.scene);
+      app3D.add(projectile, app3D.scene);
     }
   }
 }

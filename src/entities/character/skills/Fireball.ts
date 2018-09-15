@@ -1,5 +1,4 @@
 import { projectileData, skillData } from 'types';
-import GameObject from 'entities/GameObject';
 import Sphere from 'entities/Sphere';
 import Skill from './Skill';
 import Projectile from './Projectile';
@@ -16,11 +15,11 @@ export default class Fireball extends Skill {
       end,
       speed: 10,
       navigation: navigation,
-      onComplete: GameObject.app3D.remove.bind(GameObject.app3D),
+      onComplete: app3D.remove.bind(app3D),
       mesh: new Sphere('red'),
     };
 
     const projectile: Projectile = new Projectile(projectileData);
-    GameObject.app3D.add(projectile, GameObject.scene);
+    app3D.add(projectile, app3D.scene);
   }
 }

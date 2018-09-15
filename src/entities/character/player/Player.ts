@@ -49,7 +49,7 @@ export default class Player extends Character {
   }
 
   start() {
-    GameObject.app3D.updater.invokeRepeating(this.radius, 1000);
+    app3D.updater.invokeRepeating(this.radius, 1000);
   }
 
   getRandomNeighboringPosition(): Vector3 {

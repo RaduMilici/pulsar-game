@@ -63,7 +63,7 @@ export default class MoveSpline extends GameComponent {
   }
 
   private stopMovement(): void {
-    GameObject.app3D.remove(this);
+    app3D.remove(this);
     this.onComplete(this.getPathPoint(1));
   }
 }

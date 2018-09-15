@@ -39,7 +39,7 @@ export default class Projectile extends GameObject {
       },
     };
     this.moveSpline = new MoveSpline(data);
-    GameObject.app3D.add(this.moveSpline);
+    app3D.add(this.moveSpline);
   }
 
   private getPath(): Vector2[] {

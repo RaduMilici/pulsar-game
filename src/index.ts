@@ -3,11 +3,8 @@ import { OrbitControls } from 'three-orbitcontrols-ts';
 import { uniqueVectorArray, EventManager } from './util';
 import { Vector } from 'pulsar-pathfinding';
 import Level from 'entities/level/Level';
-import GameObject from 'entities/GameObject';
 
 const eventManager: EventManager = new EventManager();
-GameObject.app3D = app3D;
-GameObject.scene = app3D.scene;
 
 const generate = () => {
   console.time('level');

@@ -45,10 +45,7 @@ module.exports = {
     new CircularDependencyPlugin({
       exclude: /a\.js|node_modules/,
       failOnError: true,
-      cwd: process.cwd()
     }),
-    new webpack.ProvidePlugin({
-      app3D: 'app3D'
-    })
+    new webpack.ProvidePlugin({ app3D: 'app3D' })
   ]
 };

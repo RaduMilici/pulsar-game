@@ -24,7 +24,7 @@ export default class Skill {
   private triggerCooldown() {
     if (!this.onCooldown) {
       this.cooldown = new Cooldown(this.cooldownTime);
-      GameObject.app3D.add(this.cooldown);
+      app3D.add(this.cooldown);
     }
   }
 }
