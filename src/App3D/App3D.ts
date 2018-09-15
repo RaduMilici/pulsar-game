@@ -38,8 +38,8 @@ export default class App3D {
   }
 
   add(object: Object3D | GameObject | GameComponent | Component, parent?: Object3D | Scene): void {
-    if (object instanceof Object3D && parent) {
-        parent.add(object);
+    if (object instanceof Object3D) {
+      parent ? parent.add(object) : this.scene.add(object);
     }
 
     if (object instanceof GameObject) {
@@ -47,7 +47,7 @@ export default class App3D {
     }
 
     if (object instanceof GameComponent || object instanceof Component) {
-      this.addGameComponent(object);
+      this.updater.add(object);
     }
   }
 
@@ -68,11 +68,6 @@ export default class App3D {
   private addGameObject(object: GameObject): void {
     object.components.forEach((component: GameComponent) => component.gameObject = object);
     this.updater.add(object);
-    object.start();
-  }
-
-  private addGameComponent(component: GameComponent | Component): void {
-    this.updater.add(component);
   }
 
   private removeGameObject(object: GameObject): void {

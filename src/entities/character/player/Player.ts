@@ -33,7 +33,11 @@ export default class Player extends Character {
     this.primarySkill = new Shotgun();
     this.secondarySkill = new Fireball();
   }
-
+  
+  start() {
+    //app3D.updater.invokeRepeating(this.radius, 1000);
+  }
+  
   attack(position: Vector3, mouseButton: number): void;
   attack(character: Character, mouseButton: number): void;
   attack(target: Vector3 | Character, mouseButton: number): void {
@@ -46,11 +50,7 @@ export default class Player extends Character {
       this.secondarySkill.use(data);
     }
   }
-
-  start() {
-    //app3D.updater.invokeRepeating(this.radius, 1000);
-  }
-
+  
   getRandomNeighboringPosition(): Vector3 {
     const random: NavigatorTile = this.level.navigation.getRandomNeighbor(this.destination);
     return toVec3(random.position);

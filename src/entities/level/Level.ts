@@ -30,7 +30,10 @@ export default class Level extends GameObject {
     //this.enemies = this.createEnemies();
     this.enemies = [];
 
-    this.add(this.rooms, this.player, this.ghostPlane, ...this.enemies);
+    //this.add(this.rooms, this.player, this.ghostPlane, ...this.enemies);
+    app3D.add(this.rooms, this);
+    app3D.add(this.player, this);
+    app3D.add(this.ghostPlane, this);
   }
 
   get shape(): Shape {

@@ -25,7 +25,7 @@ export default class Projectile extends GameObject {
     this.navigation = navigation;
     this.onComplete = onComplete || (() => {});
     this.mesh = mesh;
-    this.add(this.mesh);
+    app3D.add(this.mesh, this);
     this.position.copy(this.begin);
   }
 

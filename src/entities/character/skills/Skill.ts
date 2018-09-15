@@ -1,5 +1,4 @@
 import { skillData } from 'types';
-import GameObject from 'entities/GameObject';
 import Cooldown from './Cooldown';
 
 export default class Skill {
