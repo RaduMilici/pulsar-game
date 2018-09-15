@@ -38,43 +38,41 @@ export default class App3D {
   }
 
   add(object: Object3D | GameObject | GameComponent | Component, parent?: Object3D | Scene): void {
-    if (object instanceof GameObject) {
-      object.updater = this.updater;
-      object.components.forEach((component: GameComponent) => {
-        component.updater = this.updater;
-        component.gameObject = object;
-        this.updater.add(component);
-      });
-      object.start();
+    if (object instanceof Object3D) {
+      parent ? parent.add(object) : this.scene.add(object);
     }
 
-    if (object instanceof Object3D) {
-      if (parent) {
-        parent.add(object);
-      }
+    if (object instanceof GameObject) {
+      this.addGameObject(object);
     }
 
     if (object instanceof GameComponent || object instanceof Component) {
-      object.updater = this.updater;
       this.updater.add(object);
     }
   }
 
   remove(object: Object3D | GameObject | GameComponent | Component): void {
     if (object instanceof GameObject) {
-      this.removeChildren(object);
-      this.updater.remove(object);
+      this.removeGameObject(object);
     }
 
     if (object instanceof GameComponent || object instanceof Component) {
       this.updater.remove(object);
     }
 
-    if (object instanceof Object3D) {
-      if (object.parent) {
-        object.parent.remove(object);
-      }
+    if (object instanceof Object3D && object.parent) {
+      object.parent.remove(object);
     }
+  }
+
+  private addGameObject(object: GameObject): void {
+    object.components.forEach((component: GameComponent) => component.gameObject = object);
+    this.updater.add(object);
+  }
+
+  private removeGameObject(object: GameObject): void {
+    this.updater.remove(object);
+    this.removeChildren(object);
   }
 
   private static createCamera({ camera, renderer }: app3DSettings): PerspectiveCamera {

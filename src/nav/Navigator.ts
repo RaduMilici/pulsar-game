@@ -41,7 +41,7 @@ export default class Navigator {
   }
 
   stop() {
-    GameObject.app3D.remove(this.splineMovement);
+    app3D.remove(this.splineMovement);
   }
 
   private onNavComplete(path: NavigatorTile[]): void {
@@ -67,7 +67,7 @@ export default class Navigator {
       stopDistance: this.mobile.navStopDistance,
     };
     this.splineMovement = new MoveSpline(data);
-    GameObject.app3D.add(this.splineMovement);
+    app3D.add(this.splineMovement);
     this.mobile.onNavStart();
   }
 }

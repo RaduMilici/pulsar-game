@@ -1,5 +1,4 @@
 import { skillData } from 'types';
-import GameObject from 'entities/GameObject';
 import Cooldown from './Cooldown';
 
 export default class Skill {
@@ -24,7 +23,7 @@ export default class Skill {
   private triggerCooldown() {
     if (!this.onCooldown) {
       this.cooldown = new Cooldown(this.cooldownTime);
-      GameObject.app3D.add(this.cooldown);
+      app3D.add(this.cooldown);
     }
   }
 }

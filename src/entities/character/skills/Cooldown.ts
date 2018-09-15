@@ -14,7 +14,7 @@ export default class Cooldown extends Component {
     this.time -= deltaTime;
 
     if (this.done) {
-      GameObject.app3D.remove(this);
+      app3D.remove(this);
     }
   }
 }
