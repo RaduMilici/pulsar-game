@@ -7,11 +7,11 @@ import Level from 'entities/level/Level';
 import Corridors from 'entities/level/corridor/Corridors';
 import CorridorLine from 'entities/level/corridor/CorridorLine';
 import Room from './Room';
+import {MIN_ROOM_AREA} from "const";
 
 export default class Rooms extends GameObject {
   readonly floor: Object3D[];
 
-  private static minRoomArea: number = 10;
   readonly navigation: Navigation;
   readonly corridors: Corridors;
   readonly rooms: Room[];
@@ -31,7 +31,7 @@ export default class Rooms extends GameObject {
     this.corridors = new Corridors(this);
     this.addNavData();
     this.floor = this.getNavFloor();
-    this.add(...this.rooms, this.corridors);
+    this.add(...this.rooms, this.corridors, this.mst);
   }
 
   get centroids(): Vector[] {
@@ -73,7 +73,7 @@ export default class Rooms extends GameObject {
 
   private growRooms(rooms: Room[]): Room[] {
     return rooms.reduce((acc: Room[], room: Room) => {
-      if (room.area < Rooms.minRoomArea) {
+      if (room.area < MIN_ROOM_AREA) {
         const biggerRoom: Room = this.growRoom(room);
         if (biggerRoom) {
           acc.push(biggerRoom);
@@ -89,7 +89,7 @@ export default class Rooms extends GameObject {
     let biggerRoom: Room = room;
     let parent: QuadTree = biggerRoom.quadTree.parent;
 
-    while (biggerRoom.area < Rooms.minRoomArea) {
+    while (biggerRoom.area < MIN_ROOM_AREA) {
       // make sure quadtree doesn't already have a room associated with it
       if (parent.containedPoints.length !== 0) {
         return null;

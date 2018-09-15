@@ -1,6 +1,6 @@
-const height: number = 1;
-const extraWidth: number = 0.2;
-const doorWidth: number = 2;
-const doorFrameWidth: number = 0.2;
+const WALL_HEIGHT: number = 1;
+const WALL_EXTRA_WIDTH: number = 0.2;
+const DOOR_WIDTH: number = 2;
+const DOOR_FRAME_WIDTH: number = 0.2;
 
-export default { height, extraWidth, doorWidth, doorFrameWidth };
+export { WALL_HEIGHT, WALL_EXTRA_WIDTH, DOOR_WIDTH, DOOR_FRAME_WIDTH };

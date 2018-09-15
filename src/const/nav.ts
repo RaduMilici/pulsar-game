@@ -1,0 +1,4 @@
+const MAX_NAVIGATORS: number = 50;
+const MAX_NAV_ITERATIONS: number = 200;
+
+export { MAX_NAVIGATORS, MAX_NAV_ITERATIONS };

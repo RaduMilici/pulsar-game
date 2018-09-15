@@ -27,7 +27,8 @@ export default class Level extends GameObject {
     this.rooms = new Rooms(this);
 
     this.player = this.createPlayer();
-    this.enemies = this.createEnemies();
+    //this.enemies = this.createEnemies();
+    this.enemies = [];
 
     this.add(this.rooms, this.player, this.ghostPlane, ...this.enemies);
   }
@@ -41,7 +42,7 @@ export default class Level extends GameObject {
     const data: characterData = {
       level: this,
       position: this.rooms.rooms[0].centroidV3,
-      speed: 15
+      speed: 15,
     };
     return new Player(data);
   }
@@ -49,13 +50,12 @@ export default class Level extends GameObject {
   private createEnemies(): Enemy[] {
     const enemyPerSquare = 0.035;
     return this.rooms.rooms.reduce((acc: Enemy[], room: Room) => {
-
       for (let i = 0; i < room.area * enemyPerSquare; i++) {
         const data: characterData = {
           level: this,
           position: toVec3(room.randomTile().position),
           speed: 10,
-          navStopDistance: 4
+          navStopDistance: 4,
         };
         const enemy: Enemy = new Enemy(data);
         acc.push(enemy);

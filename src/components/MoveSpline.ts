@@ -25,7 +25,7 @@ export default class MoveSpline extends GameComponent {
     this.path = new SplineCurve(path);
     this.distancePerTick = this.speed / this.path.getLength();
 
-    const {x, y} = path[path.length - 1];
+    const { x, y } = path[path.length - 1];
     this.destination = new Vector3(x, 0, y);
   }
 

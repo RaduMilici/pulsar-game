@@ -1,6 +1,6 @@
 import { Shape } from 'pulsar-pathfinding';
 import { Side } from 'types';
-import { wall } from 'const';
+import { DOOR_WIDTH } from 'const';
 import Navigation from 'nav/Navigation';
 import GameObject from 'entities/GameObject';
 import Room from 'entities/level/room/Room';
@@ -10,7 +10,7 @@ import CorridorLine from './CorridorLine';
 export default class Corridors extends GameObject {
   readonly lines: CorridorLine[] = [];
   private readonly navigation: Navigation;
-  private static width: number = wall.doorWidth / 3;
+  private static width: number = DOOR_WIDTH / 3;
 
   constructor(private readonly rooms: Rooms) {
     super();

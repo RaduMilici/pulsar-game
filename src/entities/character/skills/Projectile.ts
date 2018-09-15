@@ -34,7 +34,9 @@ export default class Projectile extends GameObject {
       path: this.getPath(),
       speed: this.speed,
       mobile: this,
-      onComplete: () => { this.onComplete(this); },
+      onComplete: () => {
+        this.onComplete(this);
+      },
     };
     this.moveSpline = new MoveSpline(data);
     GameObject.app3D.add(this.moveSpline);
