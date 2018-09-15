@@ -8,10 +8,6 @@ export default class Enemy extends Character {
   level: Level;
   player: Player;
 
-
-  private maxRange: number = 15;
-  private minRange: number = 3;
-
   constructor(enemyData: characterData) {
     super(enemyData);
 
@@ -19,19 +15,8 @@ export default class Enemy extends Character {
     this.player = enemyData.level.player;
   }
 
-  get distanceToPlayer(): number {
-    return this.position.distanceTo(this.player.position);
-  }
-
-  get playerInRange(): boolean {
-    const isCloseEnough: boolean = this.distanceToPlayer <= this.maxRange;
-    const isFarEnough: boolean = this.distanceToPlayer > this.minRange;
-    return isCloseEnough && isFarEnough;
-  }
-
-  start() {
-    //const scan: Scan = new Scan(this);
-    //GameObject.app3D.updater.invokeRepeating(scan, 1000);
+  moveToPlayer(): void {
+    this.moveTo(this.player.getRandomNeighboringPosition());
   }
   
   onNavComplete() {

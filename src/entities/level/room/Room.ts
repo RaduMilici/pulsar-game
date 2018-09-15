@@ -1,4 +1,4 @@
-import { Vector, QuadTree, Shape, NavigatorTile } from 'pulsar-pathfinding';
+import { Vector, QuadTree, Shape, NavigatorTile, randomInt } from 'pulsar-pathfinding';
 import { Vector3 } from 'three';
 import { toVec3 } from 'util';
 import Navigation from 'nav/Navigation';
@@ -34,6 +34,11 @@ export default class Room extends GameObject {
 
   addNavData() {
     this.tiles = this.navigation.clearRoom(this);
+  }
+
+  randomTile(): NavigatorTile {
+    const i: number = randomInt(0, this.tiles.length - 1);
+    return this.tiles[i];
   }
 
   intersect(line: CorridorLine): Vector[] {
