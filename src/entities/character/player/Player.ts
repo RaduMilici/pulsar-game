@@ -9,7 +9,6 @@ import Character from 'entities/character/Character';
 import PlayerCamera from './PlayerCamera';
 import PlayerController from './PlayerController';
 import Radius from './Radius.component';
-import GameObject from 'entities/GameObject';
 import toVec3 from 'util/toVec3';
 
 export default class Player extends Character {
@@ -49,7 +48,7 @@ export default class Player extends Character {
   }
 
   start() {
-    app3D.updater.invokeRepeating(this.radius, 1000);
+    //app3D.updater.invokeRepeating(this.radius, 1000);
   }
 
   getRandomNeighboringPosition(): Vector3 {
