@@ -13,6 +13,7 @@ import GameObject from 'entities/GameObject';
 import Character from 'entities/character/Character';
 
 export default class Navigator {
+  static maxNavigators: number = 50;
   private static maxSteps: number = 200;
 
   private navigator: NavigatorPulsar;
