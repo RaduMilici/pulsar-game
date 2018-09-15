@@ -4,14 +4,6 @@ import { Side } from 'types';
 export default class CorridorLine extends Line {
   readonly intersections: Vector[] = [];
 
-  get hasIntersections(): boolean {
-    return this.intersections.length !== 0;
-  }
-
-  get slope(): number {
-    return (this.b.y - this.a.y) / (this.b.x - this.a.x);
-  }
-
   getParallel(distance: number, side: Side): CorridorLine {
     let dx: number = this.a.x - this.b.x;
     let dy: number = this.a.y - this.b.y;

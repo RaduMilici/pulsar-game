@@ -1,19 +1,17 @@
 import { Shape as ShapePulsar, Vector } from 'pulsar-pathfinding';
 import { Mesh, MeshBasicMaterial, DoubleSide, Shape, ShapeGeometry, Matrix4 } from 'three';
-import { floorColor } from 'const';
+import { FLOOR_COLOR } from 'const';
 import GameObject from 'entities/GameObject';
 
 export default class Floor extends GameObject {
   private static material: MeshBasicMaterial = new MeshBasicMaterial({
     side: DoubleSide,
-    color: floorColor,
+    color: FLOOR_COLOR,
   });
 
   constructor(private readonly shape: ShapePulsar) {
     super();
-
     const plane: Mesh = Floor.create(shape);
-
     this.add(plane);
   }
 

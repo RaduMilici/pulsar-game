@@ -1,5 +1,5 @@
 import { Vector3 } from 'three';
-import { NavigatorTile} from 'pulsar-pathfinding';
+import { NavigatorTile } from 'pulsar-pathfinding';
 import { skillData, MouseButtons, characterData } from 'types';
 import Skill from 'skills/Skill';
 import Shotgun from 'skills/Shotgun';
@@ -10,7 +10,7 @@ import PlayerCamera from './PlayerCamera';
 import PlayerController from './PlayerController';
 import Radius from './Radius.component';
 import GameObject from 'entities/GameObject';
-import toVec3 from "util/toVec3";
+import toVec3 from 'util/toVec3';
 
 export default class Player extends Character {
   readonly controller: PlayerController;
@@ -18,8 +18,10 @@ export default class Player extends Character {
 
   private readonly camera: PlayerCamera;
   private readonly radius: Radius;
+
   private primarySkill: Skill;
   private secondarySkill: Skill;
+  private pullRadius: number = 15;
 
   constructor(playerData: characterData) {
     super(playerData);
@@ -27,7 +29,7 @@ export default class Player extends Character {
     this.level = playerData.level;
     this.camera = new PlayerCamera(this, this.level.app3D.camera);
     this.controller = new PlayerController(this.level, this);
-    this.radius = new Radius(this, 15);
+    this.radius = new Radius(this, this.pullRadius);
 
     this.primarySkill = new Shotgun();
     this.secondarySkill = new Fireball();
@@ -45,7 +47,7 @@ export default class Player extends Character {
       this.secondarySkill.use(data);
     }
   }
-  
+
   start() {
     GameObject.app3D.updater.invokeRepeating(this.radius, 1000);
   }

@@ -11,11 +11,9 @@ import { moveSplineData } from 'types';
 import MoveSpline from 'components/MoveSpline';
 import GameObject from 'entities/GameObject';
 import Character from 'entities/character/Character';
+import { MAX_NAV_ITERATIONS } from 'const';
 
 export default class Navigator {
-  static maxNavigators: number = 50;
-  private static maxSteps: number = 200;
-
   private navigator: NavigatorPulsar;
   private splineMovement: Component = new Component();
 
@@ -23,14 +21,14 @@ export default class Navigator {
     private grid: Grid,
     private begin: NavigatorTile,
     private end: NavigatorTile,
-    private mobile: Character,
+    private mobile: Character
   ) {
     const settings: navigatorSettings = {
       grid,
       begin,
       end,
       onComplete: this.onNavComplete.bind(this),
-      maxSteps: Navigator.maxSteps,
+      maxSteps: MAX_NAV_ITERATIONS,
     };
 
     this.navigator = new NavigatorPulsar(settings);
@@ -63,8 +61,10 @@ export default class Navigator {
       path: vec2Path,
       speed: this.mobile.speed,
       mobile: this.mobile,
-      onComplete: () => { this.mobile.onNavComplete() },
-      stopDistance: this.mobile.navStopDistance
+      onComplete: () => {
+        this.mobile.onNavComplete();
+      },
+      stopDistance: this.mobile.navStopDistance,
     };
     this.splineMovement = new MoveSpline(data);
     GameObject.app3D.add(this.splineMovement);

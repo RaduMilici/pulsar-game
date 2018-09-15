@@ -18,7 +18,7 @@ export default class Enemy extends Character {
   moveToPlayer(): void {
     this.moveTo(this.player.getRandomNeighboringPosition());
   }
-  
+
   onNavComplete() {
     const lookAt = new LookAt(this, this.player);
     lookAt.update();

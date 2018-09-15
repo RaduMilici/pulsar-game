@@ -1,12 +1,12 @@
 import App3D from './App3D/App3D';
-import { app3DSettings, debugBoundingBox } from './const';
+import { APP_3D_SETTINGS, DEBUG_BOUNDING_BOX } from './const';
 import { OrbitControls } from 'three-orbitcontrols-ts';
 import { uniqueVectorArray, EventManager } from './util';
 import { Vector } from 'pulsar-pathfinding';
 import Level from 'entities/level/Level';
 import GameObject from 'entities/GameObject';
 
-const app3D: App3D = new App3D(app3DSettings);
+const app3D: App3D = new App3D(APP_3D_SETTINGS);
 const eventManager: EventManager = new EventManager();
 app3D.camera.position.set(50, 75, 50);
 GameObject.app3D = app3D;
@@ -17,8 +17,8 @@ const generate = () => {
   eventManager.remove('#container3D');
   app3D.clear();
 
-  const points: Vector[] = uniqueVectorArray(debugBoundingBox, 25);
-  const level: Level = new Level(points, debugBoundingBox, app3D);
+  const points: Vector[] = uniqueVectorArray(DEBUG_BOUNDING_BOX, 25);
+  const level: Level = new Level(points, DEBUG_BOUNDING_BOX, app3D);
 
   eventManager.add(
     '#container3D',

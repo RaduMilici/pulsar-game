@@ -1,6 +1,6 @@
 import { app3DSettings } from '../types';
 
-const settings: app3DSettings = {
+const APP_3D_SETTINGS: app3DSettings = {
   containerSelector: '#container3D',
   camera: {
     fov: 70,
@@ -14,4 +14,4 @@ const settings: app3DSettings = {
   },
 };
 
-export default settings;
+export default APP_3D_SETTINGS;

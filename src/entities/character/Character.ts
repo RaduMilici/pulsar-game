@@ -46,7 +46,7 @@ export default class Character extends GameObject {
       this.level.navigation.grid,
       start,
       this.destination,
-      this,
+      this
     );
 
     this.startNavigator(navigator);
