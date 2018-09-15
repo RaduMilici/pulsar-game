@@ -47,14 +47,14 @@ export default class Level extends GameObject {
   }
 
   private createEnemies(): Enemy[] {
-    const enemyPerSquare = 0.015;
+    const enemyPerSquare = 0.035;
     return this.rooms.rooms.reduce((acc: Enemy[], room: Room) => {
 
       for (let i = 0; i < room.area * enemyPerSquare; i++) {
         const data: characterData = {
           level: this,
           position: toVec3(room.randomTile().position),
-          speed: 5,
+          speed: 10,
           navStopDistance: 4
         };
         const enemy: Enemy = new Enemy(data);

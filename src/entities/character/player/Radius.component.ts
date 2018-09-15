@@ -2,9 +2,11 @@ import { Shape, Component, Vector } from "pulsar-pathfinding";
 import toVector from "util/toVector";
 import Player from './Player';
 import Enemy from 'entities/character/enemy/Enemy';
+import Navigator from 'nav/Navigator';
 
 export default class Radius extends Component {
   private shape: Shape;
+  private concurrentNavigators: number = 0;
 
   private static points: number = 4;
   private static pointsStep: number = 6 / Radius.points;
@@ -16,14 +18,21 @@ export default class Radius extends Component {
   update() {
     const radiusPoints: Vector[] = this.makeRadiusPoints();
     this.shape = new Shape(radiusPoints);
-    this.player.level.enemies.forEach((enemy: Enemy) => {
+    const num: number = this.player.level.enemies.length;
+
+    for (let i = 0; i < num && this.concurrentNavigators < Navigator.maxNavigators; i++) {
+      const enemy: Enemy = this.player.level.enemies[i];
       this.attackPlayerIfInsideRadius(enemy);
-    });
+    }
+
+    this.concurrentNavigators = 0;
   }
 
   private attackPlayerIfInsideRadius(enemy: Enemy): void {
     const isInsideRadius: boolean = this.shape.containsPoint(toVector(enemy.position));
+
     if (isInsideRadius) {
+      this.concurrentNavigators++;
       enemy.moveToPlayer();
     }
   }
