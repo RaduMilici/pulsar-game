@@ -8,9 +8,7 @@ import {
 import { toVec2 } from 'util';
 import { Vector2 } from 'three';
 import { moveSplineData } from 'types';
-import MoveSpline from 'components/MoveSpline.component';
-import GameObject from 'entities/GameObject';
-import Character from 'entities/character/Character';
+import Mobile from 'entities/Mobile';
 import { MAX_NAV_ITERATIONS } from 'const';
 
 export default class Navigator {
@@ -21,7 +19,7 @@ export default class Navigator {
     private grid: Grid,
     private begin: NavigatorTile,
     private end: NavigatorTile,
-    private mobile: Character
+    private mobile: Mobile
   ) {
     const settings: navigatorSettings = {
       grid,
@@ -38,10 +36,6 @@ export default class Navigator {
     if (this.begin && this.end) {
       this.navigator.start();
     }
-  }
-
-  stop() {
-    app3D.remove(this.splineMovement);
   }
 
   private onNavComplete(path: NavigatorTile[]): void {
@@ -66,8 +60,7 @@ export default class Navigator {
       },
       stopDistance: this.mobile.navStopDistance,
     };
-    this.splineMovement = new MoveSpline(data);
-    app3D.add(this.splineMovement);
+    this.mobile.moveToUsingSpline(data);
     this.mobile.onNavStart();
   }
 }

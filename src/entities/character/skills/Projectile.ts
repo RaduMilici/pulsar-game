@@ -1,28 +1,27 @@
 import { Object3D, Vector2, Vector3 } from 'three';
 import { NavigatorTile, Vector } from 'pulsar-pathfinding';
 import { projectileData, moveSplineData } from 'types';
-import Navigation from 'nav/Navigation';
-import MoveSpline from 'components/MoveSpline.component';
-import GameObject from 'entities/GameObject';
+import Mobile from 'entities/Mobile';
 import Cube from 'entities/Cube';
+import mobileData from 'types/mobileData';
 
-export default class Projectile extends GameObject {
+export default class Projectile extends Mobile {
   private readonly begin: Vector3;
-  private readonly speed: number;
   private readonly mesh: Object3D;
   private readonly onComplete: (projectile: Projectile) => void;
-
-  private moveSpline: MoveSpline;
   private end: Vector3;
-  private navigation: Navigation;
 
   constructor({ begin, end, speed, navigation, onComplete, mesh = new Cube() }: projectileData) {
-    super();
+    const mobileData: mobileData = {
+      navigation,
+      speed,
+      navStopDistance: 0,
+      position: begin,
+    };
+    super(mobileData);
 
     this.begin = begin;
     this.end = end;
-    this.speed = speed;
-    this.navigation = navigation;
     this.onComplete = onComplete || (() => {});
     this.mesh = mesh;
     app3D.add(this.mesh, this);
@@ -38,8 +37,8 @@ export default class Projectile extends GameObject {
         this.onComplete(this);
       },
     };
-    this.moveSpline = new MoveSpline(data);
-    app3D.add(this.moveSpline);
+
+    this.moveToUsingSpline(data);
   }
 
   private getPath(): Vector2[] {
