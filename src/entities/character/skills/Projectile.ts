@@ -2,7 +2,7 @@ import { Object3D, Vector2, Vector3 } from 'three';
 import { NavigatorTile, Vector } from 'pulsar-pathfinding';
 import { projectileData, moveSplineData } from 'types';
 import Navigation from 'nav/Navigation';
-import MoveSpline from 'components/MoveSpline';
+import MoveSpline from 'components/MoveSpline.component';
 import GameObject from 'entities/GameObject';
 import Cube from 'entities/Cube';
 

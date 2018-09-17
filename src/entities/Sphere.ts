@@ -1,5 +1,5 @@
 import { SphereGeometry, MeshBasicMaterial, Mesh } from 'three';
-import Rotate from 'components/Rotate';
+import Rotate from 'components/Rotate.component';
 import GameObject from 'entities/GameObject';
 
 export default class Sphere extends GameObject {

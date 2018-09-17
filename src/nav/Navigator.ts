@@ -8,7 +8,7 @@ import {
 import { toVec2 } from 'util';
 import { Vector2 } from 'three';
 import { moveSplineData } from 'types';
-import MoveSpline from 'components/MoveSpline';
+import MoveSpline from 'components/MoveSpline.component';
 import GameObject from 'entities/GameObject';
 import Character from 'entities/character/Character';
 import { MAX_NAV_ITERATIONS } from 'const';

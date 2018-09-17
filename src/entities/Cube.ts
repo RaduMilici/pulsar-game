@@ -1,5 +1,5 @@
 import { BoxGeometry, Geometry, Mesh, MeshBasicMaterial } from 'three';
-import Rotate from 'components/Rotate';
+import Rotate from 'components/Rotate.component';
 import GameObject from './GameObject';
 
 export default class Cube extends GameObject {

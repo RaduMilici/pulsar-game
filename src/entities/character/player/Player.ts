@@ -8,7 +8,7 @@ import Level from 'entities/level/Level';
 import Character from 'entities/character/Character';
 import PlayerCamera from './PlayerCamera';
 import PlayerController from './PlayerController';
-import Radius from './Radius.component';
+import Radius from '../../../components/Radius.component';
 import toVec3 from 'util/toVec3';
 
 export default class Player extends Character {

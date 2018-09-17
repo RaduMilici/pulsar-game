@@ -1,6 +1,6 @@
 import { Shape, Component, Vector } from 'pulsar-pathfinding';
 import toVector from 'util/toVector';
-import Player from './Player';
+import Player from '../entities/character/player/Player';
 import Enemy from 'entities/character/enemy/Enemy';
 import { MAX_NAVIGATORS } from 'const';
 
