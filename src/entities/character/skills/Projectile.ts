@@ -31,7 +31,6 @@ export default class Projectile extends Mobile {
   start() {
     const data: moveSplineData = {
       path: this.getPath(),
-      speed: this.speed,
       mobile: this,
       onComplete: () => {
         this.onComplete(this);

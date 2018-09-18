@@ -53,12 +53,10 @@ export default class Navigator {
 
     const data: moveSplineData = {
       path: vec2Path,
-      speed: this.mobile.speed,
       mobile: this.mobile,
       onComplete: () => {
         this.mobile.onNavComplete();
       },
-      stopDistance: this.mobile.navStopDistance,
     };
     this.mobile.moveToUsingSpline(data);
     this.mobile.onNavStart();

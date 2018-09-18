@@ -1,12 +1,10 @@
 import { Vector2 } from 'three';
-import GameObject from 'entities/GameObject';
+import Mobile from 'entities/Mobile';
 
 type moveSplineData = {
   path: Vector2[];
-  speed: number;
-  mobile: GameObject;
+  mobile: Mobile;
   onComplete?: (position: Vector2) => void;
-  stopDistance?: number;
 };
 
 export default moveSplineData;
