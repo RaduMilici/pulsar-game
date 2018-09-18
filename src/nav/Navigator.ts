@@ -3,17 +3,15 @@ import {
   NavigatorTile,
   Grid,
   navigatorSettings,
-  Component,
 } from 'pulsar-pathfinding';
 import { toVec2 } from 'util';
 import { Vector2 } from 'three';
-import { moveSplineData } from 'types';
+import { moveSplineData, moveSplineStep } from 'types';
 import Mobile from 'entities/Mobile';
 import { MAX_NAV_ITERATIONS } from 'const';
 
 export default class Navigator {
   private navigator: NavigatorPulsar;
-  private splineMovement: Component = new Component();
 
   constructor(
     private grid: Grid,
@@ -45,14 +43,16 @@ export default class Navigator {
     */
     if (path.length === 0) return;
 
-    const vec2Path: Vector2[] = path.map(({ position }: NavigatorTile) => toVec2(position));
+    const steps: moveSplineStep[] = path.map((tile: NavigatorTile) => {
+      return { position: toVec2(tile.position), tile };
+    });
 
     // Add this as the first element or the character will snap to the first tile's position.
     const currentPos: Vector2 = new Vector2(this.mobile.position.x, this.mobile.position.z);
-    vec2Path.unshift(currentPos);
+    steps.unshift({ position: currentPos });
 
     const data: moveSplineData = {
-      path: vec2Path,
+      path: steps,
       mobile: this.mobile,
       onComplete: () => {
         this.mobile.onNavComplete();

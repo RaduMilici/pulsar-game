@@ -3,6 +3,7 @@ import {
   NavigatorTile,
   Vector,
   size,
+  point,
   BoundingBox,
   Navigator,
   randomInt,
@@ -74,7 +75,7 @@ export default class Navigation {
     }
   }
 
-  getTile({ x, y }: Vector): NavigatorTile | null {
+  getTile({ x, y }: point): NavigatorTile | null {
     const rounded: Vector = new Vector({ x: round(x), y: round(y) });
     return this.grid.findTile(rounded);
   }

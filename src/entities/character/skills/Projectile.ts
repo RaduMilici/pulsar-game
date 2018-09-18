@@ -1,6 +1,6 @@
 import { Object3D, Vector2, Vector3 } from 'three';
 import { NavigatorTile, Vector } from 'pulsar-pathfinding';
-import { projectileData, moveSplineData } from 'types';
+import { projectileData, moveSplineData, moveSplineStep } from 'types';
 import Mobile from 'entities/Mobile';
 import Cube from 'entities/Cube';
 import mobileData from 'types/mobileData';
@@ -40,20 +40,24 @@ export default class Projectile extends Mobile {
     this.moveToUsingSpline(data);
   }
 
-  private getPath(): Vector2[] {
+  private getPath(): moveSplineStep[] {
     const begin: Vector2 = new Vector2(this.begin.x, this.begin.z);
     const end: Vector2 = new Vector2(this.end.x, this.end.z);
-    const path: Vector2[] = [begin];
+    const beginTile: NavigatorTile = this.navigation.getTile(begin);
+    const endTile: NavigatorTile = this.navigation.getTile(end);
+    const beginStep: moveSplineStep = { position: begin, tile: beginTile };
+    const endStep: moveSplineStep = { position: end, tile: endTile };
+    const path: moveSplineStep[] = [beginStep];
     const distance = begin.distanceTo(end);
     let hitWall: boolean = false;
 
     for (let i = 0; i < distance; i++) {
-      const pos: Vector2 = begin.clone().lerp(end, i / distance);
-      const posVec: Vector = new Vector({ x: pos.x, y: pos.y });
+      const position: Vector2 = begin.clone().lerp(end, i / distance);
+      const posVec: Vector = new Vector({ x: position.x, y: position.y });
       const tile: NavigatorTile | null = this.navigation.getTile(posVec);
 
       if (tile && !tile.isObstacle) {
-        path.push(pos);
+        path.push({ position, tile });
       } else {
         // No need to continue beyond an obstacle.
         hitWall = true;
@@ -66,7 +70,7 @@ export default class Projectile extends Mobile {
       * Only add the last point if there was a clear path to it.
       * Otherwise, projectile would pass through obstacles.
       */
-      path.push(end);
+      path.push(endStep);
     }
 
     return path;
