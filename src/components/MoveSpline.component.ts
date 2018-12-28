@@ -1,15 +1,16 @@
 import { moveSplineData, moveSplineStep } from 'types';
 import { SplineCurve, Vector2, Vector3 } from 'three';
-import { tickData } from 'pulsar-pathfinding';
+import { tickData, NavigatorTile } from 'pulsar-pathfinding';
+import { round, clamp } from 'util';
 import GameComponent from './GameComponent';
 import Mobile from 'entities/Mobile';
 
 export default class MoveSpline extends GameComponent {
-  private path: moveSplineStep[] = [];
   private splinePath: SplineCurve;
   private mobile: Mobile;
   private movementRatio: number = 0;
-
+  private currentTile: NavigatorTile;
+  private readonly path: moveSplineStep[] = [];
   private readonly destination: Vector3;
   private readonly distancePerTick: number;
   private readonly onComplete: (position: Vector2) => void;
@@ -25,6 +26,7 @@ export default class MoveSpline extends GameComponent {
 
     const { position }: moveSplineStep = path[path.length - 1];
     this.destination = new Vector3(position.x, 0, position.y);
+    this.currentTile = path[0].tile;
   }
 
   private get reachedDestination(): boolean {
@@ -38,6 +40,8 @@ export default class MoveSpline extends GameComponent {
   update({ deltaTime }: tickData) {
     this.movementRatio += this.distancePerTick * deltaTime;
 
+    this.checkIfChangedTile();
+    
     if (this.reachedDestination || this.isCloseEnough) {
       this.stopMovement();
     } else {
@@ -63,5 +67,16 @@ export default class MoveSpline extends GameComponent {
   private stopMovement(): void {
     app3D.remove(this);
     this.onComplete(this.getPathPoint(1));
+  }
+  
+  private checkIfChangedTile(): void {
+    const index: number = round(this.movementRatio * this.path.length);
+    const clamped: number = clamp(index, 0, this.path.length - 1);
+    const {tile}: moveSplineStep = this.path[clamped];
+
+    if (tile.id !== this.currentTile.id) {
+      this.currentTile = tile;
+      this.mobile.onChangeTile(tile);
+    }
   }
 }

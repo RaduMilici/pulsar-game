@@ -27,6 +27,8 @@ export default class Mobile extends GameObject {
 
   onNavComplete(): void {}
 
+  onChangeTile(tile: NavigatorTile): void {}
+
   moveTo(position: Vector3): void {
     const startV2: Vector = toVector(this.position);
     const positionV2: Vector = toVector(position);

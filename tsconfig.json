@@ -8,7 +8,7 @@
     "allowJs": true,
     "noEmitOnError": true,
     "moduleResolution": "node",
-    "noUnusedParameters": true,
+    "noUnusedParameters": false,
     "baseUrl": ".",
     "paths": {
       "types": ["src/types"],

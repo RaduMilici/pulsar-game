@@ -49,7 +49,7 @@ export default class Navigator {
 
     // Add this as the first element or the character will snap to the first tile's position.
     const currentPos: Vector2 = new Vector2(this.mobile.position.x, this.mobile.position.z);
-    steps.unshift({ position: currentPos });
+    steps.unshift({ position: currentPos, tile: path[0] });
 
     const data: moveSplineData = {
       path: steps,
