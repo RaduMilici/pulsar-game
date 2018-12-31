@@ -29,5 +29,6 @@
       "skills/*": ["src/entities/character/skills/*"],
       "character/*": ["src/entities/character/*"]
     }
-  }
+  },
+  "include": ["./src/types/app3Dtype.d.ts"]
 }
