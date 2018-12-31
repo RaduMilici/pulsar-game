@@ -1,8 +1,11 @@
 import { DEBUG_BOUNDING_BOX } from './const';
 import { OrbitControls } from 'three-orbitcontrols-ts';
 import { uniqueVectorArray, EventManager } from './util';
-import { Vector } from 'pulsar-pathfinding';
+import { Vector, size } from 'pulsar-pathfinding';
 import Level from 'entities/level/Level';
+import Orb from './ui/orb/Orb';
+
+new Orb({ width: 500, height: 500 });
 
 const eventManager: EventManager = new EventManager();
 
