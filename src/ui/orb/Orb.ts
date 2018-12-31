@@ -22,7 +22,7 @@ export default class Orb {
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
     this.setupBuffer();
     this.setupAttribute();
-    this.gl.drawArrays(this.gl.TRIANGLES, 0, 3);
+    this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
   }
 
   private createCanvas(): HTMLCanvasElement {
@@ -68,7 +68,7 @@ export default class Orb {
   private setupBuffer(): void {
     const positionBuffer: WebGLBuffer = this.gl.createBuffer();
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, positionBuffer);
-    const positions: number[] = [-1, -1, -1, 1, 1, 1];
+    const positions: number[] = [-1, -1, -1, 1, 1, 1, 1, -1, -1, -1, 1, 1];
     this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(positions), this.gl.STATIC_DRAW);
   }
 
@@ -82,5 +82,4 @@ export default class Orb {
     this.gl.enableVertexAttribArray(positionAttributeLocation);
     this.gl.vertexAttribPointer(positionAttributeLocation, size, type, normalize, stride, offset);
   }
-
 }

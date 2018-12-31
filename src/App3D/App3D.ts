@@ -66,7 +66,7 @@ export default class App3D {
   }
 
   private addGameObject(object: GameObject): void {
-    object.components.forEach((component: GameComponent) => component.gameObject = object);
+    object.components.forEach((component: GameComponent) => (component.gameObject = object));
     this.updater.add(object);
   }
 
