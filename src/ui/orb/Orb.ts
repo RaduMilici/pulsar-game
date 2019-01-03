@@ -1,15 +1,20 @@
-import { size } from 'pulsar-pathfinding';
+import { size, Component, tickData } from 'pulsar-pathfinding';
 import vertexShader from './vertexShader';
 import fragmentShader from './fragmentShader';
 
-export default class Orb {
+export default class Orb extends Component {
   readonly canvas: HTMLCanvasElement;
+  private scrollLocation: WebGLUniformLocation;
+  private levelLocation: WebGLUniformLocation;
+  private resolutionLocation: WebGLUniformLocation;
+  private level: number;
   private readonly gl: WebGLRenderingContext;
   private readonly vertexShader: WebGLShader;
   private readonly fragmentShader: WebGLShader;
   private readonly program: WebGLProgram;
 
   constructor(private size: size) {
+    super();
     this.canvas = this.createCanvas();
     document.body.appendChild(this.canvas);
     this.gl = this.canvas.getContext('webgl');
@@ -22,6 +27,13 @@ export default class Orb {
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
     this.setupBuffer();
     this.setupAttribute();
+    this.level = 0;
+  }
+
+  update(tickData: tickData): void {
+    this.level += tickData.deltaTime;
+    this.gl.uniform1f(this.scrollLocation, tickData.elapsedTime * 10);
+    this.gl.uniform1f(this.levelLocation, Math.abs(Math.sin(this.level)));
     this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
   }
 
@@ -81,5 +93,10 @@ export default class Orb {
     const positionAttributeLocation: number = this.gl.getAttribLocation(this.program, 'a_position');
     this.gl.enableVertexAttribArray(positionAttributeLocation);
     this.gl.vertexAttribPointer(positionAttributeLocation, size, type, normalize, stride, offset);
+
+    this.scrollLocation = this.gl.getUniformLocation(this.program, 'u_scroll');
+    this.levelLocation = this.gl.getUniformLocation(this.program, 'u_level');
+    this.resolutionLocation = this.gl.getUniformLocation(this.program, 'u_resolution');
+    this.gl.uniform2f(this.resolutionLocation, this.size.width, this.size.height);
   }
 }

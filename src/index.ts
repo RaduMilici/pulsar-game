@@ -5,7 +5,7 @@ import { Vector, size } from 'pulsar-pathfinding';
 import Level from 'entities/level/Level';
 import Orb from './ui/orb/Orb';
 
-new Orb({ width: 500, height: 500 });
+const orb: Orb = new Orb({ width: 500, height: 500 });
 
 const eventManager: EventManager = new EventManager();
 
@@ -25,6 +25,7 @@ const generate = () => {
   eventManager.add('#container3D', 'contextmenu', (event: Event) => event.preventDefault());
 
   app3D.add(level, app3D.scene);
+  app3D.add(orb);
   app3D.start();
   console.timeEnd('level');
 };
