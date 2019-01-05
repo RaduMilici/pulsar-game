@@ -1,15 +1,14 @@
-import { size, Component } from 'pulsar-pathfinding';
+import { size } from 'pulsar-pathfinding';
+import Canvas from './Canvas';
 
-export default class CanvasShader extends Component {
-  readonly canvas: HTMLCanvasElement;
+export default class CanvasShader extends Canvas {
   private readonly vertexShader: WebGLShader;
   private readonly fragmentShader: WebGLShader;
   protected program: WebGLProgram;
   protected gl: WebGLRenderingContext;
 
-  constructor(protected size: size, vertexShaderSrc: string, fragmentShaderSrc: string) {
-    super();
-    this.canvas = this.createCanvas();
+  constructor(size: size, vertexShaderSrc: string, fragmentShaderSrc: string) {
+    super(size);
     this.gl = this.canvas.getContext('webgl');
     this.vertexShader = this.createShader(this.gl.VERTEX_SHADER, vertexShaderSrc);
     this.fragmentShader = this.createShader(this.gl.FRAGMENT_SHADER, fragmentShaderSrc);
@@ -20,13 +19,6 @@ export default class CanvasShader extends Component {
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
     this.setupBuffer();
     this.setupAttribute();
-  }
-
-  private createCanvas(): HTMLCanvasElement {
-    const canvas: HTMLCanvasElement = document.createElement('canvas');
-    canvas.width = this.size.width;
-    canvas.height = this.size.height;
-    return canvas;
   }
 
   private createShader(type: number, source: string): WebGLShader {
