@@ -8,9 +8,11 @@ export default class Orb extends CanvasShader {
   private scrollLocation: WebGLUniformLocation;
   private levelLocation: WebGLUniformLocation;
   private resolutionLocation: WebGLUniformLocation;
+  private timeLocation: WebGLUniformLocation;
   private texCoordLocation: number;
   private texCoordBuffer: WebGLBuffer;
   private level: number;
+  private time: number;
   private noiseImage: NoiseImage;
 
   constructor(size: size) {
@@ -18,6 +20,7 @@ export default class Orb extends CanvasShader {
     this.getLocations();
     this.gl.uniform2f(this.resolutionLocation, this.size.width, this.size.height);
     this.level = 0;
+    this.time = 0;
     this.noiseImage = new NoiseImage(size);
     this.bindTexture();
     this.noiseImage.image.onload = () => this.render();
@@ -30,8 +33,10 @@ export default class Orb extends CanvasShader {
   }
 
   update(tickData: tickData): void {
+    this.time += tickData.deltaTime;
     this.level += tickData.deltaTime;
     this.gl.uniform1f(this.scrollLocation, tickData.elapsedTime * 10);
+    this.gl.uniform1f(this.timeLocation, this.time);
     this.gl.uniform1f(this.levelLocation, Math.abs(Math.sin(this.level)));
     this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
   }
@@ -40,6 +45,7 @@ export default class Orb extends CanvasShader {
     this.scrollLocation = this.gl.getUniformLocation(this.program, 'u_scroll');
     this.levelLocation = this.gl.getUniformLocation(this.program, 'u_level');
     this.resolutionLocation = this.gl.getUniformLocation(this.program, 'u_resolution');
+    this.timeLocation = this.gl.getUniformLocation(this.program, 'u_time');
     this.texCoordLocation = this.gl.getAttribLocation(this.program, 'a_texCoord');
   }
 
@@ -49,7 +55,8 @@ export default class Orb extends CanvasShader {
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.texCoordBuffer);
     this.gl.bufferData(
       this.gl.ARRAY_BUFFER,
-      new Float32Array([-1, -1, -1, 1, 1, 1, 1, -1, -1, -1, 1, 1]),
+      //new Float32Array([0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1]),
+      new Float32Array([1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1]),
       this.gl.STATIC_DRAW
     );
     this.gl.enableVertexAttribArray(this.texCoordLocation);
@@ -60,10 +67,10 @@ export default class Orb extends CanvasShader {
     this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
 
     // set the parameters so we can render any size image
-    this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_S, this.gl.CLAMP_TO_EDGE);
-    this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_T, this.gl.CLAMP_TO_EDGE);
-    this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MIN_FILTER, this.gl.NEAREST);
-    this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.NEAREST);
+    this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_S, this.gl.REPEAT);
+    this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_T, this.gl.REPEAT);
+    this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MIN_FILTER, this.gl.LINEAR);
+    this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.LINEAR);
   }
 
   private uploadTexture(): void {

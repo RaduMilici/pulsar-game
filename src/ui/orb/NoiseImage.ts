@@ -4,7 +4,7 @@ import Canvas from 'components/shaders/Canvas';
 export default class NoiseImage extends Canvas {
   readonly image: HTMLImageElement;
   private readonly context2D: CanvasRenderingContext2D;
-  private step: number = 50;
+  private step: number = 20;
 
   constructor(size: size) {
     super(size);
@@ -24,7 +24,7 @@ export default class NoiseImage extends Canvas {
   }
 
   private static randomGrayHex(): string {
-    const v: string = (Math.random()*(256)|0).toString(16);
+    const v: string = ((Math.random() * 256) | 0).toString(16);
     return `#${v}${v}${v}`;
   }
 }
