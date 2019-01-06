@@ -37,7 +37,8 @@ export default class Orb extends CanvasShader {
     this.level += tickData.deltaTime;
     this.gl.uniform1f(this.scrollLocation, tickData.elapsedTime * 10);
     this.gl.uniform1f(this.timeLocation, this.time);
-    this.gl.uniform1f(this.levelLocation, Math.abs(Math.sin(this.level)));
+    //this.gl.uniform1f(this.levelLocation, Math.abs(Math.sin(this.level)));
+    this.gl.uniform1f(this.levelLocation, 0.5);
     this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
   }
 
@@ -55,8 +56,7 @@ export default class Orb extends CanvasShader {
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.texCoordBuffer);
     this.gl.bufferData(
       this.gl.ARRAY_BUFFER,
-      //new Float32Array([0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1]),
-      new Float32Array([1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1]),
+      new Float32Array([1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0]),
       this.gl.STATIC_DRAW
     );
     this.gl.enableVertexAttribArray(this.texCoordLocation);
