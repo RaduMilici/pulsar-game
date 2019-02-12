@@ -5,6 +5,7 @@ uniform float u_scroll;
 uniform float u_level;
 uniform float u_time;
 uniform vec2 u_resolution;
+uniform vec4 u_color;
 uniform sampler2D u_image;
 
 varying vec2 v_texCoord;
@@ -21,9 +22,12 @@ void main() {
   vec4 tex1 = texture2D(u_image, scroll1);
   vec4 tex2 = texture2D(u_image, scroll2); 
   vec4 tex3 = texture2D(u_image, scroll3);
+  
+  float distance = distance(v_texCoord, vec2(0.5, 0.5));
+  float stepDistance = step(distance, 0.5);
  
   vec4 allTex = (tex1 + tex2 + tex3) / 3.;
-  vec4 colorTex = vec4(0., 0., 1., 1.) * allTex; 
+  vec4 colorTex = u_color * allTex * stepDistance; 
   
   gl_FragColor = colorTex * level;
 }

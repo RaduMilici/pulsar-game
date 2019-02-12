@@ -1,4 +1,5 @@
 import { size, tickData } from 'pulsar-pathfinding';
+import { color } from 'types';
 import CanvasShader from 'components/shaders/CanvasShader';
 import NoiseImage from './NoiseImage';
 import vertexShader from './vertexShader';
@@ -7,6 +8,7 @@ import fragmentShader from './fragmentShader';
 export default class Orb extends CanvasShader {
   private scrollLocation: WebGLUniformLocation;
   private levelLocation: WebGLUniformLocation;
+  private colorLocation: WebGLUniformLocation;
   private resolutionLocation: WebGLUniformLocation;
   private timeLocation: WebGLUniformLocation;
   private texCoordLocation: number;
@@ -15,10 +17,11 @@ export default class Orb extends CanvasShader {
   private time: number;
   private noiseImage: NoiseImage;
 
-  constructor(size: size) {
+  constructor(size: size, color: color) {
     super(size, vertexShader, fragmentShader);
     this.getLocations();
     this.gl.uniform2f(this.resolutionLocation, this.size.width, this.size.height);
+    this.gl.uniform4f(this.colorLocation, color.r, color.g, color.b, color.a);
     this.level = 0;
     this.time = 0;
     this.noiseImage = new NoiseImage(size);
@@ -38,7 +41,7 @@ export default class Orb extends CanvasShader {
     this.gl.uniform1f(this.scrollLocation, tickData.elapsedTime * 10);
     this.gl.uniform1f(this.timeLocation, this.time);
     //this.gl.uniform1f(this.levelLocation, Math.abs(Math.sin(this.level)));
-    this.gl.uniform1f(this.levelLocation, 0.5);
+    this.gl.uniform1f(this.levelLocation, 1);
     this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
   }
 
@@ -47,6 +50,7 @@ export default class Orb extends CanvasShader {
     this.levelLocation = this.gl.getUniformLocation(this.program, 'u_level');
     this.resolutionLocation = this.gl.getUniformLocation(this.program, 'u_resolution');
     this.timeLocation = this.gl.getUniformLocation(this.program, 'u_time');
+    this.colorLocation = this.gl.getUniformLocation(this.program, 'u_color');
     this.texCoordLocation = this.gl.getAttribLocation(this.program, 'a_texCoord');
   }
 

@@ -1,11 +1,15 @@
 import { DEBUG_BOUNDING_BOX } from './const';
+import { color } from 'types';
 import { OrbitControls } from 'three-orbitcontrols-ts';
 import { uniqueVectorArray, EventManager } from './util';
 import { Vector } from 'pulsar-pathfinding';
 import Level from 'entities/level/Level';
 import Orb from './ui/orb/Orb';
 
-const orb: Orb = new Orb({ width: 512, height: 512 });
+const red: color = { r: 1, g: 0, b: 0, a: 1 };
+const blue: color = { r: 0, g: 0, b: 1, a: 1 };
+const orb1: Orb = new Orb({ width: 256, height: 256 }, red);
+const orb2: Orb = new Orb({ width: 256, height: 256 }, blue);
 
 const eventManager: EventManager = new EventManager();
 
