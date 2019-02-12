@@ -1,6 +1,6 @@
 import { DEBUG_BOUNDING_BOX } from './const';
 import { color } from 'types';
-import { OrbitControls } from 'three-orbitcontrols-ts';
+// import { OrbitControls } from 'three-orbitcontrols-ts';
 import { uniqueVectorArray, EventManager } from './util';
 import { Vector } from 'pulsar-pathfinding';
 import Level from 'entities/level/Level';

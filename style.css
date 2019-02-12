@@ -4,19 +4,21 @@ body {
 }
 
 #containerOrbs {
+  --side-padding: 20px;
   position: fixed;
   bottom: 0;
   display: flex;
   box-sizing: border-box;
   justify-content: space-between;
-  padding: 0 10px 5px 0;
+  padding: 0 var(--side-padding) 5px var(--side-padding);
   pointer-events: none;
   width: 100%;
 }
 
 #containerOrbs canvas {
-  width: 14%;
-  height: 14%;
+  --side: 150px;
+  width: var(--side);
+  height: var(--side);
 }
 
 #container3D {

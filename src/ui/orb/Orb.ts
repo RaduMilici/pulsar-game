@@ -22,7 +22,7 @@ export default class Orb extends CanvasShader {
     this.getLocations();
     this.gl.uniform2f(this.resolutionLocation, this.size.width, this.size.height);
     this.gl.uniform4f(this.colorLocation, color.r, color.g, color.b, color.a);
-    this.level = 0;
+    this.level = 1;
     this.time = 0;
     this.noiseImage = new NoiseImage(size);
     this.bindTexture();
@@ -37,11 +37,9 @@ export default class Orb extends CanvasShader {
 
   update(tickData: tickData): void {
     this.time += tickData.deltaTime;
-    this.level += tickData.deltaTime;
     this.gl.uniform1f(this.scrollLocation, tickData.elapsedTime * 10);
     this.gl.uniform1f(this.timeLocation, this.time);
-    //this.gl.uniform1f(this.levelLocation, Math.abs(Math.sin(this.level)));
-    this.gl.uniform1f(this.levelLocation, 1);
+    this.gl.uniform1f(this.levelLocation, this.level);
     this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
   }
 
