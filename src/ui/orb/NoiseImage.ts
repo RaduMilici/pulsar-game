@@ -4,7 +4,7 @@ import Canvas from 'components/shaders/Canvas';
 export default class NoiseImage extends Canvas {
   readonly image: HTMLImageElement;
   private readonly context2D: CanvasRenderingContext2D;
-  private step: number = 20;
+  private step: number = 40;
 
   constructor(size: size) {
     super(size);

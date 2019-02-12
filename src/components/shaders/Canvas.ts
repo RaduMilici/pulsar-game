@@ -1,10 +1,16 @@
 import { Component, size } from 'pulsar-pathfinding';
+import { nearestPowerOf2 } from 'util';
 
 export default class Canvas extends Component {
+  readonly size: size;
   protected readonly canvas: HTMLCanvasElement;
 
-  constructor(protected size: size) {
+  constructor({ width, height }: size) {
     super();
+    this.size = {
+      width: nearestPowerOf2(width),
+      height: nearestPowerOf2(height)
+    };
     this.canvas = this.createCanvas();
   }
 

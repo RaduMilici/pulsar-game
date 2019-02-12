@@ -9,12 +9,13 @@ export default class CanvasShader extends Canvas {
 
   constructor(size: size, vertexShaderSrc: string, fragmentShaderSrc: string) {
     super(size);
+    console.log(this.size);
     this.gl = this.canvas.getContext('webgl');
     this.vertexShader = this.createShader(this.gl.VERTEX_SHADER, vertexShaderSrc);
     this.fragmentShader = this.createShader(this.gl.FRAGMENT_SHADER, fragmentShaderSrc);
     this.program = this.createProgram(this.vertexShader, this.fragmentShader);
     this.gl.useProgram(this.program);
-    this.gl.viewport(0, 0, size.width, size.height);
+    this.gl.viewport(0, 0, this.size.width, this.size.height);
     this.gl.clearColor(0, 0, 0, 1);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
     this.setupBuffer();

@@ -32,7 +32,7 @@ export default class Orb extends CanvasShader {
   private render(): void {
     this.uploadTexture();
     app3D.add(this);
-    document.body.appendChild(this.canvas);
+    document.querySelector('#containerOrbs').appendChild(this.canvas);
   }
 
   update(tickData: tickData): void {

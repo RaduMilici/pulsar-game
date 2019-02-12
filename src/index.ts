@@ -8,8 +8,8 @@ import Orb from './ui/orb/Orb';
 
 const red: color = { r: 1, g: 0, b: 0, a: 1 };
 const blue: color = { r: 0, g: 0, b: 1, a: 1 };
-const orb1: Orb = new Orb({ width: 256, height: 256 }, red);
-const orb2: Orb = new Orb({ width: 256, height: 256 }, blue);
+const orb1: Orb = new Orb({ width: 512, height: 512 }, red);
+const orb2: Orb = new Orb({ width: 512, height: 512 }, blue);
 
 const eventManager: EventManager = new EventManager();
 
