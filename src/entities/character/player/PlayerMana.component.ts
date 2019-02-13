@@ -3,7 +3,7 @@ import { Component, tickData } from "pulsar-pathfinding";
 export default class PlayerManaComponent extends Component {
   mana: number;
   maxMana: number = 100;
-  manaRegen: number = 15;
+  manaRegen: number = 10;
 
   constructor() {
     super();
@@ -14,15 +14,14 @@ export default class PlayerManaComponent extends Component {
     return this.mana / this.maxMana;
   }
 
-  payManaCost(cost: number): boolean {
-    const manaAfterCast = this.mana - cost;
-    const canCast: boolean = manaAfterCast >= 0;
+  canCast(cost: number): boolean {
+    return this.mana - cost >= 0;
+  }
 
-    if (canCast) {
-      this.mana = manaAfterCast;
+  payManaCost(cost: number): void {
+    if (this.canCast(cost)) {
+      this.mana -= cost;
     }
-
-    return canCast;
   }
 
   update({ deltaTime }: tickData): void {

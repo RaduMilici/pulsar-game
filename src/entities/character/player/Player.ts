@@ -50,16 +50,24 @@ export default class Player extends Character {
     const data: skillData = { begin: this.position, end, navigation: this.level.navigation };
 
     if (mouseButton === MouseButtons.Left) {
-
-      if(!this.primarySkill.onCooldown) {
-        const canCast: boolean = this.manaComponent.payManaCost(this.primarySkill.manaCost);
-
-        if (canCast) {
-          this.primarySkill.use(data);
-        }
-      }
+      this.castSkill(this.primarySkill, data);
     } else if (mouseButton === MouseButtons.Right) {
-      this.secondarySkill.use(data);
+      this.castSkill(this.secondarySkill, data);
+    }
+  }
+
+  canCastSkill(skill: Skill): boolean {
+    if (skill.onCooldown) {
+      return false;
+    }
+
+    return this.manaComponent.canCast(skill.manaCost);
+  }
+
+  castSkill(skill: Skill, data: skillData): void {
+    if (this.canCastSkill(skill)) {
+      this.manaComponent.payManaCost(skill.manaCost);
+      skill.use(data);
     }
   }
 
