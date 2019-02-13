@@ -10,7 +10,8 @@ uniform sampler2D u_image;
 
 varying vec2 v_texCoord;
 
-vec4 white = vec4(1., 1., 1., 1.);
+const vec4 white = vec4(1., 1., 1., 1.);
+const float PI = 3.1415926535;
 
 bool isUnderLevel(float thickness) {
   return 1. - u_level > v_texCoord.y && 1. - u_level < v_texCoord.y + thickness;
@@ -34,29 +35,44 @@ vec4 outline(float distance, float stepDistance) {
   return (white * (1. - step(distance, thickness))) * stepDistance;  
 }
 
+vec2 fishEye(vec2 uv) {
+  float aperture = 190.0;
+  float apertureHalf = 0.5 * aperture * (PI / 180.0);
+  float maxFactor = sin(apertureHalf);
+  
+  vec2 fishEyeUv;
+  
+  vec2 xy = 2.0 * v_texCoord.xy - 1.0;
+  
+  float d = length(xy);
+  
+  if (d < (2.0-maxFactor)) {
+    d = length(xy * maxFactor);
+    float z = sqrt(1.0 - d * d);
+    float r = atan(d, z) / PI;
+    float phi = atan(xy.y, xy.x);
+    
+    fishEyeUv.x = r * cos(phi) + 0.5;
+    fishEyeUv.y = r * sin(phi) + 0.5;
+  } else {
+    fishEyeUv = v_texCoord.xy;
+  }
+  
+  return fishEyeUv;
+}
+
 void main() {
   vec2 coordNorm = gl_FragCoord.xy / u_resolution.xy;
   float level = step(coordNorm.y, u_level);
-  float texOffset = 0.25;
-    
-  vec2 scroll1 = vec2(v_texCoord.x            , v_texCoord.y + u_time / 8.);
-  vec2 scroll2 = vec2(v_texCoord.x - texOffset, v_texCoord.y + u_time / 6.);
-  vec2 scroll3 = vec2(v_texCoord.x + texOffset, v_texCoord.y + u_time / 4.);
-  
-  vec4 tex1 = texture2D(u_image, scroll1);
-  vec4 tex2 = texture2D(u_image, scroll2); 
-  vec4 tex3 = texture2D(u_image, scroll3);
-  
   float distance = distance(v_texCoord, vec2(0.5, 0.5));
   float stepDistance = step(distance, 0.5);
-  
-  vec4 topLine = levelLine() * stepDistance;   
-  
+      
+  vec2 fishEyeScroll = fishEye(v_texCoord);
+  vec4 tex = texture2D(u_image, vec2(fishEyeScroll.x, fishEyeScroll.y + u_time * 0.2));  
+  vec4 topLine = levelLine() * stepDistance;
   vec4 outline = outline(distance, stepDistance);
-  
-  vec4 allTex = (tex1 + tex2 + tex3) / 3.;
-  
-  gl_FragColor = u_color * allTex * stepDistance * level + topLine + outline;
+    
+  gl_FragColor = u_color * tex * stepDistance * level + topLine + outline;
 }
 `;
 
