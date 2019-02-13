@@ -34,6 +34,7 @@ export default class Level extends GameObject {
     app3D.add(this.rooms, this);
     app3D.add(this.player, this);
     app3D.add(this.ghostPlane, this);
+    app3D.updater.add(this.player);
   }
 
   get shape(): Shape {

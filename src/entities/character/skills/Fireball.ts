@@ -6,6 +6,7 @@ import Projectile from './Projectile';
 export default class Fireball extends Skill {
   constructor() {
     super();
+    this.manaCost = 50;
     this.cooldownTime = 1;
   }
 

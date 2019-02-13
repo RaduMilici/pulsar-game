@@ -7,7 +7,7 @@ import Level from 'entities/level/Level';
 import Corridors from 'entities/level/corridor/Corridors';
 import CorridorLine from 'entities/level/corridor/CorridorLine';
 import Room from './Room';
-import {MIN_ROOM_AREA} from "const";
+import { MIN_ROOM_AREA } from 'const';
 
 export default class Rooms extends GameObject {
   readonly floor: Object3D[];

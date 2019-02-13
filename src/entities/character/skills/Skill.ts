@@ -3,6 +3,7 @@ import Cooldown from './Cooldown';
 
 export default class Skill {
   cooldownTime: number = 0;
+  manaCost: number = 0;
   private cooldown: Cooldown = new Cooldown(0);
 
   get onCooldown(): boolean {

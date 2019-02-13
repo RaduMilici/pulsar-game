@@ -1,0 +1,29 @@
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+#containerOrbs {
+  --side-padding: 20px;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  box-sizing: border-box;
+  justify-content: space-between;
+  padding: 0 var(--side-padding) 5px var(--side-padding);
+  pointer-events: none;
+  width: 100%;
+}
+
+#containerOrbs canvas {
+  --side: 150px;
+  width: var(--side);
+  height: var(--side);
+}
+
+#container3D {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
