@@ -7,6 +7,7 @@ import Projectile from './Projectile';
 export default class Shotgun extends Skill {
   constructor() {
     super();
+    this.manaCost = 10;
     this.cooldownTime = 0.3;
   }
 

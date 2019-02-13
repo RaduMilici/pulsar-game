@@ -4,6 +4,7 @@ import CanvasShader from 'components/shaders/CanvasShader';
 import NoiseImage from './NoiseImage';
 import vertexShader from './vertexShader';
 import fragmentShader from './fragmentShader';
+import Player from 'entities/character/player/Player';
 
 export default class Orb extends CanvasShader {
   private scrollLocation: WebGLUniformLocation;
@@ -13,11 +14,11 @@ export default class Orb extends CanvasShader {
   private timeLocation: WebGLUniformLocation;
   private texCoordLocation: number;
   private texCoordBuffer: WebGLBuffer;
-  private level: number;
   private time: number;
   private noiseImage: NoiseImage;
+  private readonly level: number;
 
-  constructor(size: size, color: color) {
+  constructor(size: size, color: color, readonly player: Player) {
     super(size, vertexShader, fragmentShader);
     this.getLocations();
     this.gl.uniform2f(this.resolutionLocation, this.size.width, this.size.height);
@@ -32,14 +33,13 @@ export default class Orb extends CanvasShader {
   private render(): void {
     this.uploadTexture();
     app3D.add(this);
-    document.querySelector('#containerOrbs').appendChild(this.canvas);
   }
 
   update(tickData: tickData): void {
     this.time += tickData.deltaTime;
     this.gl.uniform1f(this.scrollLocation, tickData.elapsedTime * 10);
     this.gl.uniform1f(this.timeLocation, this.time);
-    this.gl.uniform1f(this.levelLocation, this.level);
+    this.gl.uniform1f(this.levelLocation, this.player.manaComponent.manaLevel);
     this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
   }
 

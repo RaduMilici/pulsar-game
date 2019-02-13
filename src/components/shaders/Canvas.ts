@@ -3,7 +3,7 @@ import { nearestPowerOf2 } from 'util';
 
 export default class Canvas extends Component {
   readonly size: size;
-  protected readonly canvas: HTMLCanvasElement;
+  readonly canvas: HTMLCanvasElement;
 
   constructor({ width, height }: size) {
     super();

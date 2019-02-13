@@ -1,20 +1,20 @@
+// import { OrbitControls } from 'three-orbitcontrols-ts';
 import { DEBUG_BOUNDING_BOX } from './const';
 import { color } from 'types';
-// import { OrbitControls } from 'three-orbitcontrols-ts';
+import { red, blue } from "const/colors";
 import { uniqueVectorArray, EventManager } from './util';
 import { Vector } from 'pulsar-pathfinding';
 import Level from 'entities/level/Level';
 import Orb from './ui/orb/Orb';
 
-const red: color = { r: 1, g: 0, b: 0, a: 1 };
-const blue: color = { r: 0, g: 0, b: 1, a: 1 };
-const orb1: Orb = new Orb({ width: 512, height: 512 }, red);
-const orb2: Orb = new Orb({ width: 512, height: 512 }, blue);
-
+const orbContainer: HTMLDivElement = document.querySelector('#containerOrbs');
 const eventManager: EventManager = new EventManager();
 
 const generate = () => {
   console.time('level');
+  while (orbContainer.firstChild) {
+    orbContainer.removeChild(orbContainer.firstChild);
+  }
   eventManager.remove('#container3D');
   app3D.clear();
 
@@ -25,6 +25,11 @@ const generate = () => {
     'mousedown',
     level.player.controller.onClick.bind(level.player.controller)
   );
+
+  const orb1: Orb = new Orb({ width: 512, height: 512 }, red, level.player);
+  const orb2: Orb = new Orb({ width: 512, height: 512 }, blue, level.player);
+  orbContainer.appendChild(orb1.canvas);
+  orbContainer.appendChild(orb2.canvas);
 
   eventManager.add('#container3D', 'contextmenu', (event: Event) => event.preventDefault());
 
