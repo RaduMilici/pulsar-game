@@ -1,5 +1,5 @@
 import { Vector3 } from 'three';
-import { NavigatorTile, tickData } from "pulsar-pathfinding";
+import { NavigatorTile } from "pulsar-pathfinding";
 import { skillData, MouseButtons, characterData } from 'types';
 import Skill from 'skills/Skill';
 import Shotgun from 'skills/Shotgun';
@@ -11,11 +11,15 @@ import PlayerController from './PlayerController';
 import Radius from './Radius.component';
 import toVec3 from 'util/toVec3';
 import PlayerManaComponent from './PlayerMana.component';
+import Orb from 'src/ui/orb/Orb';
+import { red, blue } from "const/colors";
 
 export default class Player extends Character {
   readonly controller: PlayerController;
   readonly level: Level;
   readonly manaComponent: PlayerManaComponent;
+  readonly healthOrb: Orb;
+  readonly manaOrb: Orb;
 
   private readonly camera: PlayerCamera;
   private readonly radius: Radius;
@@ -31,12 +35,15 @@ export default class Player extends Character {
     this.camera = new PlayerCamera(this, this.level.app3D.camera);
     this.controller = new PlayerController(this.level, this);
     this.radius = new Radius(this, this.pullRadius);
-    this.manaComponent = new PlayerManaComponent();
 
     this.primarySkill = new Shotgun();
     this.secondarySkill = new Fireball();
 
-    app3D.add(this.manaComponent);
+    this.healthOrb = new Orb({ width: 512, height: 512 }, red);
+    this.manaOrb = new Orb({ width: 512, height: 512 }, blue);
+
+    this.manaComponent = new PlayerManaComponent(this.manaOrb);
+    this.healthOrb.setLevel(1);
   }
 
   start() {

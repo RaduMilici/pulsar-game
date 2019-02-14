@@ -5,6 +5,7 @@ import NoiseImage from './NoiseImage';
 import vertexShader from './vertexShader';
 import fragmentShader from './fragmentShader';
 import Player from 'entities/character/player/Player';
+import { ORB_CONTAINER } from 'const';
 
 export default class Orb extends CanvasShader {
   private scrollLocation: WebGLUniformLocation;
@@ -18,7 +19,7 @@ export default class Orb extends CanvasShader {
   private noiseImage: NoiseImage;
   private readonly level: number;
 
-  constructor(size: size, color: color, readonly player: Player) {
+  constructor(size: size, color: color) {
     super(size, vertexShader, fragmentShader);
     this.getLocations();
     this.gl.uniform2f(this.resolutionLocation, this.size.width, this.size.height);
@@ -28,6 +29,7 @@ export default class Orb extends CanvasShader {
     this.noiseImage = new NoiseImage(size);
     this.bindTexture();
     this.noiseImage.image.onload = () => this.render();
+    ORB_CONTAINER.appendChild(this.canvas);
   }
 
   private render(): void {
@@ -39,9 +41,12 @@ export default class Orb extends CanvasShader {
     this.time += tickData.deltaTime;
     this.gl.uniform1f(this.scrollLocation, tickData.elapsedTime * 10);
     this.gl.uniform1f(this.timeLocation, this.time);
-    //this.gl.uniform1f(this.levelLocation, 0.3);
-    this.gl.uniform1f(this.levelLocation, this.player.manaComponent.manaLevel);
+    //this.gl.uniform1f(this.levelLocation, this.player.manaComponent.manaLevel);
     this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
+  }
+
+  setLevel(level: number): void {
+    this.gl.uniform1f(this.levelLocation, level);
   }
 
   private getLocations(): void {
