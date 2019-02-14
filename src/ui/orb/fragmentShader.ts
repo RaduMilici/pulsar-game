@@ -1,7 +1,6 @@
 const fragmentShader = `
 precision mediump float;
 
-uniform float u_scroll;
 uniform float u_level;
 uniform float u_time;
 uniform vec2 u_resolution;
@@ -13,13 +12,14 @@ varying vec2 v_texCoord;
 const vec4 WHITE = vec4(1., 1., 1., 1.);
 const vec4 TRANSPARENT = vec4(0., 0., 0., 0.);
 const float PI = 3.1415926535;
+const float SCROLL_SPEED = 0.1;
 
 bool isUnderLevel(float thickness) {
   return 1. - u_level > v_texCoord.y && 1. - u_level < v_texCoord.y + thickness;
 }
 
 vec4 background(float stepDistance) {  
-  vec4 background = vec4(u_color.rgb, 0.002) * stepDistance;
+  vec4 background = vec4(u_color.rgb * 0.1, 0.3) * stepDistance;
   
   if (isUnderLevel(1.)) { 
     return background;
@@ -78,7 +78,7 @@ void main() {
   float stepDistance = step(distance, 0.5);
       
   vec2 fishEyeScroll = fishEye(v_texCoord);
-  vec4 tex = texture2D(u_image, vec2(fishEyeScroll.x, fishEyeScroll.y + u_time * 0.2));  
+  vec4 tex = texture2D(u_image, vec2(fishEyeScroll.x, fishEyeScroll.y + u_time * SCROLL_SPEED));  
   vec4 topLine = levelLine() * stepDistance;
   vec4 outline = outline(distance, stepDistance);
     

@@ -43,7 +43,7 @@ const generate = () => {
   console.timeEnd('level');
 };
 
-generate();
+window.addEventListener("load", generate);
 
 //setInterval(generate, 300);
 
