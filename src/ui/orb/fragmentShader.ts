@@ -10,29 +10,39 @@ uniform sampler2D u_image;
 
 varying vec2 v_texCoord;
 
-const vec4 white = vec4(1., 1., 1., 1.);
+const vec4 WHITE = vec4(1., 1., 1., 1.);
+const vec4 TRANSPARENT = vec4(0., 0., 0., 0.);
 const float PI = 3.1415926535;
 
 bool isUnderLevel(float thickness) {
   return 1. - u_level > v_texCoord.y && 1. - u_level < v_texCoord.y + thickness;
 }
 
+vec4 background(float stepDistance) {  
+  vec4 background = vec4(u_color.rgb, 0.002) * stepDistance;
+  
+  if (isUnderLevel(1.)) { 
+    return background;
+  }
+  return TRANSPARENT;
+}
+
 vec4 levelLine() {
   float thickness = 0.01;
   
   if (isUnderLevel(thickness)) { 
-    return white;
+    return WHITE;
   }
-  return vec4(0., 0., 0., 0.);
+  return TRANSPARENT;
 }
 
 vec4 outline(float distance, float stepDistance) {
   float thickness = 0.49;
   
   if (isUnderLevel(1.)) { 
-    return vec4(0., 0., 0., 0.);   
+    return TRANSPARENT;   
   }
-  return (white * (1. - step(distance, thickness))) * stepDistance;  
+  return (WHITE * (1. - step(distance, thickness))) * stepDistance;  
 }
 
 vec2 fishEye(vec2 uv) {
@@ -72,7 +82,7 @@ void main() {
   vec4 topLine = levelLine() * stepDistance;
   vec4 outline = outline(distance, stepDistance);
     
-  gl_FragColor = u_color * tex * stepDistance * level + topLine + outline;
+  gl_FragColor = u_color * tex * stepDistance * level + topLine + outline + background(stepDistance);
 }
 `;
 

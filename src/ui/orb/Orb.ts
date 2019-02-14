@@ -41,7 +41,6 @@ export default class Orb extends CanvasShader {
     this.time += tickData.deltaTime;
     this.gl.uniform1f(this.scrollLocation, tickData.elapsedTime * 10);
     this.gl.uniform1f(this.timeLocation, this.time);
-    //this.gl.uniform1f(this.levelLocation, this.player.manaComponent.manaLevel);
     this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
   }
 

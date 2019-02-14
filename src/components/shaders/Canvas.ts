@@ -9,7 +9,7 @@ export default class Canvas extends Component {
     super();
     this.size = {
       width: nearestPowerOf2(width),
-      height: nearestPowerOf2(height)
+      height: nearestPowerOf2(height),
     };
     this.canvas = this.createCanvas();
   }

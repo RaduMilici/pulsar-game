@@ -1,5 +1,5 @@
 import { Vector3 } from 'three';
-import { NavigatorTile } from "pulsar-pathfinding";
+import { NavigatorTile } from 'pulsar-pathfinding';
 import { skillData, MouseButtons, characterData } from 'types';
 import Skill from 'skills/Skill';
 import Shotgun from 'skills/Shotgun';
@@ -12,7 +12,7 @@ import Radius from './Radius.component';
 import toVec3 from 'util/toVec3';
 import PlayerManaComponent from './PlayerMana.component';
 import Orb from 'src/ui/orb/Orb';
-import { red, blue } from "const/colors";
+import { red, blue } from 'const/colors';
 
 export default class Player extends Character {
   readonly controller: PlayerController;

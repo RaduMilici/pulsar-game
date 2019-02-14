@@ -1,4 +1,4 @@
-import { Component, tickData } from "pulsar-pathfinding";
+import { Component, tickData } from 'pulsar-pathfinding';
 import Orb from 'src/ui/orb/Orb';
 
 export default class PlayerManaComponent extends Component {
@@ -12,7 +12,7 @@ export default class PlayerManaComponent extends Component {
     app3D.add(this);
   }
 
-  get manaLevel() :number {
+  get manaLevel(): number {
     return this.mana / this.maxMana;
   }
 
