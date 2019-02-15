@@ -1,11 +1,12 @@
 import { size } from 'pulsar-pathfinding';
 import Canvas from './Canvas';
+import { WebGLExtensions } from 'three';
 
 export default class CanvasShader extends Canvas {
+  readonly gl: WebGLRenderingContext;
   private readonly vertexShader: WebGLShader;
   private readonly fragmentShader: WebGLShader;
   protected program: WebGLProgram;
-  protected gl: WebGLRenderingContext;
 
   constructor(size: size, vertexShaderSrc: string, fragmentShaderSrc: string) {
     super(size);
@@ -19,6 +20,7 @@ export default class CanvasShader extends Canvas {
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
     this.setupBuffer();
     this.setupAttribute();
+    app3D.webGLContextManager.add(this.gl);
   }
 
   private createShader(type: number, source: string): WebGLShader {

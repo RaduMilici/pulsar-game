@@ -13,13 +13,6 @@ const clearContainers = () => {
   }
 };
 
-/*const addOrbs = (level: Level) => {
-  const orb1: Orb = new Orb({ width: 512, height: 512 }, red);
-  const orb2: Orb = new Orb({ width: 512, height: 512 }, blue);
-  orbContainer.appendChild(orb1.canvas);
-  orbContainer.appendChild(orb2.canvas);
-};*/
-
 const generate = () => {
   console.time('level');
   clearContainers();
@@ -34,8 +27,6 @@ const generate = () => {
     level.player.controller.onClick.bind(level.player.controller)
   );
 
-  //addOrbs(level);
-
   eventManager.add('#container3D', 'contextmenu', (event: Event) => event.preventDefault());
 
   app3D.add(level, app3D.scene);
@@ -43,10 +34,7 @@ const generate = () => {
   console.timeEnd('level');
 };
 
-window.addEventListener("load", generate);
-
-//setInterval(generate, 300);
-
+window.addEventListener('load', generate);
 document.getElementById('generate').addEventListener('click', generate);
 
 //new OrbitControls(app3D.camera, app3D.renderer.domElement);

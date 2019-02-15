@@ -6,6 +6,7 @@ import GameObject from 'entities/GameObject';
 import GameComponent from 'components/GameComponent';
 import Render from './Render';
 import Dispose from './Dispose';
+import WebGLContextManager from './WebGLContextManager';
 
 export default class App3D {
   readonly camera: PerspectiveCamera;
@@ -14,6 +15,8 @@ export default class App3D {
 
   readonly scene: Scene = new Scene();
   readonly updater: Updater = new Updater();
+
+  readonly webGLContextManager: WebGLContextManager = new WebGLContextManager();
 
   constructor(readonly settings: app3DSettings) {
     this.camera = App3D.createCamera(settings);
@@ -34,6 +37,7 @@ export default class App3D {
   clear(): void {
     this.updater.clear();
     this.removeChildren(this.scene);
+    this.webGLContextManager.clearAll();
     new Dispose(this.scene);
   }
 
