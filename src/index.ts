@@ -4,6 +4,12 @@ import { color } from 'types';
 import { uniqueVectorArray, EventManager } from './util';
 import { Vector } from 'pulsar-pathfinding';
 import Level from 'entities/level/Level';
+import PerlinNoise from 'components/perlin_noise/PerlinNoise';
+
+const addTestNoise = () => {
+  const noise: PerlinNoise = new PerlinNoise({ width: 64, height: 64 });
+  ORB_CONTAINER.appendChild(noise.canvas);
+};
 
 const eventManager: EventManager = new EventManager();
 
@@ -16,6 +22,7 @@ const clearContainers = () => {
 const generate = () => {
   console.time('level');
   clearContainers();
+  addTestNoise();
   eventManager.remove('#container3D');
   app3D.clear();
 

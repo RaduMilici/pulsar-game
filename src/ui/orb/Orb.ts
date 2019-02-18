@@ -4,7 +4,6 @@ import CanvasShader from 'components/shaders/CanvasShader';
 import NoiseImage from './NoiseImage';
 import vertexShader from './vertexShader';
 import fragmentShader from './fragmentShader';
-import Player from 'entities/character/player/Player';
 import { ORB_CONTAINER } from 'const';
 
 export default class Orb extends CanvasShader {
