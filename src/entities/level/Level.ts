@@ -9,6 +9,7 @@ import GhostPlane from './GhostPlane';
 import App3D from '../../App3D/App3D';
 import { characterData } from 'types';
 import { toVec3 } from 'util';
+import { Vector2 } from 'three';
 
 export default class Level extends GameObject {
   readonly rooms: Rooms;
@@ -45,7 +46,7 @@ export default class Level extends GameObject {
   private createPlayer(): Player {
     const data: characterData = {
       level: this,
-      position: this.rooms.rooms[0].centroidV3,
+      position: toVec3(this.shape.centroid), //this.rooms.rooms[0].centroidV3,
       speed: 15,
     };
     return new Player(data);

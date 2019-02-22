@@ -26,7 +26,7 @@ const generate = () => {
   eventManager.remove('#container3D');
   app3D.clear();
 
-  const points: Vector[] = uniqueVectorArray(DEBUG_BOUNDING_BOX, 25);
+  const points: Vector[] = uniqueVectorArray(DEBUG_BOUNDING_BOX, 45);
   const level: Level = new Level(points, DEBUG_BOUNDING_BOX, app3D);
   eventManager.add(
     '#container3D',

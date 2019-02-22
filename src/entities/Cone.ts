@@ -6,7 +6,7 @@ export default class Cone extends GameObject {
     color: 0xffffff,
   });
   static matrix: Matrix4 = new Matrix4().makeRotationX(Math.PI / 2);
-  static geometry: Geometry = new ConeGeometry(0.3, 1, 3).applyMatrix(Cone.matrix);
+  static geometry: Geometry = new ConeGeometry(0.03, 1, 3).applyMatrix(Cone.matrix);
 
   constructor(color: string = '') {
     super();

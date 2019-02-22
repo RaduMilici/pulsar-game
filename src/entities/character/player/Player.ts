@@ -39,11 +39,11 @@ export default class Player extends Character {
     this.primarySkill = new Shotgun();
     this.secondarySkill = new Fireball();
 
-    this.healthOrb = new Orb({ width: 512, height: 512 }, red);
+    /*this.healthOrb = new Orb({ width: 512, height: 512 }, red);
     this.manaOrb = new Orb({ width: 512, height: 512 }, blue);
 
     this.manaComponent = new PlayerManaComponent(this.manaOrb);
-    this.healthOrb.setLevel(1);
+    this.healthOrb.setLevel(1);*/
   }
 
   start() {
